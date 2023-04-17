@@ -33,9 +33,6 @@ public class Knjiga implements Serializable {
     private Set<Zanr> Zanrovi = new HashSet<>();
 
     @ManyToOne(optional = false)
-    private Autor autors;
-
-    @ManyToOne(optional = false)
     private StavkaPolice stavkaPolica2;
 
     private Long ocena;
@@ -131,15 +128,6 @@ public class Knjiga implements Serializable {
                 ", Zanrovi=" + Zanrovi +
                 ", ocena=" + ocena +
                 '}';
-    }
-
-
-    public Autor getAutors() {
-        return autors;
-    }
-
-    public void setAutors(Autor autors) {
-        this.autors = autors;
     }
 
 

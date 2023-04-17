@@ -14,6 +14,7 @@ public class Autor extends Korisnik {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // Povezano sa id od korisnika
     private Long id;
 
     private Boolean aktivan;
@@ -27,8 +28,11 @@ public class Autor extends Korisnik {
         super(ime, prezime, korisnickoIme, mejlAdresa, lozinka, datumRodjenja, profilnaSlika, opis, uloga);
     }
 
-    @OneToMany(mappedBy = "autors", cascade = CascadeType.ALL)
-    @JsonIgnore
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "spisak_knjiga",
+            joinColumns = { @JoinColumn(name = "autor_id", referencedColumnName = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "knjiga_id", referencedColumnName = "id") })
     private Set<Knjiga> spisakKnjiga = new HashSet<>();
 
     public Boolean getAktivan() {

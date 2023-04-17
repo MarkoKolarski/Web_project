@@ -19,11 +19,11 @@ public class StavkaPolice implements Serializable {
     @ManyToOne(optional = false)
     private Polica police;
 
-    @OneToMany(mappedBy = "stavkaPolica", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "stavkaPolica", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Recenzija> Recenzije = new HashSet<>();
-
-    @OneToMany(mappedBy = "stavkaPolica2", cascade = CascadeType.ALL)
+    //U jednom odeljku("Stavka police") ima više knjiga sa više recenzija
+    @OneToMany(mappedBy = "stavkaPolica2", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Knjiga> Knjige = new HashSet<>();
 

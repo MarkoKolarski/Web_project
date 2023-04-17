@@ -22,10 +22,10 @@ public class Recenzija implements Serializable {
     @Column(unique = true,name = "datum_recenzije")
     private Date datumRecenzije;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private StavkaPolice stavkaPolica;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "Korisnik_id")
     private Korisnik korisnik;
 
