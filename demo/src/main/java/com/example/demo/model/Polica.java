@@ -21,8 +21,7 @@ public class Polica implements Serializable {
 
     private Boolean primarna;
 
-    //TODO ONETOMANY?????
-    @OneToMany(mappedBy = "police", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<StavkaPolice> StavkePolice = new HashSet<>();
 
@@ -57,10 +56,6 @@ public class Polica implements Serializable {
 
     public void setStavkePolice(Set<StavkaPolice> stavkePolice) {
         StavkePolice = stavkePolice;
-    }
-    @Transactional
-    public Long getId() {
-        return id;
     }
 
     @Override

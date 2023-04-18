@@ -16,21 +16,18 @@ public class StavkaPolice implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    private Polica police;
 
-    @OneToMany(mappedBy = "stavkaPolica", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Recenzija> Recenzije = new HashSet<>();
     //U jednom odeljku("Stavka police") ima više knjiga sa više recenzija
-    @OneToMany(mappedBy = "stavkaPolica2", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Knjiga> Knjige = new HashSet<>();
 
     public StavkaPolice() {
     }
 
-    //TODO dal treba ovaj konstruktor??
     public StavkaPolice(Set<Recenzija> recenzije, Set<Knjiga> knjige) {
         Recenzije = recenzije;
         Knjige = knjige;
@@ -62,12 +59,4 @@ public class StavkaPolice implements Serializable {
     }
 
 
-
-    public Polica getPolice() {
-        return police;
-    }
-
-    public void setPolice(Polica police) {
-        this.police = police;
-    }
 }

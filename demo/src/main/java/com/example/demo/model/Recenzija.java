@@ -22,14 +22,10 @@ public class Recenzija implements Serializable {
     @Column(unique = true,name = "datum_recenzije")
     private Date datumRecenzije;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private StavkaPolice stavkaPolica;
-
     @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "Korisnik_id")
     private Korisnik korisnik;
 
-    //TODO DAL TREBA KONSTRUKTOR???
     public Recenzija(Long ocena, String tekst, Date datumRecenzije, Korisnik korisnik) {
         this.ocena = ocena;
         this.tekst = tekst;
@@ -91,13 +87,4 @@ public class Recenzija implements Serializable {
                 '}';
     }
 
-
-
-    public StavkaPolice getStavkaPolica() {
-        return stavkaPolica;
-    }
-
-    public void setStavkaPolica(StavkaPolice stavkaPolica) {
-        this.stavkaPolica = stavkaPolica;
-    }
 }

@@ -32,22 +32,20 @@ public class Knjiga implements Serializable {
             inverseJoinColumns = { @JoinColumn(name = "zanr_id", referencedColumnName = "id") })
     private Set<Zanr> Zanrovi = new HashSet<>();
 
-    @ManyToOne(optional = false)
-    private StavkaPolice stavkaPolica2;
-
     private Long ocena;
 
     public Knjiga() {
     }
-    //TODO Da li u konstruktoru treba sve sem žanra???
-    public Knjiga(String naslov, String naslovnaFotografija, Long ISBN, Date datumObjavljivanja, Long brojStrana, String opis, Long ocena) {
+
+    public Knjiga(String naslov, String naslovnaFotografija, Long ISBN, Date datumObjavljivanja, Long brojStrana, String opis, Set<Zanr> zanrovi, Long ocena) {
         this.naslov = naslov;
         this.naslovnaFotografija = naslovnaFotografija;
         this.ISBN = ISBN;
         this.datumObjavljivanja = datumObjavljivanja;
         this.brojStrana = brojStrana;
         this.opis = opis;
-        ocena = ocena;
+        Zanrovi = zanrovi;
+        this.ocena = ocena;
     }
 
     public String getNaslov() {
@@ -114,7 +112,6 @@ public class Knjiga implements Serializable {
         this.ocena = ocena;
     }
 
-    //TODO Ispisati Žanr?
     @Override
     public String toString() {
         return "Knjiga{" +
@@ -130,13 +127,4 @@ public class Knjiga implements Serializable {
                 '}';
     }
 
-
-
-    public StavkaPolice getStavkaPolica2() {
-        return stavkaPolica2;
-    }
-
-    public void setStavkaPolica2(StavkaPolice stavkaPolica2) {
-        this.stavkaPolica2 = stavkaPolica2;
-    }
 }

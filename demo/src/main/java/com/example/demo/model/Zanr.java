@@ -18,7 +18,8 @@ public class Zanr implements Serializable {
 
     }
 
-    public Zanr(String naziv) {
+    public Zanr(String naziv)
+    {
         this.naziv = naziv;
     }
 
