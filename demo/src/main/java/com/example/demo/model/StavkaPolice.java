@@ -18,19 +18,27 @@ public class StavkaPolice implements Serializable {
 
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
     private Set<Recenzija> Recenzije = new HashSet<>();
     //U jednom odeljku("Stavka police") ima više knjiga sa više recenzija
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Set<Knjiga> Knjige = new HashSet<>();
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "knjiga_id")
+    private Knjiga Knjiga;
+
+    public Knjiga getKnjiga() {
+        return Knjiga;
+    }
+
+    public void setKnjiga(Knjiga knjiga) {
+        Knjiga = knjiga;
+    }
 
     public StavkaPolice() {
     }
 
-    public StavkaPolice(Set<Recenzija> recenzije, Set<Knjiga> knjige) {
+    public StavkaPolice(Set<Recenzija> recenzije, Knjiga knjiga) {
         Recenzije = recenzije;
-        Knjige = knjige;
+        Knjiga = knjiga;
     }
 
     public Set<Recenzija> getRecenzije() {
@@ -41,20 +49,16 @@ public class StavkaPolice implements Serializable {
         Recenzije = recenzije;
     }
 
-    public Set<Knjiga> getKnjige() {
-        return Knjige;
-    }
 
-    public void setKnjige(Set<Knjiga> knjige) {
-        Knjige = knjige;
-    }
-    //TODO DAL TREBA TOSTRING??
+
+
+
     @Override
     public String toString() {
         return "StavkaPolice{" +
                 "id=" + id +
                 ", Recenzije=" + Recenzije +
-                ", Knjige=" + Knjige +
+                ", Knjige=" + Knjiga +
                 '}';
     }
 
