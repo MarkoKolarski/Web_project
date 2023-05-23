@@ -23,6 +23,7 @@ public class Recenzija implements Serializable {
     private Date datumRecenzije;
 
     @ManyToOne (fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinColumn(name = "Korisnik_id")
     private Korisnik korisnik;
 

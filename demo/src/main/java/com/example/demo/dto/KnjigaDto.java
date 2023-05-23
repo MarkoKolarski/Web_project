@@ -1,51 +1,46 @@
-package com.example.demo.model;
+package com.example.demo.dto;
+
+import com.example.demo.model.Knjiga;
+import com.example.demo.model.Zanr;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+public class KnjigaDto {
 
-@Entity
-public class Knjiga implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     private String naslov;
-    @Column(name = "naslovna_fotografija")
+
     private String naslovnaFotografija;
-    @Column(unique = true)
+
     private String ISBN;
-    @Column(name = "datum_objavljivanja")
+
     private Date datumObjavljivanja;
-    @Column(name = "broj_strana")
+
     private int brojStrana;
 
     private String opis;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "izbor_zanra",
-            joinColumns = { @JoinColumn(name = "knjiga_id", referencedColumnName = "id") },
-            inverseJoinColumns = { @JoinColumn(name = "zanr_id", referencedColumnName = "id") })
     private Set<Zanr> Zanrovi = new HashSet<>();
 
     private Double ocena;
 
-    public Knjiga() {
+    public KnjigaDto() {
     }
 
-    public Knjiga(String naslov, String naslovnaFotografija, String ISBN, Date datumObjavljivanja, int brojStrana, String opis, Set<Zanr> zanrovi, Double ocena) {
-        this.naslov = naslov;
-        this.naslovnaFotografija = naslovnaFotografija;
-        this.ISBN = ISBN;
-        this.datumObjavljivanja = datumObjavljivanja;
-        this.brojStrana = brojStrana;
-        this.opis = opis;
-        Zanrovi = zanrovi;
-        this.ocena = ocena;
+    public KnjigaDto(Knjiga knjiga) {
+        this.id = knjiga.getId();
+        this.naslov = knjiga.getNaslov();
+        this.naslovnaFotografija = knjiga.getNaslovnaFotografija();
+        this.ISBN = knjiga.getISBN();
+        this.datumObjavljivanja = knjiga.getDatumObjavljivanja();
+        this.brojStrana = knjiga.getBrojStrana();
+        this.opis = knjiga.getOpis();
+        this.Zanrovi = knjiga.getZanrovi();
+        this.ocena = knjiga.getOcena();
     }
 
     public Long getId() {
@@ -109,7 +104,7 @@ public class Knjiga implements Serializable {
     }
 
     public void setZanrovi(Set<Zanr> zanrovi) {
-        this.Zanrovi = zanrovi;
+        Zanrovi = zanrovi;
     }
 
     public Double getOcena() {
@@ -119,20 +114,4 @@ public class Knjiga implements Serializable {
     public void setOcena(Double ocena) {
         this.ocena = ocena;
     }
-
-    @Override
-    public String toString() {
-        return "Knjiga{" +
-                "id=" + id +
-                ", naslov='" + naslov + '\'' +
-                ", naslovnaFotografija='" + naslovnaFotografija + '\'' +
-                ", ISBN=" + ISBN +
-                ", datumObjavljivanja=" + datumObjavljivanja +
-                ", brojStrana=" + brojStrana +
-                ", opis='" + opis + '\'' +
-                ", Zanrovi=" + Zanrovi +
-                ", ocena=" + ocena +
-                '}';
-    }
-
 }

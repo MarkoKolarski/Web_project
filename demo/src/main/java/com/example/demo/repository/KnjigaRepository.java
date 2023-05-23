@@ -11,4 +11,7 @@ import java.util.List;
 public interface KnjigaRepository extends JpaRepository<Knjiga, Long> {
 
     //List<Knjiga> findAllByAutors(String autor);
+  //  List<Knjiga> findByTitleContainingIgnoreCase(String query);
+
+    List<Knjiga> findByNaslovContainingIgnoreCase(String query);
 }
