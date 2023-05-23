@@ -14,6 +14,7 @@ public class Autor extends Korisnik {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // Povezano sa id od korisnika
     private Long id;
 
     private Boolean aktivan;
@@ -21,14 +22,15 @@ public class Autor extends Korisnik {
     public Autor () {
 
     }
-
-    //TODO proveriti dal treba ceo konstruktor ili samo deo od Autora
-    public Autor(String ime, String prezime, String korisnickoIme, String mejlAdresa, String lozinka, Date datumRodjenja, String profilnaSlika, String opis, Uloga uloga) {
-        super(ime, prezime, korisnickoIme, mejlAdresa, lozinka, datumRodjenja, profilnaSlika, opis, uloga);
+    public Autor(Boolean aktivan, Set<Knjiga> spisakKnjiga) {
+        this.aktivan = aktivan;
+        this.spisakKnjiga = spisakKnjiga;
     }
 
-    @OneToMany(mappedBy = "autors", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "spisak_knjiga",
+            joinColumns = { @JoinColumn(name = "autor_id", referencedColumnName = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "knjiga_id", referencedColumnName = "id") })
     private Set<Knjiga> spisakKnjiga = new HashSet<>();
 
     public Boolean getAktivan() {
@@ -39,18 +41,20 @@ public class Autor extends Korisnik {
         this.aktivan = aktivan;
     }
 
+
     @Override
     public String toString() {
         return "Autor{" +
                 "id=" + id +
                 ", aktivan=" + aktivan +
+                ", spisakKnjiga=" + spisakKnjiga +
                 ", id=" + id +
                 ", ime='" + ime + '\'' +
                 ", prezime='" + prezime + '\'' +
                 ", korisnickoIme='" + korisnickoIme + '\'' +
                 ", mejlAdresa='" + mejlAdresa + '\'' +
                 ", lozinka='" + lozinka + '\'' +
-                ", datumRodjenja='" + datumRodjenja + '\'' +
+                ", datumRodjenja=" + datumRodjenja +
                 ", profilnaSlika='" + profilnaSlika + '\'' +
                 ", opis='" + opis + '\'' +
                 ", uloga=" + uloga +

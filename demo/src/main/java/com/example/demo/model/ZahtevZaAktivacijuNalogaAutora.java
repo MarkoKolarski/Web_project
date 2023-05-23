@@ -4,8 +4,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-enum Status{NA_CEKANJU, ODOBREN, ODBIJEN}
-
 @Entity
 @Table(name = "zahtev")
 public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
@@ -13,19 +11,27 @@ public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Zahtev_id;
     private String Email;
-    private long Telefon;
+    private String Telefon;
     private String Poruka;
     private Date Datum;
     private Status status;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "autor_id")
+    private Autor autor;
+//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "knjiga_id")
+//    private Knjiga Knjiga;
 
     public ZahtevZaAktivacijuNalogaAutora() {
     }
-    public ZahtevZaAktivacijuNalogaAutora(String email, long telefon, String poruka, Date datum, Status status) {
+
+    public ZahtevZaAktivacijuNalogaAutora(String email, String telefon, String poruka, Date datum, Status status, Autor autor) {
         Email = email;
         Telefon = telefon;
         Poruka = poruka;
         Datum = datum;
         this.status = status;
+        this.autor = autor;
     }
 
     public String getEmail() {
@@ -36,11 +42,11 @@ public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
         Email = email;
     }
 
-    public long getTelefon() {
+    public String getTelefon() {
         return Telefon;
     }
 
-    public void setTelefon(long telefon) {
+    public void setTelefon(String telefon) {
         Telefon = telefon;
     }
 
@@ -68,6 +74,14 @@ public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
         this.status = status;
     }
 
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autor autor) {
+        this.autor = autor;
+    }
+
     @Override
     public String toString() {
         return "ZahtevZaAktivacijuNalogaAutora{" +
@@ -77,6 +91,7 @@ public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
                 ", Poruka='" + Poruka + '\'' +
                 ", Datum=" + Datum +
                 ", status=" + status +
+                ", autor=" + autor +
                 '}';
     }
 }

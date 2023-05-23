@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface KnjigaRepository extends JpaRepository<Knjiga, Long> {
 
-    List<Knjiga> findAllByAutors(String autor);
+    //List<Knjiga> findAllByAutors(String autor);
 }

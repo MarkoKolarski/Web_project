@@ -16,21 +16,17 @@ public class Recenzija implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long ocena;
+    private int ocena;
 
     private String tekst;
-    @Column(unique = true,name = "datum_recenzije")
+    @Column(name = "datum_recenzije")
     private Date datumRecenzije;
 
-    @ManyToOne(optional = false)
-    private StavkaPolice stavkaPolica;
-
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "Korisnik_id")
     private Korisnik korisnik;
 
-    //TODO DAL TREBA KONSTRUKTOR???
-    public Recenzija(Long ocena, String tekst, Date datumRecenzije, Korisnik korisnik) {
+    public Recenzija(int ocena, String tekst, Date datumRecenzije, Korisnik korisnik) {
         this.ocena = ocena;
         this.tekst = tekst;
         this.datumRecenzije = datumRecenzije;
@@ -48,11 +44,11 @@ public class Recenzija implements Serializable {
         this.id = id;
     }
 
-    public Long getOcena() {
+    public int getOcena() {
         return ocena;
     }
 
-    public void setOcena(Long ocena) {
+    public void setOcena(int ocena) {
         this.ocena = ocena;
     }
 
@@ -87,17 +83,9 @@ public class Recenzija implements Serializable {
                 ", ocena=" + ocena +
                 ", tekst='" + tekst + '\'' +
                 ", datumRecenzije=" + datumRecenzije +
-                ", korisnik=" + korisnik +
+                //", korisnik=" + korisnik +
+                //zbog infinite loop-a, smo privremeno izbacili
                 '}';
     }
 
-
-
-    public StavkaPolice getStavkaPolica() {
-        return stavkaPolica;
-    }
-
-    public void setStavkaPolica(StavkaPolice stavkaPolica) {
-        this.stavkaPolica = stavkaPolica;
-    }
 }
