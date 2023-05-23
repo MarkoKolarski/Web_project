@@ -22,12 +22,10 @@ public class Autor extends Korisnik {
     public Autor () {
 
     }
-
-    //TODO proveriti dal treba ceo konstruktor ili samo deo od Autora
-    public Autor(String ime, String prezime, String korisnickoIme, String mejlAdresa, String lozinka, Date datumRodjenja, String profilnaSlika, String opis, Uloga uloga) {
-        super(ime, prezime, korisnickoIme, mejlAdresa, lozinka, datumRodjenja, profilnaSlika, opis, uloga);
+    public Autor(Boolean aktivan, Set<Knjiga> spisakKnjiga) {
+        this.aktivan = aktivan;
+        this.spisakKnjiga = spisakKnjiga;
     }
-
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "spisak_knjiga",
@@ -43,18 +41,20 @@ public class Autor extends Korisnik {
         this.aktivan = aktivan;
     }
 
+
     @Override
     public String toString() {
         return "Autor{" +
                 "id=" + id +
                 ", aktivan=" + aktivan +
+                ", spisakKnjiga=" + spisakKnjiga +
                 ", id=" + id +
                 ", ime='" + ime + '\'' +
                 ", prezime='" + prezime + '\'' +
                 ", korisnickoIme='" + korisnickoIme + '\'' +
                 ", mejlAdresa='" + mejlAdresa + '\'' +
                 ", lozinka='" + lozinka + '\'' +
-                ", datumRodjenja='" + datumRodjenja + '\'' +
+                ", datumRodjenja=" + datumRodjenja +
                 ", profilnaSlika='" + profilnaSlika + '\'' +
                 ", opis='" + opis + '\'' +
                 ", uloga=" + uloga +

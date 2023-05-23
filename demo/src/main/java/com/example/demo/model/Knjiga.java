@@ -15,14 +15,14 @@ public class Knjiga implements Serializable {
     protected Long id;
 
     private String naslov;
-    @Column(unique = true,name = "naslovna_fotografija")
+    @Column(name = "naslovna_fotografija")
     private String naslovnaFotografija;
-
-    private Long ISBN;
-    @Column(unique = true,name = "datum_objavljivanja")
+    @Column(unique = true)
+    private String ISBN;
+    @Column(name = "datum_objavljivanja")
     private Date datumObjavljivanja;
-    @Column(unique = true,name = "broj_strana")
-    private Long brojStrana;
+    @Column(name = "broj_strana")
+    private int brojStrana;
 
     private String opis;
 
@@ -32,22 +32,20 @@ public class Knjiga implements Serializable {
             inverseJoinColumns = { @JoinColumn(name = "zanr_id", referencedColumnName = "id") })
     private Set<Zanr> Zanrovi = new HashSet<>();
 
-    @ManyToOne(optional = false)
-    private StavkaPolice stavkaPolica2;
-
-    private Long ocena;
+    private Double ocena;
 
     public Knjiga() {
     }
-    //TODO Da li u konstruktoru treba sve sem žanra???
-    public Knjiga(String naslov, String naslovnaFotografija, Long ISBN, Date datumObjavljivanja, Long brojStrana, String opis, Long ocena) {
+
+    public Knjiga(String naslov, String naslovnaFotografija, String ISBN, Date datumObjavljivanja, int brojStrana, String opis, Set<Zanr> zanrovi, Double ocena) {
         this.naslov = naslov;
         this.naslovnaFotografija = naslovnaFotografija;
         this.ISBN = ISBN;
         this.datumObjavljivanja = datumObjavljivanja;
         this.brojStrana = brojStrana;
         this.opis = opis;
-        ocena = ocena;
+        Zanrovi = zanrovi;
+        this.ocena = ocena;
     }
 
     public String getNaslov() {
@@ -66,11 +64,11 @@ public class Knjiga implements Serializable {
         this.naslovnaFotografija = naslovnaFotografija;
     }
 
-    public Long getISBN() {
+    public String getISBN() {
         return ISBN;
     }
 
-    public void setISBN(Long ISBN) {
+    public void setISBN(String ISBN) {
         this.ISBN = ISBN;
     }
 
@@ -82,11 +80,11 @@ public class Knjiga implements Serializable {
         this.datumObjavljivanja = datumObjavljivanja;
     }
 
-    public Long getBrojStrana() {
+    public int getBrojStrana() {
         return brojStrana;
     }
 
-    public void setBrojStrana(Long brojStrana) {
+    public void setBrojStrana(int brojStrana) {
         this.brojStrana = brojStrana;
     }
 
@@ -106,15 +104,14 @@ public class Knjiga implements Serializable {
         this.Zanrovi = zanrovi;
     }
 
-    public Long getOcena() {
+    public Double getOcena() {
         return ocena;
     }
 
-    public void setOcena(Long ocena) {
+    public void setOcena(Double ocena) {
         this.ocena = ocena;
     }
 
-    //TODO Ispisati Žanr?
     @Override
     public String toString() {
         return "Knjiga{" +
@@ -130,13 +127,4 @@ public class Knjiga implements Serializable {
                 '}';
     }
 
-
-
-    public StavkaPolice getStavkaPolica2() {
-        return stavkaPolica2;
-    }
-
-    public void setStavkaPolica2(StavkaPolice stavkaPolica2) {
-        this.stavkaPolica2 = stavkaPolica2;
-    }
 }

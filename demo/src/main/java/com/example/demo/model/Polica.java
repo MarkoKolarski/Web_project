@@ -21,9 +21,10 @@ public class Polica implements Serializable {
 
     private Boolean primarna;
 
-    //TODO ONETOMANY?????
-    @OneToMany(mappedBy = "police", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "izbor_stavke_police",
+            joinColumns = { @JoinColumn(name = "polica_id", referencedColumnName = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "stavka_police_id", referencedColumnName = "id") })
     private Set<StavkaPolice> StavkePolice = new HashSet<>();
 
     public Polica() {
@@ -57,10 +58,6 @@ public class Polica implements Serializable {
 
     public void setStavkePolice(Set<StavkaPolice> stavkePolice) {
         StavkePolice = stavkePolice;
-    }
-    @Transactional
-    public Long getId() {
-        return id;
     }
 
     @Override

@@ -50,20 +50,20 @@ public class DemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 
-		// kreiramo novi objekat klase Employee
-		Korisnik korisnik = new Korisnik();
-		korisnik.setIme("Marko");
-		korisnik.setPrezime("Rosić");
-		korisnik.setOpis("najjaci lik");
-		korisnik.setLozinka("Roske_boss");
-		//korisnik.setDatumRodjenja("2023-04-15 14:30:00");
-		korisnik.setKorisnickoIme("Roske");
-		korisnik.setMejlAdresa("thespykid2002@gmail.com");
-		korisnik.setProfilnaSlika("roske_formula");
-		korisnik.setUloga(Uloga.CITALAC);
+//		// kreiramo novi objekat klase Employee
+//		Korisnik korisnik = new Korisnik();
+//		korisnik.setIme("Marko");
+//		korisnik.setPrezime("Rosić");
+//		korisnik.setOpis("najjaci lik");
+//		korisnik.setLozinka("Roske_boss");
+//		//korisnik.setDatumRodjenja("2023-04-15 14:30:00");
+//		korisnik.setKorisnickoIme("Roske");
+//		korisnik.setMejlAdresa("thespykid2002@gmail.com");
+//		korisnik.setProfilnaSlika("roske_formula");
+//		korisnik.setUloga(Uloga.CITALAC);
 
 		// čuvamo objekat u bazi
-		this.korisnikRepository.save(korisnik);
+//		this.korisnikRepository.save(korisnik);
 
 		List<Korisnik> korisnici = this.korisnikRepository.findAll();
 		//List<Korisnik> korisnici = this.korisnikRepository.findAllByPrezime("Kolarski");
