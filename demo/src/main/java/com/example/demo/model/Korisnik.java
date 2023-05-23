@@ -132,20 +132,20 @@ public class Korisnik implements Serializable {
         this.uloga = uloga;
     }
 
-    public Set<Polica> getPolice() {
-        return police;
-    }
-
-    public void setPolice(Set<Polica> police) {
-        this.police = police;
-    }
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Set<Polica> getPolice() {
+        return police;
+    }
+
+    public void setPolice(Set<Polica> police) {
+        this.police = police;
     }
 
     @Override

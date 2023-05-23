@@ -18,49 +18,53 @@ public class StavkaPolice implements Serializable {
 
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Set<Recenzija> Recenzije = new HashSet<>();
+    private Set<Recenzija> recenzije = new HashSet<>();
     //U jednom odeljku("Stavka police") ima više knjiga sa više recenzija
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
     @JoinColumn(name = "knjiga_id")
-    private Knjiga Knjiga;
+    private Knjiga knjiga;
 
-    public Knjiga getKnjiga() {
-        return Knjiga;
-    }
-
-    public void setKnjiga(Knjiga knjiga) {
-        Knjiga = knjiga;
-    }
 
     public StavkaPolice() {
     }
 
-    public StavkaPolice(Set<Recenzija> recenzije, Knjiga knjiga) {
-        Recenzije = recenzije;
-        Knjiga = knjiga;
+    public StavkaPolice(Long id, Set<Recenzija> recenzije, Knjiga Knjiga) {
+        this.id = id;
+        this.recenzije = recenzije;
+        this.knjiga = knjiga;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Set<Recenzija> getRecenzije() {
-        return Recenzije;
+        return recenzije;
     }
 
     public void setRecenzije(Set<Recenzija> recenzije) {
-        Recenzije = recenzije;
+        recenzije = recenzije;
     }
 
+    public Knjiga getKnjiga() {
+        return knjiga;
+    }
 
-
-
+    public void setKnjiga(Knjiga knjiga) {
+        this.knjiga = knjiga;
+    }
 
     @Override
     public String toString() {
         return "StavkaPolice{" +
                 "id=" + id +
-                ", Recenzije=" + Recenzije +
-                ", Knjige=" + Knjiga +
+                ", Recenzije=" + recenzije +
+                ", Knjige=" + knjiga +
                 '}';
     }
 

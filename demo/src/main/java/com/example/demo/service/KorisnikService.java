@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.KorisnikDto;
+import com.example.demo.model.Autor;
 import com.example.demo.model.Korisnik;
 import com.example.demo.model.Uloga;
+import com.example.demo.repository.AutorRepository;
 import com.example.demo.repository.KorisnikRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,8 @@ import java.util.Optional;
 public class KorisnikService {
     @Autowired
     private KorisnikRepository korisnikRepository;
+
+
 
 
     public void registerUser(KorisnikDto korisnikDto) {
@@ -38,8 +42,8 @@ public class KorisnikService {
         korisnikRepository.save(korisnik);
 }
 
-    public Korisnik login(String korisnickoIme, String lozinka) {
-        Korisnik korisnik = korisnikRepository.getByKorisnickoIme(korisnickoIme);
+    public Korisnik login(String mejlAdresa, String lozinka) {
+        Korisnik korisnik = korisnikRepository.getByMejlAdresa(mejlAdresa);
         if(korisnik == null || !korisnik.getLozinka().equals(lozinka))
             return null;
         return  korisnik;

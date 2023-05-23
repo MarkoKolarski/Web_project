@@ -30,7 +30,7 @@ public class Knjiga implements Serializable {
     @JoinTable(name = "izbor_zanra",
             joinColumns = { @JoinColumn(name = "knjiga_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "zanr_id", referencedColumnName = "id") })
-    private Set<Zanr> Zanrovi = new HashSet<>();
+    private Set<Zanr> zanrovi = new HashSet<>();
 
     private Double ocena;
 
@@ -44,7 +44,7 @@ public class Knjiga implements Serializable {
         this.datumObjavljivanja = datumObjavljivanja;
         this.brojStrana = brojStrana;
         this.opis = opis;
-        Zanrovi = zanrovi;
+        this.zanrovi = zanrovi;
         this.ocena = ocena;
     }
 
@@ -105,11 +105,11 @@ public class Knjiga implements Serializable {
     }
 
     public Set<Zanr> getZanrovi() {
-        return Zanrovi;
+        return zanrovi;
     }
 
     public void setZanrovi(Set<Zanr> zanrovi) {
-        this.Zanrovi = zanrovi;
+        this.zanrovi = zanrovi;
     }
 
     public Double getOcena() {
@@ -130,7 +130,7 @@ public class Knjiga implements Serializable {
                 ", datumObjavljivanja=" + datumObjavljivanja +
                 ", brojStrana=" + brojStrana +
                 ", opis='" + opis + '\'' +
-                ", Zanrovi=" + Zanrovi +
+                ", Zanrovi=" + zanrovi +
                 ", ocena=" + ocena +
                 '}';
     }

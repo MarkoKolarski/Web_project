@@ -4,6 +4,7 @@ import com.example.demo.dto.KnjigaDto;
 import com.example.demo.dto.KorisnikDto;
 import com.example.demo.dto.LoginDto;
 import com.example.demo.model.*;
+import com.example.demo.repository.StavkaPoliceRepository;
 import com.example.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -34,59 +36,36 @@ public class NeprijavljenKorisnikRestController {
     @Autowired
     private PolicaService policaService;
 
+    @Autowired
+    private StavkaPoliceRepository stavkaPoliceRepository;
 
+    @Autowired
+    private AutorService autorService;
 
-    // Endpoint za prikaz svih knjiga
-    @GetMapping("/knjige")
-    public ResponseEntity<List<Knjiga>> getAllBooks() {
-        List<Knjiga> knjige = knjigaService.getAllBooks();
-        return ResponseEntity.ok(knjige);
-    }
+//  Neprijavljeni korisnik može još i da podnese zahtev za aktivaciju naloga autora, o
+//  čemu će biti reči posle.//TODO
 
+//  Administratori se programski učitavaju iz baze i ne mogu se naknadno dodati.
+//  Autora može kreirati samo administrator. Čitalac ne može da postane autor.
 
+    // Zahtev za aktivaciju naloga autora: dodat profil autora na koji se odnosi zahtev za aktivaciju naloga.
 
+//  za sada ne radi šta treba !!!! //TODO
+    @PostMapping("/users")
+    public ResponseEntity<?> createUser(@RequestBody Autor autor) {
+        try {
+            if (autor.getUloga() == Uloga.AUTOR) {
+                autorService.createAutor(autor);
+            }
+            // Save the user to the database or perform other necessary operations
+            // ...
 
-
-    // Endpoint za pregled svih recenzija
-    @GetMapping("/recenzije")
-    public ResponseEntity<List<Recenzija>> getAllReviews() {
-        List<Recenzija> recenzije = recenzijaService.getAllReviews();
-        return ResponseEntity.ok(recenzije);
-    }
-
-    // Endpoint za pregled svih žanrova
-    @GetMapping("/zanrovi")
-    public ResponseEntity<List<Zanr>> getAllGenres() {
-        List<Zanr> zanrovi = zanrService.getAllGenres();
-        return ResponseEntity.ok(zanrovi);
-    }
-
-    // Endpoint za pregled polica (liste knjiga) za određenog korisnika
-    @GetMapping("/api/korisnici/{korisnikId}/police")
-    public ResponseEntity<Set<Polica>> getUserBookshelf(@PathVariable Long korisnikId) throws ChangeSetPersister.NotFoundException {
-        Set<Polica> knjige = policaService.getUserBookshelf(korisnikId);
-        if (knjige.isEmpty()) {
-            throw new PolicaService.UserNotFoundException("Korisnik sa ID-jem " + korisnikId + " nije pronađen.");
+            return ResponseEntity.ok("User created successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred.");
         }
-        return ResponseEntity.ok(knjige);
-    }
-
-            //TODO Zavrisi funkciju
-
-    // Endpoint za pregled recenzija za određenu knjigu
-//    @GetMapping("/books/{bookId}/reviews")
-//    public ResponseEntity<List<Recenzija>> getBookReviews(@PathVariable Long bookId) {
-//        List<Recenzija> reviews = recenzijaService.getReviewsByBookId(bookId);
-//        return ResponseEntity.ok(reviews);
-//    }
-
-
-
-
-    @GetMapping("/knjige-po-naslovu")
-    public ResponseEntity<List<KnjigaDto>> searchBooks1(@RequestParam("query") String query) {
-        List<KnjigaDto> knjige = knjigaService.searchBooks(query);
-        return (ResponseEntity.ok(knjige));
     }
 
 
@@ -115,16 +94,71 @@ public class NeprijavljenKorisnikRestController {
         return ResponseEntity.ok("Successfully logged in!");
     }
 
-    @PostMapping("api/logout")
-    public ResponseEntity Logout(HttpSession session){
-        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
 
-        if (loggedKorisnik == null)
-            return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
-
-        session.invalidate();
-        return new ResponseEntity("Successfully logged out", HttpStatus.OK);
+    // Endpoint za prikaz svih knjiga
+    @GetMapping("/api/knjige")
+    public ResponseEntity<List<Knjiga>> getAllBooks() {
+        List<Knjiga> knjige = knjigaService.getAllBooks();
+        return ResponseEntity.ok(knjige);
     }
+
+    // Endpoint za pregled svih recenzija
+    @GetMapping("/api/recenzije")
+    public ResponseEntity<List<Recenzija>> getAllReviews() {
+        List<Recenzija> recenzije = recenzijaService.getAllReviews();
+        return ResponseEntity.ok(recenzije);
+    }
+
+    // Endpoint za pregled svih žanrova
+    @GetMapping("/api/zanrovi")
+    public ResponseEntity<List<Zanr>> getAllGenres() {
+        List<Zanr> zanrovi = zanrService.getAllGenres();
+        return ResponseEntity.ok(zanrovi);
+    }
+
+    // Endpoint za pregled polica (liste knjiga) za određenog korisnika
+    @GetMapping("/api/korisnici/{korisnikId}/police")
+    public ResponseEntity<Set<Polica>> getUserBookshelf(@PathVariable Long korisnikId) throws ChangeSetPersister.NotFoundException {
+        Set<Polica> police = policaService.getUserBookshelf(korisnikId);
+        if (police.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(police);
+    }
+
+
+    @GetMapping("/api/knjiga/{knjigaId}")
+    public ResponseEntity<List<Recenzija>> getRecenzijeByKnjigaId(@PathVariable Long knjigaId) {
+        Optional<StavkaPolice> stavkaPoliceOptional = stavkaPoliceRepository.findByKnjiga_Id(knjigaId);
+        if (stavkaPoliceOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Set<Recenzija> recenzije = stavkaPoliceOptional.get().getRecenzije();
+        return ResponseEntity.ok(new ArrayList<>(recenzije));
+    }
+
+
+
+
+    @GetMapping("/api/knjige-po-naslovu")
+    public ResponseEntity<List<KnjigaDto>> searchBooks1(@RequestParam("query") String query) {
+        List<KnjigaDto> knjige = knjigaService.searchBooks(query);
+        return (ResponseEntity.ok(knjige));
+    }
+
+
+
+
+//    @PostMapping("api/logout")
+//    public ResponseEntity Logout(HttpSession session){
+//        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+//
+//        if (loggedKorisnik == null)
+//            return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
+//
+//        session.invalidate();
+//        return new ResponseEntity("Successfully logged out", HttpStatus.OK);
+//    }
 
 
     @GetMapping("/api/korisnici")
@@ -145,8 +179,8 @@ public class NeprijavljenKorisnikRestController {
         }
         return ResponseEntity.ok(dtos);
     }
-
-    @GetMapping("/api/korisnici2")
+// Zbog dodatnog parametara koji se prikazuje, ova fukncija je uradjena bez dto podataka
+    @GetMapping("/api/korisnici2-bez-dto")
     public ResponseEntity<List<Korisnik>> getKorisnici2(HttpSession session) {
         List<Korisnik> korisnikList = korisnikService.findAll();
 
@@ -174,12 +208,6 @@ public class NeprijavljenKorisnikRestController {
         return korisnikService.findOne(id);
     }
 
-
-    @PostMapping("/api/save-korisnik")
-    public String saveKorisnik(@RequestBody Korisnik korisnik) {
-        this.korisnikService.save(korisnik);
-        return "Successfully saved an employee!";
-    }
 
 
 }

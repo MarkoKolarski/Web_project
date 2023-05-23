@@ -8,8 +8,9 @@ import java.util.List;
 
 @Repository
 public interface KorisnikRepository extends JpaRepository<Korisnik, Long> {
-    Korisnik getByKorisnickoIme(String korisnickoIme);
+    //Korisnik getByKorisnickoIme(String korisnickoIme);
 
+    Korisnik getByMejlAdresa(String mejlAdresa);
     Korisnik findByMejlAdresa(String mejlAdresa);
 
 
