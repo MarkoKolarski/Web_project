@@ -18,9 +18,7 @@ public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "autor_id")
     private Autor autor;
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "knjiga_id")
-//    private Knjiga Knjiga;
+
 
     public ZahtevZaAktivacijuNalogaAutora() {
     }
@@ -32,6 +30,14 @@ public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
         Datum = datum;
         this.status = status;
         this.autor = autor;
+    }
+
+    public Long getZahtev_id() {
+        return Zahtev_id;
+    }
+
+    public void setZahtev_id(Long zahtev_id) {
+        Zahtev_id = zahtev_id;
     }
 
     public String getEmail() {

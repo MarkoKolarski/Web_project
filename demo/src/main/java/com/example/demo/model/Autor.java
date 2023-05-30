@@ -41,6 +41,23 @@ public class Autor extends Korisnik {
         this.aktivan = aktivan;
     }
 
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Set<Knjiga> getSpisakKnjiga() {
+        return spisakKnjiga;
+    }
+
+    public void setSpisakKnjiga(Set<Knjiga> spisakKnjiga) {
+        this.spisakKnjiga = spisakKnjiga;
+    }
 
     @Override
     public String toString() {

@@ -20,8 +20,10 @@ public class KorisnikDto {
 
     protected String prezime;
 
+    @Column(unique = true)
     protected String korisnickoIme;
 
+    @Column(unique = true)
     protected String mejlAdresa;
 
     protected String lozinka;
