@@ -39,13 +39,15 @@ public class Korisnik implements Serializable {
     protected Uloga uloga;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Polica> police = new HashSet<>();
 
     public Korisnik() {
 
     }
 
-    public Korisnik(String ime, String prezime, String korisnickoIme, String mejlAdresa, String lozinka, Date datumRodjenja, String profilnaSlika, String opis, Uloga uloga, Set<Polica> police) {
+    public Korisnik(Long id, String ime, String prezime, String korisnickoIme, String mejlAdresa, String lozinka, Date datumRodjenja, String profilnaSlika, String opis, Uloga uloga, Set<Polica> police) {
+        this.id = id;
         this.ime = ime;
         this.prezime = prezime;
         this.korisnickoIme = korisnickoIme;
@@ -128,6 +130,14 @@ public class Korisnik implements Serializable {
 
     public void setUloga(Uloga uloga) {
         this.uloga = uloga;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Set<Polica> getPolice() {

@@ -1,15 +1,15 @@
 package com.example.demo.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;;
-import java.util.Date;
+
 import java.util.HashSet;
 import java.util.Set;
 
 
 @Entity
-
 public class Autor extends Korisnik {
 
     @Id
@@ -27,6 +27,7 @@ public class Autor extends Korisnik {
         this.spisakKnjiga = spisakKnjiga;
     }
 
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "spisak_knjiga",
             joinColumns = { @JoinColumn(name = "autor_id", referencedColumnName = "id") },
@@ -41,6 +42,23 @@ public class Autor extends Korisnik {
         this.aktivan = aktivan;
     }
 
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Set<Knjiga> getSpisakKnjiga() {
+        return spisakKnjiga;
+    }
+
+    public void setSpisakKnjiga(Set<Knjiga> spisakKnjiga) {
+        this.spisakKnjiga = spisakKnjiga;
+    }
 
     @Override
     public String toString() {

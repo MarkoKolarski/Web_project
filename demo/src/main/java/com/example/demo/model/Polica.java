@@ -25,7 +25,7 @@ public class Polica implements Serializable {
     @JoinTable(name = "izbor_stavke_police",
             joinColumns = { @JoinColumn(name = "polica_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "stavka_police_id", referencedColumnName = "id") })
-    private Set<StavkaPolice> StavkePolice = new HashSet<>();
+    private Set<StavkaPolice> stavkePolice = new HashSet<>();
 
     public Polica() {
     }
@@ -33,7 +33,7 @@ public class Polica implements Serializable {
     public Polica(String naziv, Boolean primarna, Set<StavkaPolice> stavkePolice) {
         this.naziv = naziv;
         this.primarna = primarna;
-        StavkePolice = stavkePolice;
+        this.stavkePolice = stavkePolice;
     }
 
     public String getNaziv() {
@@ -52,12 +52,20 @@ public class Polica implements Serializable {
         this.primarna = primarna;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Set<StavkaPolice> getStavkePolice() {
-        return StavkePolice;
+        return stavkePolice;
     }
 
     public void setStavkePolice(Set<StavkaPolice> stavkePolice) {
-        StavkePolice = stavkePolice;
+        this.stavkePolice = stavkePolice;
     }
 
     @Override
@@ -66,7 +74,7 @@ public class Polica implements Serializable {
                 "id=" + id +
                 ", naziv='" + naziv + '\'' +
                 ", primarna=" + primarna +
-                ", StavkePolice=" + StavkePolice +
+                ", StavkePolice=" + stavkePolice +
                 '}';
     }
 }
