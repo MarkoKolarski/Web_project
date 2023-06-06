@@ -1,15 +1,15 @@
 package com.example.demo.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;;
-import java.util.Date;
+
 import java.util.HashSet;
 import java.util.Set;
 
 
 @Entity
-
 public class Autor extends Korisnik {
 
     @Id
@@ -26,6 +26,7 @@ public class Autor extends Korisnik {
         this.aktivan = aktivan;
         this.spisakKnjiga = spisakKnjiga;
     }
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "spisak_knjiga",

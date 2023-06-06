@@ -9,7 +9,7 @@ import java.util.Date;
 public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Zahtev_id;
+    private Long id;
     private String Email;
     private String Telefon;
     private String Poruka;
@@ -23,21 +23,22 @@ public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
     public ZahtevZaAktivacijuNalogaAutora() {
     }
 
-    public ZahtevZaAktivacijuNalogaAutora(String email, String telefon, String poruka, Date datum, Status status, Autor autor) {
-        Email = email;
-        Telefon = telefon;
-        Poruka = poruka;
-        Datum = datum;
+    public ZahtevZaAktivacijuNalogaAutora(Long id, String email, String telefon, String poruka, Date datum, Status status, Autor autor) {
+        this.id = id;
+        this.Email = email;
+        this.Telefon = telefon;
+        this.Poruka = poruka;
+        this.Datum = datum;
         this.status = status;
         this.autor = autor;
     }
 
-    public Long getZahtev_id() {
-        return Zahtev_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setZahtev_id(Long zahtev_id) {
-        Zahtev_id = zahtev_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -91,7 +92,7 @@ public class ZahtevZaAktivacijuNalogaAutora implements Serializable {
     @Override
     public String toString() {
         return "ZahtevZaAktivacijuNalogaAutora{" +
-                "Zahtev_id=" + Zahtev_id +
+                "Zahtev_id=" + id +
                 ", Email='" + Email + '\'' +
                 ", Telefon=" + Telefon +
                 ", Poruka='" + Poruka + '\'' +

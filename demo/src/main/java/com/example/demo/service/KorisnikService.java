@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.KorisnikDto;
+import com.example.demo.dto.PolicaDto;
 import com.example.demo.model.Autor;
 import com.example.demo.model.Korisnik;
+import com.example.demo.model.Polica;
 import com.example.demo.model.Uloga;
 import com.example.demo.repository.AutorRepository;
 import com.example.demo.repository.KorisnikRepository;
@@ -13,8 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class KorisnikService {
@@ -27,7 +31,7 @@ public class KorisnikService {
     public void registerUser(KorisnikDto korisnikDto) {
     Korisnik existingUser = korisnikRepository.findByMejlAdresa(korisnikDto.getMejlAdresa());
         if (existingUser != null) {
-            throw new EmailAlreadyRegisteredException("Email address is already registered.");
+            throw new EmailAlreadyRegisteredException("Unesite drugu email adresu.");
     }
 
         Korisnik korisnik = new Korisnik();
@@ -38,6 +42,41 @@ public class KorisnikService {
         korisnik.setLozinka(korisnikDto.getLozinka());
         korisnikDto.setPotvrdiLozinku(korisnik.getLozinka());
         korisnik.setUloga(Uloga.CITALAC);
+
+
+        Polica polica1 = new Polica();
+        polica1.setNaziv("Want to Read");
+        polica1.setPrimarna(true);
+
+        Polica polica2 = new Polica();
+        polica2.setNaziv("Currently Reading");
+        polica2.setPrimarna(true);
+
+        Polica polica3 = new Polica();
+        polica3.setNaziv("Read");
+        polica3.setPrimarna(true);
+
+        Set<Polica> police = new HashSet<>();
+        police.add(polica1);
+        police.add(polica2);
+        police.add(polica3);
+
+
+        Set<PolicaDto> policaDtos = new HashSet<>();
+        for (Polica polica : police) {
+            PolicaDto policaDto = new PolicaDto();
+            policaDto.setId(polica.getId());
+            policaDto.setNaziv(polica.getNaziv());
+            policaDto.setPrimarna(polica.getPrimarna());
+            policaDto.setStavkePolice(polica.getStavkePolice());
+            policaDtos.add(policaDto);
+        }
+
+        korisnikDto.setPolice(police);
+        korisnik.setPolice(police);
+        korisnikRepository.save(korisnik);
+
+
 
         korisnikRepository.save(korisnik);
 }

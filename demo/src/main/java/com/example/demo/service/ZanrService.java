@@ -1,6 +1,10 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.ZahtevDto;
+import com.example.demo.dto.ZanrDto;
 import com.example.demo.model.Recenzija;
+import com.example.demo.model.Status;
+import com.example.demo.model.ZahtevZaAktivacijuNalogaAutora;
 import com.example.demo.model.Zanr;
 import com.example.demo.repository.RecenzijaRepository;
 import com.example.demo.repository.ZanrRepository;
@@ -19,5 +23,13 @@ public class ZanrService {
         // Implementacija za dobavljanje svih knjiga
         List<Zanr> zanrovi = zanrRepository.findAll();
         return zanrovi;
+    }
+
+    public void noviZanr(ZanrDto zanrDto) {
+
+        Zanr zanr = new Zanr();
+        zanr.setNaziv(zanrDto.getNaziv());
+
+        zanrRepository.save(zanr);
     }
 }

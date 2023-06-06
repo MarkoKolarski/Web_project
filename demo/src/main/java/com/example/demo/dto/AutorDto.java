@@ -10,7 +10,7 @@ import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AutorDto {
+public class AutorDto extends KorisnikDto{
 
     // Povezano sa id od korisnika
     private Long id;
@@ -40,4 +40,19 @@ public class AutorDto {
         this.aktivan = aktivan;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Set<Knjiga> getSpisakKnjiga() {
+        return spisakKnjiga;
+    }
+
+    public void setSpisakKnjiga(Set<Knjiga> spisakKnjiga) {
+        this.spisakKnjiga = spisakKnjiga;
+    }
 }

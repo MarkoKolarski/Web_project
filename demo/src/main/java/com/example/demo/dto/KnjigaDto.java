@@ -24,7 +24,7 @@ public class KnjigaDto {
 
     private String opis;
 
-    private Set<Zanr> Zanrovi = new HashSet<>();
+    private Set<Zanr> zanrovi = new HashSet<>();
 
     private Double ocena;
 
@@ -39,7 +39,7 @@ public class KnjigaDto {
         this.datumObjavljivanja = knjiga.getDatumObjavljivanja();
         this.brojStrana = knjiga.getBrojStrana();
         this.opis = knjiga.getOpis();
-        this.Zanrovi = knjiga.getZanrovi();
+        this.zanrovi = knjiga.getZanrovi();
         this.ocena = knjiga.getOcena();
     }
 
@@ -100,11 +100,11 @@ public class KnjigaDto {
     }
 
     public Set<Zanr> getZanrovi() {
-        return Zanrovi;
+        return zanrovi;
     }
 
     public void setZanrovi(Set<Zanr> zanrovi) {
-        Zanrovi = zanrovi;
+        this.zanrovi = zanrovi;
     }
 
     public Double getOcena() {
