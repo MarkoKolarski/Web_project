@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.KnjigaDto;
 import com.example.demo.dto.KorisnikDto;
 import com.example.demo.dto.LoginDto;
 import com.example.demo.model.Autor;
@@ -8,6 +9,7 @@ import com.example.demo.model.Uloga;
 import com.example.demo.service.AutorService;
 import com.example.demo.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -113,6 +115,7 @@ public class KorisnikRestController {
     public Korisnik getKorisnik(@PathVariable(name = "id") Long id){
         return korisnikService.findOne(id);
     }
+
 
 
 }

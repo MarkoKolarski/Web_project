@@ -1,17 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.AutorDto;
 import com.example.demo.dto.PolicaDto;
-import com.example.demo.dto.ZanrDto;
-import com.example.demo.model.Autor;
-import com.example.demo.model.Korisnik;
-import com.example.demo.model.Polica;
-import com.example.demo.model.Zanr;
+import com.example.demo.model.*;
 import com.example.demo.repository.KnjigaRepository;
 import com.example.demo.repository.KorisnikRepository;
+import com.example.demo.repository.PolicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -22,12 +17,22 @@ public class PolicaService {
 
     @Autowired
     private KorisnikRepository korisnikRepository;
+
+    @Autowired
+    private static PolicaRepository staticpolicaRepository;
+
+    @Autowired
+    private  PolicaRepository policaRepository;
     @Autowired
     private KnjigaRepository knjigaRepository;
 
     public PolicaService(KorisnikRepository korisnikRepository, KnjigaRepository knjigaRepository) {
         this.korisnikRepository = korisnikRepository;
         this.knjigaRepository = knjigaRepository;
+    }
+
+    public static Optional<Polica> findById(Long id) {
+        return staticpolicaRepository.findById(id);
     }
 
     public Set<Polica> getUserBookshelf(Long userId) throws ChangeSetPersister.NotFoundException {
@@ -60,4 +65,27 @@ public class PolicaService {
 //        return ResponseEntity.ok(autoriDto);
     }
 
+//    public void promeniPolicu(Optional<Polica> existingPolica, PolicaDto policaDto) {
+//
+//
+//        if (existingPolica.isPresent()) {
+//            Polica polica = existingPolica.get();
+//            polica.setNaziv(policaDto.getNaziv());
+//            polica.setPrimarna(policaDto.getPrimarna());
+//            polica.setStavkePolice(policaDto.getStavkePolice());
+//
+//            policaRepository.save(polica);
+//        }
+//    }
+
+
+    public void novaPolica(PolicaDto policaDto) {
+
+        Polica polica = new Polica();
+        polica.setNaziv(policaDto.getNaziv());
+        polica.setPrimarna(policaDto.getPrimarna());
+        polica.setStavkePolice(policaDto.getStavkePolice());
+
+        policaRepository.save(polica);
+    }
 }
