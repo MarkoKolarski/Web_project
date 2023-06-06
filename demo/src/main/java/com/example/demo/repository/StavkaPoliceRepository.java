@@ -12,4 +12,5 @@ public interface StavkaPoliceRepository extends JpaRepository<StavkaPolice, Long
 
     Set<StavkaPolice> findByKnjiga (Knjiga knjiga);
 
+  //Set<StavkaPolice> StavkaPolice  getById(Long id);
 }

@@ -14,4 +14,8 @@ public interface KnjigaRepository extends JpaRepository<Knjiga, Long> {
   //  List<Knjiga> findByTitleContainingIgnoreCase(String query);
 
     List<Knjiga> findByNaslovContainingIgnoreCase(String query);
+    Knjiga findByISBN(String isbn);
+
+    ;
+
 }

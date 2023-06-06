@@ -26,41 +26,34 @@ public class KorisnikRestController {
 
 
 
-
-    //  Neprijavljeni korisnik može još i da podnese zahtev za aktivaciju naloga autora, o
-//  čemu će biti reči posle.//TODO
-
-//  Administratori se programski učitavaju iz baze i ne mogu se naknadno dodati.
-//  Autora može kreirati samo administrator. Čitalac ne može da postane autor.
-
-    // Zahtev za aktivaciju naloga autora: dodat profil autora na koji se odnosi zahtev za aktivaciju naloga.
-
-    //  za sada ne radi šta treba !!!! //TODO
-
-
     @PostMapping("api/registracija")
     public ResponseEntity<String> signUp(@RequestBody KorisnikDto korisnikDto) {
+
+        if (korisnikDto == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Niste uneli podatke.");
+        }
+
         if (!korisnikDto.getLozinka().equals(korisnikDto.getPotvrdiLozinku())) {
-            throw new RuntimeException("Passwords do not match.");
+            throw new RuntimeException("Lozinke nisi iste.");
         }
 
         korisnikService.registerUser(korisnikDto);
 
-        return ResponseEntity.ok("User registered successfully.");
+        return ResponseEntity.ok("Uspešna registracija.");
     }
 
     @PostMapping("api/login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto, HttpSession session){
         // proverimo da li su podaci validni
         if(loginDto.getUsername().isEmpty() || loginDto.getPassword().isEmpty())
-            return new ResponseEntity("Invalid login data", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Pogrešni login podaci", HttpStatus.BAD_REQUEST);
 
         Korisnik loggedKorisnik = korisnikService.login(loginDto.getUsername(), loginDto.getPassword());
         if (loggedKorisnik == null)
-            return new ResponseEntity<>("User does not exist!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Korisnik ne postoji!", HttpStatus.NOT_FOUND);
 
         session.setAttribute("korisnik", loggedKorisnik);
-        return ResponseEntity.ok("Successfully logged in!");
+        return ResponseEntity.ok("Uspešna prijava");
     }
 
     @PostMapping("api/logout")

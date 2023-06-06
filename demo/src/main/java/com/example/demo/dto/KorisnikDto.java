@@ -38,7 +38,7 @@ public class KorisnikDto {
 
     protected String potvrdiLozinku;
 
-    //private Set<Polica> police = new HashSet<>();
+    private Set<Polica> police = new HashSet<>();
 
 
     public KorisnikDto() {
@@ -56,7 +56,7 @@ public class KorisnikDto {
         this.opis = korisnik.getOpis();
         this.uloga = korisnik.getUloga();
         this.potvrdiLozinku = korisnik.getLozinka();
-       // this.police = korisnik.getPolice();
+        this.police = korisnik.getPolice();
     }
 
     public String getPotvrdiLozinku() {
@@ -147,11 +147,11 @@ public class KorisnikDto {
         this.uloga = uloga;
     }
 
-//    public Set<Polica> getPolice() {
-//        return police;
-//    }
-//
-//    public void setPolice(Set<Polica> police) {
-//        this.police = police;
-//    }
+    public Set<Polica> getPolice() {
+        return police;
+    }
+
+    public void setPolice(Set<Polica> police) {
+       this.police = police;
+    }
 }
