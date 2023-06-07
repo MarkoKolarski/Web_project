@@ -98,6 +98,7 @@ public class KnjigaService {
                 autor.getSpisakKnjiga().remove(knjiga);
                 //autor.getPolice().remove(knjiga);
                 autorService.save(autor);
+                // autorService.deleteKnjiga(knjiga, autor);
 
 //               Set<StavkaPolice> stavkaPolice = (Set<StavkaPolice>) StavkaPoliceService.getById(id);
 //               stavkaPolice.remove(knjiga);

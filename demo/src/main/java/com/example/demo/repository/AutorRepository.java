@@ -17,5 +17,7 @@ public interface AutorRepository extends JpaRepository<Autor, Long> {
 
     Autor findBykorisnickoIme(String korisnickoIme);
 
-
 }
+
+
+

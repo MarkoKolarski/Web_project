@@ -88,4 +88,97 @@ public class PolicaService {
 
         policaRepository.save(polica);
     }
+
+    public void deletePolica(Polica polica) {
+        policaRepository.delete(polica);
+    }
+
+//    public Polica nadjiPolicu(long id, long userId) {
+//       Optional<Korisnik> korisnik = korisnikRepository.findById(userId);
+//       Polica polica = (Polica) korisnikRepository.korisnik.get().getPolice();
+//       return polica;
+//    }
+
+//    public Polica nadjiPolicu(long id, long userId) {
+//        Optional<Korisnik> korisnikOptional = korisnikRepository.findById(userId);
+//
+//        if (korisnikOptional.isPresent()) {
+//            Korisnik korisnik = korisnikOptional.get();
+//
+//            Set<Polica> police = korisnik.getPolice(); // Assuming Korisnik has a method to get the set of policies
+//
+//            Optional<Polica> policaOptional = police.stream()
+//                    .filter(polica -> polica.getId() == id)
+//                    .findFirst();
+//
+//            if (policaOptional.isPresent()) {
+//                return policaOptional.get();
+//            } else {
+//                // Handle case when policy with the given ID is not found
+//                try {
+//                    throw new ChangeSetPersister.NotFoundException();
+//                } catch (ChangeSetPersister.NotFoundException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        } else {
+//            // Handle case when user with the given ID is not found
+//            try {
+//                throw new ChangeSetPersister.NotFoundException();
+//            } catch (ChangeSetPersister.NotFoundException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//    }
+
+    public Polica nadjiPolicu(long id, long userId) throws ChangeSetPersister.NotFoundException {
+        Optional<Korisnik> korisnikOptional = korisnikRepository.findById(userId);
+
+        if (korisnikOptional.isPresent()) {
+            Korisnik korisnik = korisnikOptional.get();
+            Set<Polica> police = korisnik.getPolice();
+
+            for (Polica polica : police) {
+                if (polica.getId().equals(id)) {
+                    return polica;
+                }
+            }
+        }
+
+        throw new ChangeSetPersister.NotFoundException(); // Handle case when policy with the given ID is not found
+    }
+
+    public Polica findByNaziv(String nazivPolice) {
+        return policaRepository.findByNazivContainingIgnoreCase(nazivPolice);
+    }
+
+    public boolean dodajKnjigu(Knjiga existingKnjiga, Polica existingPolica) {
+        if (existingKnjiga == null || existingPolica == null) {
+            // Handle null objects appropriately
+            return false;
+        }
+
+        // Check if a book with the same name already exists in existingPolica
+        boolean bookExists = false;
+        for (StavkaPolice stavkaPolice : existingPolica.getStavkePolice()) {
+            if (stavkaPolice.getKnjiga().getNaslov().equals(existingKnjiga.getNaslov())) {
+                // Book with the same name already exists
+                bookExists = true;
+                break;
+            }
+        }
+
+        if (!bookExists) {
+            StavkaPolice stavkaPolice = new StavkaPolice();
+            stavkaPolice.setKnjiga(existingKnjiga);
+            existingPolica.getStavkePolice().add(stavkaPolice);
+
+            // Make sure policaRepository is instantiated and available
+            policaRepository.save(existingPolica);
+        }
+        return bookExists;
+    }
+
+
+
 }

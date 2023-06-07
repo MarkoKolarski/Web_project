@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface PolicaRepository extends JpaRepository<Polica, Long> {
 
    Optional<Polica> findById (Long id);
+
+    Polica findByNazivContainingIgnoreCase(String nazivPolice);
 }

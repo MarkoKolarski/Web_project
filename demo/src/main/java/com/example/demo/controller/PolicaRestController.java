@@ -8,6 +8,7 @@ import com.example.demo.model.Knjiga;
 import com.example.demo.model.Korisnik;
 import com.example.demo.model.Polica;
 import com.example.demo.model.Uloga;
+import com.example.demo.service.KnjigaService;
 import com.example.demo.service.KorisnikService;
 import com.example.demo.service.PolicaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class PolicaRestController {
 
     @Autowired
     private KorisnikService korisnikService;
+
+    @Autowired
+    private KnjigaService knjigaService;
 
 
     // Endpoint za pregled polica (liste knjiga) za određenog korisnika
@@ -67,9 +71,17 @@ public class PolicaRestController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti podatke.");
         }
 
+        if (loggedKorisnik.getPolice().stream().anyMatch(polica -> polica.getNaziv().equals(policaDto.getNaziv()))) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Polica sa tim imenom već postoji.");
+        }
+
+
+
+
+
         Polica polica = new Polica();
         polica.setNaziv(policaDto.getNaziv());
-        polica.setPrimarna(policaDto.getPrimarna());
+        polica.setPrimarna(false);
         polica.setStavkePolice(policaDto.getStavkePolice());
 
 
@@ -85,5 +97,70 @@ public class PolicaRestController {
 //        knjigaService.promeniKnjigu(existingKnjiga, knjigaDto );
 
     // Optional<Polica> existingPolica = PolicaService.findById(policaDto.getId());
+
+    @DeleteMapping("/api/obrisi-policu")
+    public ResponseEntity<String> obrisiPolicu(@RequestParam("id") long id, HttpSession session) throws ChangeSetPersister.NotFoundException {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Niste ulogovani.");
+        }
+
+//        if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
+//            return new ResponseEntity<>("Nisi administrator.", HttpStatus.BAD_REQUEST);
+//        }
+
+//        if (isbn == null) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti ISBN.");
+//        }
+
+        Polica polica =  policaService.nadjiPolicu(id, loggedKorisnik.getId());
+
+        loggedKorisnik.getPolice().remove(polica);
+        korisnikService.save(loggedKorisnik);
+        policaService.deletePolica(polica);
+        korisnikService.save(loggedKorisnik);
+        //policaService.obrisiPolicu(isbn, korisnickoIme);
+
+        return ResponseEntity.ok("Polica obrisana.");
+    }
+
+    @PutMapping("api/polica-dodaj-knjigu")
+    public ResponseEntity<String> updateBook(@RequestParam("isbn") String isbn, @RequestParam("naziv") String naziv_police, HttpSession session) throws ChangeSetPersister.NotFoundException {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Niste ulogovani.");
+        }
+
+
+        if (isbn == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti isbn knjige");
+        }
+//
+//        if (id_police == null) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Ne postoji polica.");
+//        }
+        Knjiga existingKnjiga = knjigaService.findByISBN((isbn));
+        Polica existingPolica = policaService.findByNaziv((naziv_police));
+
+        if (existingKnjiga == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Knjiga sa datim ISBN ne postoji.");
+        }
+
+        if (existingPolica == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Polica sa datim nazivom ne postoji.");
+        }
+
+
+        boolean bookExist = policaService.dodajKnjigu(existingKnjiga, existingPolica );
+
+        if(bookExist){
+            return ResponseEntity.ok("Knjiga " + existingKnjiga.getNaslov() + " vec postoji u polici: " + existingPolica.getNaziv() + ", pokušajte ponovo " );
+        }
+
+        return ResponseEntity.ok("Knjiga " + existingKnjiga.getNaslov() + " je uspešno dodata u policu: " + existingPolica.getNaziv());
+
+    }
 
 }

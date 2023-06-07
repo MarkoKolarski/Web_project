@@ -59,4 +59,7 @@ public class AutorService {
     }
 
 
+//    public void deleteKnjiga(Knjiga knjiga, Autor autor) {
+//        autorRepository.delete(autor.getSpisakKnjiga(knjiga));
+//    }
 }
