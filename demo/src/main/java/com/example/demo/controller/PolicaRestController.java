@@ -8,6 +8,7 @@ import com.example.demo.model.Knjiga;
 import com.example.demo.model.Korisnik;
 import com.example.demo.model.Polica;
 import com.example.demo.model.Uloga;
+import com.example.demo.service.KorisnikService;
 import com.example.demo.service.PolicaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -25,6 +26,9 @@ public class PolicaRestController {
 
     @Autowired
     private PolicaService policaService;
+
+    @Autowired
+    private KorisnikService korisnikService;
 
 
     // Endpoint za pregled polica (liste knjiga) za određenog korisnika
@@ -70,6 +74,7 @@ public class PolicaRestController {
 
 
         loggedKorisnik.getPolice().add(polica);
+        korisnikService.save(loggedKorisnik);
 
         //policaService.novaPolica(policaDto);
 
