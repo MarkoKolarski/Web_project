@@ -152,6 +152,17 @@ public class PolicaRestController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Polica sa datim nazivom ne postoji.");
         }
 
+        // Check if the book is already added to one of the three primarne police
+        boolean isBookOnPrimaryPolica = policaService.isBookOnPrimaryPolica(existingKnjiga, loggedKorisnik);
+
+        if (!isBookOnPrimaryPolica) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Knjiga mora biti dodata na jednu od primarnih polica pre nego što je možete dodati na sopstvene police");
+        }
+        boolean  isBookOnPrimaryPolicaForLoggedUser = policaService.isBookOnPrimaryPolicaForLoggedUser(existingKnjiga, loggedKorisnik, existingPolica);
+
+        if (isBookOnPrimaryPolicaForLoggedUser) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Knjiga se ne sme dva puta dodati na primarnu policu.");
+        }
 
         boolean bookExist = policaService.dodajKnjigu(existingKnjiga, existingPolica );
 

@@ -19,6 +19,9 @@ public class PolicaService {
     private KorisnikRepository korisnikRepository;
 
     @Autowired
+    private KorisnikService korisnikService;
+
+    @Autowired
     private static PolicaRepository staticpolicaRepository;
 
     @Autowired
@@ -178,6 +181,65 @@ public class PolicaService {
         }
         return bookExists;
     }
+
+    public boolean isBookOnPrimaryPolica(Knjiga existingKnjiga, Korisnik loggedKorisnik) {
+        List<Polica> primarnePolice = policaRepository.findByPrimarnaIsTrue();
+
+        for (Polica polica : primarnePolice) {
+            boolean isKorisnikPolica = checkIfKorisnikPolica(polica, loggedKorisnik);
+            if (isKorisnikPolica) {
+                for (StavkaPolice stavkaPolice : polica.getStavkePolice()) {
+                    if (stavkaPolice.getKnjiga().equals(existingKnjiga)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+    private boolean checkIfKorisnikPolica(Polica polica, Korisnik loggedKorisnik) {
+        return loggedKorisnik.getPolice().stream()
+                .map(Polica::getId) // Assuming getId returns the unique identifier of Polica
+                .anyMatch(polica.getId()::equals);
+    }
+
+        public boolean isBookOnPrimaryPolicaForLoggedUser(Knjiga existingKnjiga, Korisnik loggedKorisnik, Polica existingPolica) {
+        List<Polica> primarnePolice = policaRepository.findByPrimarnaIsTrue();
+
+        for (Polica polica : primarnePolice) {
+            boolean isKorisnikPolica = checkIfKorisnikPolica(polica, loggedKorisnik);
+            if (isKorisnikPolica) {
+                boolean isBookOnPrimaryPolica = false;
+                for (StavkaPolice stavkaPolice : polica.getStavkePolice()) {
+                    if (stavkaPolice.getKnjiga().equals(existingKnjiga)) {
+                        if(isPrimaryPolica(existingPolica)) {
+                            isBookOnPrimaryPolica = true;
+                            break;
+                        }
+                    }
+                }
+                if (isBookOnPrimaryPolica) {
+                    return true; // Book is already on a primary polica, return true
+                }
+            }
+        }
+
+
+        return false; // Book is not on any primary
+    }
+
+
+    // Add a new method to check if the polica is a primary polica
+    private boolean isPrimaryPolica(Polica polica) {
+        return polica.getPrimarna();
+    }
+
+
+
+
 
 
 
