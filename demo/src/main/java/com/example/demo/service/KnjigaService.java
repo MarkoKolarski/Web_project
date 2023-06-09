@@ -77,16 +77,67 @@ public class KnjigaService {
 
     public void promeniKnjigu(Knjiga knjiga, KnjigaDto knjigaDto) {
 
-        knjiga.setNaslov(knjigaDto.getNaslov());
-        knjiga.setNaslovnaFotografija(knjigaDto.getNaslovnaFotografija());
-        knjiga.setISBN(knjigaDto.getISBN());
-        knjiga.setDatumObjavljivanja(knjigaDto.getDatumObjavljivanja());
-        knjiga.setBrojStrana(knjigaDto.getBrojStrana());
-        knjiga.setOpis(knjigaDto.getOpis());
-        knjiga.setZanrovi(knjigaDto.getZanrovi());
-        knjiga.setOcena(knjigaDto.getOcena());
+        if (knjigaDto.getNaslov() != null && !knjigaDto.getNaslov().isEmpty()) {
+            knjiga.setNaslov(knjigaDto.getNaslov());
+        }
+        if (knjigaDto.getNaslovnaFotografija() != null && !knjigaDto.getNaslovnaFotografija().isEmpty()) {
+            knjiga.setNaslovnaFotografija(knjigaDto.getNaslovnaFotografija());
+        }
+        if (knjigaDto.getISBN() != null && !knjigaDto.getISBN().isEmpty()) {
+            knjiga.setISBN(knjigaDto.getISBN());
+        }
+        if (knjigaDto.getDatumObjavljivanja() != null) {
+            knjiga.setDatumObjavljivanja(knjigaDto.getDatumObjavljivanja());
+        }
+        if (knjigaDto.getBrojStrana() > 0) {
+            knjiga.setBrojStrana(knjigaDto.getBrojStrana());
+        }
+        if (knjigaDto.getOpis() != null && !knjigaDto.getOpis().isEmpty()) {
+            knjiga.setOpis(knjigaDto.getOpis());
+        }
+        if (knjigaDto.getZanrovi() != null && !knjigaDto.getZanrovi().isEmpty()) {
+            knjiga.setZanrovi(knjigaDto.getZanrovi());
+        }
+        if (knjigaDto.getOcena() != null && knjigaDto.getOcena() >= 0) {
+            knjiga.setOcena(knjigaDto.getOcena());
+        }
+
 
             knjigaRepository.save(knjiga);
+    }
+
+    public void promeniKnjiguAutora(Knjiga existingKnjiga, KnjigaDto knjigaDto, Autor loggedAutor) {
+
+        if (loggedAutor.getSpisakKnjiga().contains(existingKnjiga)) {
+            existingKnjiga.setNaslov(knjigaDto.getNaslov());
+
+            if (knjigaDto.getNaslov() != null && !knjigaDto.getNaslov().isEmpty()) {
+                existingKnjiga.setNaslov(knjigaDto.getNaslov());
+            }
+            if (knjigaDto.getNaslovnaFotografija() != null && !knjigaDto.getNaslovnaFotografija().isEmpty()) {
+                existingKnjiga.setNaslovnaFotografija(knjigaDto.getNaslovnaFotografija());
+            }
+            if (knjigaDto.getISBN() != null && !knjigaDto.getISBN().isEmpty()) {
+                existingKnjiga.setISBN(knjigaDto.getISBN());
+            }
+            if (knjigaDto.getDatumObjavljivanja() != null) {
+                existingKnjiga.setDatumObjavljivanja(knjigaDto.getDatumObjavljivanja());
+            }
+            if (knjigaDto.getBrojStrana() > 0) {
+                existingKnjiga.setBrojStrana(knjigaDto.getBrojStrana());
+            }
+            if (knjigaDto.getOpis() != null && !knjigaDto.getOpis().isEmpty()) {
+                existingKnjiga.setOpis(knjigaDto.getOpis());
+            }
+            if (knjigaDto.getZanrovi() != null && !knjigaDto.getZanrovi().isEmpty()) {
+                existingKnjiga.setZanrovi(knjigaDto.getZanrovi());
+            }
+            if (knjigaDto.getOcena() != null && knjigaDto.getOcena() >= 0) {
+                existingKnjiga.setOcena(knjigaDto.getOcena());
+            }
+        }
+
+        knjigaRepository.save(existingKnjiga);
     }
 
     public void obrisiKnjiguPoISBN(String isbn, String korisnickoIme) {
@@ -120,5 +171,26 @@ public class KnjigaService {
     }
 
 
+    public boolean novaKnjigaAutoru(Knjiga existingKnjiga, Autor loggedAutor) {
+        if (existingKnjiga == null || loggedAutor == null) {
 
+            return false;
+        }
+
+
+        boolean bookExists = false;
+        for (Knjiga knjiga : loggedAutor.getSpisakKnjiga()) {
+                if (knjiga.getNaslov().equals(existingKnjiga.getNaslov())) {
+                    // Knjiga sa istim nazivom već postoji
+                    bookExists = true;
+                    break;
+            }
+        }
+
+        if (!bookExists) {
+            loggedAutor.getSpisakKnjiga().add(existingKnjiga);
+            autorService.save(loggedAutor);
+        }
+        return bookExists;
+    }
 }

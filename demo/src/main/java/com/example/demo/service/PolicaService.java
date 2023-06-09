@@ -5,6 +5,8 @@ import com.example.demo.model.*;
 import com.example.demo.repository.KnjigaRepository;
 import com.example.demo.repository.KorisnikRepository;
 import com.example.demo.repository.PolicaRepository;
+import com.example.demo.repository.StavkaPoliceRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,10 @@ public class PolicaService {
     private KorisnikRepository korisnikRepository;
 
     @Autowired
+    private StavkaPoliceRepository stavkaPoliceRepository;
+
+    @Autowired
+
     private KorisnikService korisnikService;
 
     @Autowired
@@ -176,11 +182,54 @@ public class PolicaService {
             stavkaPolice.setKnjiga(existingKnjiga);
             existingPolica.getStavkePolice().add(stavkaPolice);
 
-            // Make sure policaRepository is instantiated and available
+
             policaRepository.save(existingPolica);
         }
         return bookExists;
     }
+
+
+
+    public boolean izbaciKnjigu(Knjiga existingKnjiga, Polica existingPolica) {
+        if (existingKnjiga == null || existingPolica == null) {
+            // Handle null objects appropriately
+            return false;
+        }
+
+        // Check if a book with the same name already exists in existingPolica
+        boolean bookExists = false;
+        for (StavkaPolice stavkaPolice : existingPolica.getStavkePolice()) {
+            if (stavkaPolice.getKnjiga().getNaslov().equals(existingKnjiga.getNaslov())) {
+                // Book with the same name already exists
+                bookExists = true;
+                break;
+            }
+        }
+
+        if (bookExists) {
+            // Find the StavkaPolice object that contains existingKnjiga
+            StavkaPolice stavkaPoliceToRemove = null;
+            for (StavkaPolice stavkaPolice : existingPolica.getStavkePolice()) {
+                if (stavkaPolice.getKnjiga().equals(existingKnjiga)) {
+                    stavkaPoliceToRemove = stavkaPolice;
+                    break;
+                }
+            }
+
+            if (stavkaPoliceToRemove != null) {
+                // Remove the StavkaPolice object from existingPolica
+                existingPolica.getStavkePolice().remove(stavkaPoliceToRemove);
+
+                // Save the updated Polica
+                policaRepository.save(existingPolica);
+            }
+        }
+
+
+
+        return bookExists;
+    }
+
 
     public boolean isBookOnPrimaryPolica(Knjiga existingKnjiga, Korisnik loggedKorisnik) {
         List<Polica> primarnePolice = policaRepository.findByPrimarnaIsTrue();

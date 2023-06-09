@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.KnjigaDto;
 import com.example.demo.dto.RecenzijaDto;
+import com.example.demo.model.Knjiga;
 import com.example.demo.model.Korisnik;
 import com.example.demo.model.Recenzija;
 import com.example.demo.model.Uloga;
@@ -10,15 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RecenzijaRestController {
@@ -73,5 +79,39 @@ public class RecenzijaRestController {
         return ResponseEntity.ok("Dodata nova recenzija.");
 
     }
+
+
+    @PutMapping("api/izmeni-recenziju")
+    public ResponseEntity<String> updateBook(@RequestBody RecenzijaDto recenzijaDto, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Niste ulogovani.");
+        }
+
+
+        if (recenzijaDto == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti podatke.");
+        }
+
+//        if (knjigaDto.getISBN() == null) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti ISBN.");
+//        }
+        //Jedino unique u recenziji je id, pa mora po njemu
+        Optional <Recenzija> existingRecenzija = recenzijaService.findById(recenzijaDto.getId());
+        Recenzija recenzija = existingRecenzija.get();
+
+
+        if (recenzija == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Knjiga sa datim ISBN ne postoji.");
+        }
+
+
+        recenzijaService.promeniRecenziju(recenzija, recenzijaDto, loggedKorisnik );
+
+        return ResponseEntity.ok("Recenzija je uspešno ažurirana.");
+    }
+
+
 
 }

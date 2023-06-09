@@ -174,4 +174,42 @@ public class PolicaRestController {
 
     }
 
+
+    @PutMapping("api/obrisi-knjigu-sa-police")
+    public ResponseEntity<String> ObrisiKnjiguSaPolice(@RequestParam("isbn") String isbn, @RequestParam("naziv") String naziv_police, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Niste ulogovani.");
+        }
+
+
+        if (isbn == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti isbn knjige");
+        }
+
+//        if (id_police == null) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Ne postoji polica.");
+//        }
+
+        Knjiga existingKnjiga = knjigaService.findByISBN((isbn));
+        Polica existingPolica = policaService.findByNaziv((naziv_police));
+
+        if (existingKnjiga == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Knjiga sa datim ISBN ne postoji.");
+        }
+
+        if (existingPolica == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Polica sa datim nazivom ne postoji.");
+        }
+
+        boolean bookExist = policaService.izbaciKnjigu(existingKnjiga, existingPolica);
+
+        if(bookExist){
+            return ResponseEntity.ok("Knjiga " + existingKnjiga.getNaslov() + " je izbrisana iz police: " + existingPolica.getNaziv() );
+        }
+
+        return ResponseEntity.ok("Knjiga " + existingKnjiga.getNaslov() + " nije u polici: " + existingPolica.getNaziv());
+
+    }
 }

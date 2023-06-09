@@ -40,17 +40,41 @@ public class AutorService {
 
     public void promeniAutora(Autor autor, AutorDto autorDto) {
 
-        autor.setAktivan(autorDto.getAktivan());
-        autor.setIme(autorDto.getIme());
-        autor.setPrezime(autorDto.getPrezime());
-        autor.setKorisnickoIme(autorDto.getKorisnickoIme());
-        autor.setMejlAdresa(autorDto.getMejlAdresa());
-        autor.setLozinka(autorDto.getLozinka());
-        autor.setDatumRodjenja(autorDto.getDatumRodjenja());
-        autor.setProfilnaSlika(autorDto.getProfilnaSlika());
-        autor.setOpis(autorDto.getOpis());
-        autor.setUloga(autorDto.getUloga());
-        autor.setPolice(autorDto.getPolice());
+            if (autorDto.getAktivan() != null) {
+                autor.setAktivan(autorDto.getAktivan());
+            }
+            if (autorDto.getIme() != null && !autorDto.getIme().isEmpty()) {
+                autor.setIme(autorDto.getIme());
+            }
+            if (autorDto.getPrezime() != null && !autorDto.getPrezime().isEmpty()) {
+                autor.setPrezime(autorDto.getPrezime());
+            }
+            if (autorDto.getKorisnickoIme() != null && !autorDto.getKorisnickoIme().isEmpty()) {
+                autor.setKorisnickoIme(autorDto.getKorisnickoIme());
+            }
+            if (autorDto.getMejlAdresa() != null && !autorDto.getMejlAdresa().isEmpty()) {
+                autor.setMejlAdresa(autorDto.getMejlAdresa());
+            }
+            if (autorDto.getLozinka() != null && !autorDto.getLozinka().isEmpty()) {
+                autor.setLozinka(autorDto.getLozinka());
+            }
+            if (autorDto.getDatumRodjenja() != null) {
+                autor.setDatumRodjenja(autorDto.getDatumRodjenja());
+            }
+            if (autorDto.getProfilnaSlika() != null && !autorDto.getProfilnaSlika().isEmpty()) {
+                autor.setProfilnaSlika(autorDto.getProfilnaSlika());
+            }
+            if (autorDto.getOpis() != null && !autorDto.getOpis().isEmpty()) {
+                autor.setOpis(autorDto.getOpis());
+            }
+            if (autorDto.getUloga() != null && !autorDto.getUloga().equals(null)) {
+                autor.setUloga(autorDto.getUloga());
+            }
+            if (autorDto.getPolice() != null) {
+                autor.setPolice(autorDto.getPolice());
+
+        }
+
 
 
 

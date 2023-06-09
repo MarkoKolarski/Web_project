@@ -1,8 +1,12 @@
 package com.example.demo.service;
 
+
+import com.example.demo.dto.RecenzijaDto;
+
 import com.example.demo.dto.KnjigaDto;
 import com.example.demo.dto.RecenzijaDto;
 import com.example.demo.model.Knjiga;
+
 import com.example.demo.model.Korisnik;
 import com.example.demo.model.Recenzija;
 import com.example.demo.model.Uloga;
@@ -22,7 +26,11 @@ public class RecenzijaService {
     private RecenzijaRepository recenzijaRepository;
 
     @Autowired
+
+    private KorisnikService korisnikService;
+
     private KorisnikRepository korisnikRepository;
+
 
     @Autowired
     private StavkaPoliceRepository stavkaPoliceRepository;
@@ -41,17 +49,20 @@ public class RecenzijaService {
         return recenzije;
     }
 
-    public void novaRecenzija(RecenzijaDto recenzijaDto, Korisnik loggedKorisnik) {
+ public void novaRecenzija(RecenzijaDto recenzijaDto, Korisnik loggedKorisnik) {
 
-        Korisnik persistentKorisnik = korisnikRepository.findById(loggedKorisnik.getId()).orElse(null);
-        if (persistentKorisnik != null) {
+            //Mora se napraviti novi objekat Korisnika
+        Optional<Korisnik> persistentKorisnikOptional = korisnikService.findById(loggedKorisnik.getId());
+
+            Korisnik persistentKorisnik = persistentKorisnikOptional.get();
             persistentKorisnik.setIme(loggedKorisnik.getIme());
             persistentKorisnik.setPrezime(loggedKorisnik.getPrezime());
             persistentKorisnik.setKorisnickoIme(loggedKorisnik.getKorisnickoIme());
             persistentKorisnik.setMejlAdresa(loggedKorisnik.getMejlAdresa());
             persistentKorisnik.setLozinka(loggedKorisnik.getLozinka());
             persistentKorisnik.setUloga(loggedKorisnik.getUloga());
-        }
+
+
 
 
         Recenzija recenzija = new Recenzija();
@@ -63,4 +74,39 @@ public class RecenzijaService {
             recenzijaRepository.save(recenzija);
 
     }
-}
+
+
+    public Optional<Recenzija> findById(Long id) {
+        return recenzijaRepository.findById(id);
+    }
+
+    public void promeniRecenziju(Recenzija recenzija, RecenzijaDto recenzijaDto, Korisnik loggedKorisnik) {
+
+        Optional<Korisnik> persistentKorisnikOptional = korisnikService.findById(loggedKorisnik.getId());
+
+        Korisnik persistentKorisnik = persistentKorisnikOptional.get();
+        persistentKorisnik.setIme(loggedKorisnik.getIme());
+        persistentKorisnik.setPrezime(loggedKorisnik.getPrezime());
+        persistentKorisnik.setKorisnickoIme(loggedKorisnik.getKorisnickoIme());
+        persistentKorisnik.setMejlAdresa(loggedKorisnik.getMejlAdresa());
+        persistentKorisnik.setLozinka(loggedKorisnik.getLozinka());
+        persistentKorisnik.setUloga(loggedKorisnik.getUloga());
+
+
+        if (recenzijaDto.getOcena() != 0) {
+            recenzija.setOcena(recenzijaDto.getOcena());
+        }
+        if (recenzijaDto.getTekst() != null && !recenzijaDto.getTekst().isEmpty()) {
+            recenzija.setTekst(recenzijaDto.getTekst());
+        }
+        if (recenzijaDto.getDatumRecenzije() != null) {
+            recenzija.setDatumRecenzije(recenzijaDto.getDatumRecenzije());
+        }
+        recenzija.setKorisnik(persistentKorisnik);
+
+
+
+        recenzijaRepository.save(recenzija);
+
+    }
+
