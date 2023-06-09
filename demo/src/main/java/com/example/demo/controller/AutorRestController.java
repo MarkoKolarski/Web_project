@@ -1,11 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.AutorDto;
-import com.example.demo.dto.KnjigaDto;
 import com.example.demo.dto.PolicaDto;
 import com.example.demo.dto.Zahtev2Dto;
 import com.example.demo.model.*;
-import com.example.demo.repository.AutorRepository;
 import com.example.demo.service.AutorService;
 import com.example.demo.service.ZahtevService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,7 @@ public class AutorRestController {
 
 
     @PostMapping("api/odobri-autora")
-    public ResponseEntity<String> login(@RequestBody Zahtev2Dto zahtev2Dto, HttpSession session) throws ChangeSetPersister.NotFoundException {
+    public ResponseEntity<String> odobriAutora(@RequestBody Zahtev2Dto zahtev2Dto, HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
 
         if (loggedKorisnik == null) {
@@ -43,66 +41,62 @@ public class AutorRestController {
         AutorDto autorDto = zahtevService.getZahtev(zahtev2Dto.getId());
 
         if (zahtev2Dto.getStatus() == Status.ODOBREN) {
-            autorDto.setAktivan(true);
+            if(autorDto.getAktivan() == false) {
+                autorDto.setAktivan(true);
 
 
-            Polica polica1 = new Polica();
-            polica1.setNaziv("Want to Read");
-            polica1.setPrimarna(true);
+                Polica polica1 = new Polica();
+                polica1.setNaziv("Want to Read");
+                polica1.setPrimarna(true);
 
-            Polica polica2 = new Polica();
-            polica2.setNaziv("Currently Reading");
-            polica2.setPrimarna(true);
+                Polica polica2 = new Polica();
+                polica2.setNaziv("Currently Reading");
+                polica2.setPrimarna(true);
 
-            Polica polica3 = new Polica();
-            polica3.setNaziv("Read");
-            polica3.setPrimarna(true);
+                Polica polica3 = new Polica();
+                polica3.setNaziv("Read");
+                polica3.setPrimarna(true);
 
-            Set<Polica> police = new HashSet<>();
-            police.add(polica1);
-            police.add(polica2);
-            police.add(polica3);
+                Set<Polica> police = new HashSet<>();
+                police.add(polica1);
+                police.add(polica2);
+                police.add(polica3);
 
 
-            Set<PolicaDto> policaDtos = new HashSet<>();
-            for (Polica polica : police) {
-                PolicaDto policaDto = new PolicaDto();
-                policaDto.setId(polica.getId());
-                policaDto.setNaziv(polica.getNaziv());
-                policaDto.setPrimarna(polica.getPrimarna());
-                policaDto.setStavkePolice(polica.getStavkePolice());
-                policaDtos.add(policaDto);
+                Set<PolicaDto> policaDtos = new HashSet<>();
+                for (Polica polica : police) {
+                    PolicaDto policaDto = new PolicaDto();
+                    policaDto.setId(polica.getId());
+                    policaDto.setNaziv(polica.getNaziv());
+                    policaDto.setPrimarna(polica.getPrimarna());
+                    policaDto.setStavkePolice(polica.getStavkePolice());
+                    policaDtos.add(policaDto);
+                }
+
+                autorDto.setPolice(police);
+                autorDto.setAktivan(true);
+
+
+                autorDto.setPolice(police);
+
+
+                Optional<Autor> optionalAutor = autorService.AutorById(autorDto.getId());
+                if (optionalAutor.isPresent()) {
+                    Autor autor = optionalAutor.get();
+                    autor.setAktivan(true);
+                    autor.setPolice(police);
+                    autorService.save(autor);
+                }
+
+                return ResponseEntity.ok("Autor je uspesno aktiviran!");
             }
+            return ResponseEntity.ok("Autor je već aktiviran");
 
-            autorDto.setPolice(police);
-            autorDto.setAktivan(true);
-
-            // Assigning police set to autor
-            autorDto.setPolice(police);
-
-
-            Optional<Autor> optionalAutor = autorService.AutorById(autorDto.getId());
-            if (optionalAutor.isPresent()) {
-                Autor autor = optionalAutor.get();
-                autor.setAktivan(true);
-                autor.setPolice(police);
-                autorService.save(autor);
-            }
-
-            return ResponseEntity.ok("Autor je uspesno aktiviran!");
         } else {
             return ResponseEntity.ok("Autor je odbijen!");
         }
     }
 
-
-// proverimo da li su podaci validni
-//        if(loginDto.getUsername().isEmpty() || loginDto.getPassword().isEmpty())
-//                return new ResponseEntity("Invalid login data", HttpStatus.BAD_REQUEST);
-//
-//                Korisnik loggedKorisnik = korisnikService.login(loginDto.getUsername(), loginDto.getPassword());
-//                if (loggedKorisnik == null)
-//                return new ResponseEntity<>("User does not exist!", HttpStatus.NOT_FOUND);
 
     @GetMapping("/api/autori")
     public ResponseEntity<List<AutorDto>> getAllAutors() {
@@ -165,7 +159,7 @@ public class AutorRestController {
 
         autorService.promeniAutora(existingAutor, autorDto);
 
-        return ResponseEntity.ok("Autor je uspešno ažuriran.");
+        return ResponseEntity.ok("Autor " + existingAutor.getKorisnickoIme() +  " je uspešno ažuriran.");
     }
 
 }
