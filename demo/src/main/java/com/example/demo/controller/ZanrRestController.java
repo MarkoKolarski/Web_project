@@ -57,6 +57,17 @@ public class ZanrRestController {
             return new ResponseEntity<>("Nisi administrator", HttpStatus.BAD_REQUEST);
         }
 
+        List<Zanr> zanrovi = zanrService.getAllGenres();
+
+        // Check if a genre with the given name already exists
+        boolean exists = zanrovi.stream()
+                .map(Zanr::getNaziv)
+                .anyMatch(naziv -> naziv.equals(zanrDto.getNaziv()));
+
+        if (exists) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Žanr već postoji.");
+        }
+
         zanrService.noviZanr(zanrDto);
 
         return ResponseEntity.ok("Dodat novi žanr");

@@ -55,6 +55,25 @@ public class PolicaRestController {
     }
 
 
+    @GetMapping("/api/korisnici/{korisnicko_ime}/police-po-imenu")
+    public ResponseEntity<Set<PolicaDto>> getUserBookshelf(@PathVariable String korisnicko_ime)  {
+        Set<Polica> police = policaService.policaPoNazivu(korisnicko_ime);
+
+        if (police.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+
+
+        Set<PolicaDto> policeDto = new HashSet<>();
+        for (Polica polica : police) {
+            PolicaDto policaDto = new PolicaDto(polica);
+            policeDto.add(policaDto);
+        }
+
+        return ResponseEntity.ok(policeDto);
+    }
+
+
     @PostMapping("api/dodaj-policu")
     public ResponseEntity<String> login(@RequestBody PolicaDto policaDto, HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
@@ -174,7 +193,6 @@ public class PolicaRestController {
 
     }
 
-
     @PutMapping("api/obrisi-knjigu-sa-police")
     public ResponseEntity<String> ObrisiKnjiguSaPolice(@RequestParam("isbn") String isbn, @RequestParam("naziv") String naziv_police, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
@@ -212,4 +230,5 @@ public class PolicaRestController {
         return ResponseEntity.ok("Knjiga " + existingKnjiga.getNaslov() + " nije u polici: " + existingPolica.getNaziv());
 
     }
+
 }

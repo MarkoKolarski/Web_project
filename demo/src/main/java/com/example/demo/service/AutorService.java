@@ -35,7 +35,8 @@ public class AutorService {
 
 
     public Autor AutorBykorisnickoIme(String korisnickoIme) {
-       return autorRepository.findBykorisnickoIme(korisnickoIme);
+        Autor autor = autorRepository.findBykorisnickoIme(korisnickoIme);
+        return autor;
     }
 
     public void promeniAutora(Autor autor, AutorDto autorDto) {

@@ -6,7 +6,6 @@ import com.example.demo.repository.KnjigaRepository;
 import com.example.demo.repository.KorisnikRepository;
 import com.example.demo.repository.PolicaRepository;
 import com.example.demo.repository.StavkaPoliceRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ public class PolicaService {
     private StavkaPoliceRepository stavkaPoliceRepository;
 
     @Autowired
-
     private KorisnikService korisnikService;
 
     @Autowired
@@ -44,7 +42,7 @@ public class PolicaService {
         return staticpolicaRepository.findById(id);
     }
 
-    public Set<Polica> getUserBookshelf(Long userId) throws ChangeSetPersister.NotFoundException {
+    public Set<Polica> getUserBookshelf(Long userId){
         Optional<Korisnik> korisnik = korisnikRepository.findById(userId);
         Set<Polica> police = korisnik.get().getPolice();
 
@@ -158,7 +156,8 @@ public class PolicaService {
     }
 
     public Polica findByNaziv(String nazivPolice) {
-        return policaRepository.findByNazivContainingIgnoreCase(nazivPolice);
+        Polica polica = policaRepository.findByNazivContainingIgnoreCase(nazivPolice);
+        return polica;
     }
 
     public boolean dodajKnjigu(Knjiga existingKnjiga, Polica existingPolica) {
@@ -187,7 +186,6 @@ public class PolicaService {
         }
         return bookExists;
     }
-
 
 
     public boolean izbaciKnjigu(Knjiga existingKnjiga, Polica existingPolica) {
@@ -229,7 +227,6 @@ public class PolicaService {
 
         return bookExists;
     }
-
 
     public boolean isBookOnPrimaryPolica(Knjiga existingKnjiga, Korisnik loggedKorisnik) {
         List<Polica> primarnePolice = policaRepository.findByPrimarnaIsTrue();
@@ -287,9 +284,11 @@ public class PolicaService {
     }
 
 
+    public Set<Polica> policaPoNazivu(String naziv) {
+        Korisnik korisnik = korisnikService.findBykorisnickoIme(naziv);
+        Set<Polica> police = korisnik.getPolice();
 
+        return police;
 
-
-
-
+    }
 }

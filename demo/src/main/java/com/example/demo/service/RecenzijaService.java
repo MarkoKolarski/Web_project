@@ -1,16 +1,8 @@
 package com.example.demo.service;
 
-
 import com.example.demo.dto.RecenzijaDto;
-
-import com.example.demo.dto.KnjigaDto;
-import com.example.demo.dto.RecenzijaDto;
-import com.example.demo.model.Knjiga;
-
 import com.example.demo.model.Korisnik;
 import com.example.demo.model.Recenzija;
-import com.example.demo.model.Uloga;
-import com.example.demo.repository.KorisnikRepository;
 import com.example.demo.repository.RecenzijaRepository;
 import com.example.demo.repository.StavkaPoliceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +18,7 @@ public class RecenzijaService {
     private RecenzijaRepository recenzijaRepository;
 
     @Autowired
-
     private KorisnikService korisnikService;
-
-    private KorisnikRepository korisnikRepository;
-
 
     @Autowired
     private StavkaPoliceRepository stavkaPoliceRepository;
@@ -49,7 +37,7 @@ public class RecenzijaService {
         return recenzije;
     }
 
- public void novaRecenzija(RecenzijaDto recenzijaDto, Korisnik loggedKorisnik) {
+    public void novaRecenzija(RecenzijaDto recenzijaDto, Korisnik loggedKorisnik) {
 
             //Mora se napraviti novi objekat Korisnika
         Optional<Korisnik> persistentKorisnikOptional = korisnikService.findById(loggedKorisnik.getId());
@@ -74,7 +62,6 @@ public class RecenzijaService {
             recenzijaRepository.save(recenzija);
 
     }
-
 
     public Optional<Recenzija> findById(Long id) {
         return recenzijaRepository.findById(id);
@@ -109,4 +96,4 @@ public class RecenzijaService {
         recenzijaRepository.save(recenzija);
 
     }
-
+}

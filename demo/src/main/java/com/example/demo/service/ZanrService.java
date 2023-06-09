@@ -9,6 +9,8 @@ import com.example.demo.model.Zanr;
 import com.example.demo.repository.RecenzijaRepository;
 import com.example.demo.repository.ZanrRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +32,8 @@ public class ZanrService {
         Zanr zanr = new Zanr();
         zanr.setNaziv(zanrDto.getNaziv());
 
+
         zanrRepository.save(zanr);
     }
+
 }

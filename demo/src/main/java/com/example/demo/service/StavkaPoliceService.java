@@ -19,11 +19,8 @@ public class StavkaPoliceService {
     }
 
     public Set<StavkaPolice> findByKnjiga(Knjiga knjiga){
-        return (Set<StavkaPolice>) stavkaPoliceRepository.findByKnjiga(knjiga);
+         Set<StavkaPolice> police = stavkaPoliceRepository.findByKnjiga(knjiga);
+        return police;
     }
 
-
-//    public void save(Set<StavkaPolice> stavkaPolice) {
-//        stavkaPoliceRepository.save(stavkaPolice);
-//    }
 }

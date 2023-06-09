@@ -97,6 +97,17 @@ public class KnjigaRestController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti ISBN.");
         }
 
+        List<Knjiga> knjige = knjigaService.getAllBooks2();
+
+        // Check if a book with the given title already exists
+        boolean exists = knjige.stream()
+                .map(Knjiga::getNaslov)
+                .anyMatch(naslov -> naslov.equals(knjigaDto.getNaslov()));
+
+        if (exists) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Knjiga već postoji.");
+        }
+
         knjigaService.novaKnjiga(knjigaDto);
 
         return ResponseEntity.ok("Dodata nova knjiga.");
@@ -104,7 +115,7 @@ public class KnjigaRestController {
     }
 
     @PutMapping("api/izmeni-knjigu")
-    public ResponseEntity<String> updateBook(@RequestBody KnjigaDto knjigaDto, HttpSession session) throws ChangeSetPersister.NotFoundException {
+    public ResponseEntity<String> updateBook(@RequestBody KnjigaDto knjigaDto, HttpSession session)  {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
 
         if (loggedKorisnik == null) {
