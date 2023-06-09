@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import java.util.Set;
@@ -31,14 +32,14 @@ public class StavkaPoliceRestController {
 
     // Endpoint za prikaz Recenzije po knjizi
     @GetMapping("/api/knjiga/{nazivKnjige}/recenzije")
-    public ResponseEntity<List<RecenzijaDto>> getRecenzijeByNazivKnjige(@PathVariable("nazivKnjige") String nazivKnjige) {
-        List<Knjiga> knjige = knjigaService.findByNaslovContainingIgnoreCase(nazivKnjige);
+    public ResponseEntity<Set<RecenzijaDto>> getRecenzijeByNazivKnjige(@PathVariable("nazivKnjige") String nazivKnjige) {
+        Set<Knjiga> knjige = knjigaService.findByNaslovContainingIgnoreCase(nazivKnjige);
 
         if (knjige.isEmpty()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
 
-        List<RecenzijaDto> recenzijeDto = new ArrayList<>();
+        Set <RecenzijaDto> recenzijeDto = new HashSet<>();
 
         for (Knjiga knjiga : knjige) {
             Set <StavkaPolice> stavkePolice = (Set<StavkaPolice>) stavkaPoliceService.findByKnjiga(knjiga);

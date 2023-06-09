@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class KnjigaRestController {
@@ -32,7 +33,7 @@ public class KnjigaRestController {
     // Endpoint za prikaz svih knjiga
     @GetMapping("/api/knjige")
     public ResponseEntity<List<KnjigaDto>> getAllBooks() {
-        List<Knjiga> knjige = knjigaService.getAllBooks();
+        List <Knjiga> knjige = knjigaService.getAllBooks2();
 
         if (knjige.isEmpty()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
@@ -57,9 +58,9 @@ public class KnjigaRestController {
     }
 
 
-    @GetMapping("/api/knjige-po-naslovu")
-    public ResponseEntity<List<KnjigaDto>> searchBooks1(@RequestParam("query") String query) {
-        List<KnjigaDto> knjigeDto = knjigaService.searchBooks(query);
+    @GetMapping("/api/{naslov}")
+    public ResponseEntity<Set<KnjigaDto>> searchBooks1(@PathVariable(name = "naslov") String naslov) {
+        Set <KnjigaDto> knjigeDto = (Set<KnjigaDto>) knjigaService.searchBooks(naslov);
 
         if (knjigeDto.isEmpty()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
