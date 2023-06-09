@@ -144,6 +144,11 @@ public class KorisnikService {
         korisnikRepository.save(existingKorisnik);
     }
 
+    public Korisnik findBykorisnickoIme(String naziv) {
+        Korisnik korisnik = korisnikRepository.findBykorisnickoIme(naziv);
+        return  korisnik;
+    }
+
 
     public class EmailAlreadyRegisteredException extends RuntimeException {
 

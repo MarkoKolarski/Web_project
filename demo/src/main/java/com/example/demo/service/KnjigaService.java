@@ -35,12 +35,14 @@ public class KnjigaService {
 
 
     public Set <Knjiga> findByNaslovContainingIgnoreCase(String query){
-        return knjigaRepository.findByNaslovContainingIgnoreCase( query);
+        Set<Knjiga> knjige = knjigaRepository.findByNaslovContainingIgnoreCase( query);
+        return knjige;
     }
 
 
     public Set<KnjigaDto> searchBooks(String query) {
-        Set <Knjiga> knjige = knjigaRepository.findByNaslovContainingIgnoreCase(query);
+        Set <Knjiga> knjige = new HashSet<>();
+        knjige =  knjigaRepository.findByNaslovContainingIgnoreCase(query);
         Set <KnjigaDto> knjigeDto = new HashSet<>();
 
         for (Knjiga knjiga : knjige) {
@@ -72,7 +74,8 @@ public class KnjigaService {
 
 
     public Knjiga findByISBN(String isbn) {
-        return (Knjiga) knjigaRepository.findByISBN(isbn);
+        Knjiga knjiga = knjigaRepository.findByISBN(isbn);
+        return  knjiga;
     }
 
     public void promeniKnjigu(Knjiga knjiga, KnjigaDto knjigaDto) {

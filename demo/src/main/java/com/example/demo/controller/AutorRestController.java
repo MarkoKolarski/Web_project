@@ -134,7 +134,7 @@ public class AutorRestController {
     }
 
     @PutMapping("/api/izmeni-autora")
-    public ResponseEntity<String> updateBook(@RequestBody AutorDto autorDto, HttpSession session) throws ChangeSetPersister.NotFoundException {
+    public ResponseEntity<String> izmeniAutora(@RequestBody AutorDto autorDto, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
 
         if (loggedKorisnik == null) {
