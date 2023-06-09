@@ -61,7 +61,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"mkolarski@gmail.com\",\r\n    \"password\": \"lozinka1\"\r\n}\r\n",
+							"raw": "{\r\n    \"username\": \"markomarkovic@gmail.com\",\r\n    \"password\": \"lozinka3\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -250,14 +250,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{Url}}/api/korisnici/2/police",
+							"raw": "{{Url}}/api/korisnici/3/police",
 							"host": [
 								"{{Url}}"
 							],
 							"path": [
 								"api",
 								"korisnici",
-								"2",
+								"3",
 								"police"
 							]
 						}
@@ -436,7 +436,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/autori NE RADI",
+					"name": "/api/autori",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -471,7 +471,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "    {\r\n        \"id\": 1,\r\n        \"ime\": \"Marko2NOVO\",\r\n        \"prezime\": \"Kolarski2\",\r\n        \"korisnickoIme\": \"user1\",\r\n        \"mejlAdresa\": \"mkolarski2@example.com\",\r\n        \"lozinka\": \"lozinka1\",\r\n        \"datumRodjenja\": \"2023-03-18T17:30:00.000+00:00\",\r\n        \"profilnaSlika\": \"C:/Users/Marko Kolarski/Pictures/Saved Pictures/profilna_slika1.jpg\",\r\n        \"opis\": \"opis1\",\r\n        \"uloga\": \"AUTOR\",\r\n        \"police\": [],\r\n        \"aktivan\": true,\r\n        \"spisakKnjiga\": []\r\n    }",
+							"raw": "    {\r\n        \"id\": 1,\r\n        \"ime\": \"MarkoNovi\",\r\n        \"prezime\": \"KolarskiNOVI\",\r\n        \"korisnickoIme\": \"user1\",\r\n        \"mejlAdresa\": \"mkolarski@gmail.com\",\r\n        \"lozinka\": \"lozinka1\",\r\n        \"datumRodjenja\": \"2023-03-18T17:30:00.000+00:00\",\r\n        \"profilnaSlika\": \"C:/Users/Marko Kolarski/Pictures/Saved Pictures/profilna_slika1.jpg\",\r\n        \"opis\": \"opis1\",\r\n        \"uloga\": \"AUTOR\",\r\n        \"potvrdiLozinku\": null,\r\n        \"police\": [],\r\n        \"aktivan\": true,\r\n        \"spisakKnjiga\": []\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -561,7 +561,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"naslov\": \"Naslov\",\r\n  \"naslovnaFotografija\": \"fotografija\",\r\n  \"isbn\": \"12345\",\r\n  \"datumObjavljivanja\": \"2023-04-15T14:30:00+00:00\",\r\n  \"brojStrana\": 123,\r\n  \"opis\": \"opis\",\r\n  \"ocena\": 123\r\n}\r\n",
+							"raw": "{\r\n  \"naslov\": \"Naslov\",\r\n  \"naslovnaFotografija\": \"fotografija\",\r\n  \"isbn\": \"1235\",\r\n  \"datumObjavljivanja\": \"2023-04-15T14:30:00+00:00\",\r\n  \"brojStrana\": 123,\r\n  \"opis\": \"opis\",\r\n  \"ocena\": 123\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -606,7 +606,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"naslov\": \"2Naslov\",\r\n  \"naslovnaFotografija\": \"2fotografija\",\r\n  \"isbn\": \"123\",\r\n  \"datumObjavljivanja\": \"2023-04-15T14:30:00+00:00\",\r\n  \"brojStrana\": 2123,\r\n  \"opis\": \"2opis\",\r\n  \"zanrovi\": [\r\n        {\r\n        \"naziv\": \"Horor\"\r\n    },\r\n    {\r\n        \"naziv\": \"Komedija\"\r\n    }\r\n  ],\r\n  \"ocena\": 2123\r\n}\r\n",
+							"raw": "{\r\n  \"naslov\": \"2NaslovNOVO\",\r\n  \"naslovnaFotografija\": \"2fotografijaNOVO\",\r\n  \"isbn\": \"123\",\r\n  \"datumObjavljivanja\": \"2023-04-15T14:30:00+00:00\",\r\n  \"brojStrana\": 2123,\r\n  \"opis\": \"2opis\",\r\n  \"zanrovi\": [\r\n        {\r\n        \"naziv\": \"Horor\"\r\n    },\r\n    {\r\n        \"naziv\": \"Komedija\"\r\n    }\r\n  ],\r\n  \"ocena\": 2123\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
