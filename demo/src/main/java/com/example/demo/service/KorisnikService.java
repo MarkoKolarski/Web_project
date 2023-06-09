@@ -2,11 +2,9 @@ package com.example.demo.service;
 
 import com.example.demo.dto.KorisnikDto;
 import com.example.demo.dto.PolicaDto;
-import com.example.demo.model.Autor;
 import com.example.demo.model.Korisnik;
 import com.example.demo.model.Polica;
 import com.example.demo.model.Uloga;
-import com.example.demo.repository.AutorRepository;
 import com.example.demo.repository.KorisnikRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -103,6 +101,49 @@ public class KorisnikService {
     public Korisnik save(Korisnik korisnik){
         return korisnikRepository.save(korisnik);
     }
+
+
+    public Optional<Korisnik> findById(Long id) {
+        return korisnikRepository.findById(id);
+    }
+
+    public Korisnik korisnikBykorisnickoIme(String korisnickoIme) {
+        return korisnikRepository.findBykorisnickoIme(korisnickoIme);
+    }
+
+    public void promeniKorisnika(Korisnik existingKorisnik, KorisnikDto korisnikDto) {
+        if (korisnikDto.getIme() != null && !korisnikDto.getIme().isEmpty()) {
+            existingKorisnik.setIme(korisnikDto.getIme());
+        }
+        if (korisnikDto.getPrezime() != null && !korisnikDto.getPrezime().isEmpty()) {
+            existingKorisnik.setPrezime(korisnikDto.getPrezime());
+        }
+
+        if (korisnikDto.getDatumRodjenja() != null) {
+            existingKorisnik.setDatumRodjenja(korisnikDto.getDatumRodjenja());
+        }
+        if (korisnikDto.getProfilnaSlika() != null && !korisnikDto.getProfilnaSlika().isEmpty()) {
+            existingKorisnik.setProfilnaSlika(korisnikDto.getProfilnaSlika());
+        }
+        if (korisnikDto.getOpis() != null && !korisnikDto.getOpis().isEmpty()) {
+            existingKorisnik.setOpis(korisnikDto.getOpis());
+        }
+
+        if (!existingKorisnik.getLozinka().equals(korisnikDto.getPotvrdiLozinku())) {
+            throw new IllegalArgumentException("Unesena trenutna lozinka se ne poklapa sa postojećom lozinkom.");
+        }
+
+        if (korisnikDto.getMejlAdresa() != null && !korisnikDto.getMejlAdresa().isEmpty()) {
+            existingKorisnik.setMejlAdresa(korisnikDto.getMejlAdresa());
+        }
+        if (korisnikDto.getLozinka() != null && !korisnikDto.getLozinka().isEmpty()) {
+            existingKorisnik.setLozinka(korisnikDto.getLozinka());
+        }
+
+
+        korisnikRepository.save(existingKorisnik);
+    }
+
 
     public class EmailAlreadyRegisteredException extends RuntimeException {
 

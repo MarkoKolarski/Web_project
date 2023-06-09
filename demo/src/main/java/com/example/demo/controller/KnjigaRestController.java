@@ -2,10 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.KnjigaDto;
 
+import com.example.demo.model.Autor;
 import com.example.demo.model.Knjiga;
 
 import com.example.demo.model.Korisnik;
 import com.example.demo.model.Uloga;
+import com.example.demo.service.AutorService;
 import com.example.demo.service.KnjigaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @RestController
 public class KnjigaRestController {
 
     @Autowired
     private KnjigaService knjigaService;
+
+    @Autowired
+    private AutorService autorService;
 
 
 
@@ -32,7 +39,7 @@ public class KnjigaRestController {
     // Endpoint za prikaz svih knjiga
     @GetMapping("/api/knjige")
     public ResponseEntity<List<KnjigaDto>> getAllBooks() {
-        List<Knjiga> knjige = knjigaService.getAllBooks();
+        List <Knjiga> knjige = knjigaService.getAllBooks2();
 
         if (knjige.isEmpty()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
@@ -57,9 +64,9 @@ public class KnjigaRestController {
     }
 
 
-    @GetMapping("/api/knjige-po-naslovu")
-    public ResponseEntity<List<KnjigaDto>> searchBooks1(@RequestParam("query") String query) {
-        List<KnjigaDto> knjigeDto = knjigaService.searchBooks(query);
+    @GetMapping("/api/{naslov}")
+    public ResponseEntity<Set<KnjigaDto>> searchBooks1(@PathVariable(name = "naslov") String naslov) {
+        Set <KnjigaDto> knjigeDto = (Set<KnjigaDto>) knjigaService.searchBooks(naslov);
 
         if (knjigeDto.isEmpty()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
@@ -71,7 +78,7 @@ public class KnjigaRestController {
     }
 
     @PostMapping("api/dodaj-knjigu")
-    public ResponseEntity<String> login(@RequestBody KnjigaDto knjigaDto, HttpSession session) throws ChangeSetPersister.NotFoundException {
+    public ResponseEntity<String> dodajKnjigu(@RequestBody KnjigaDto knjigaDto, HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
 
         if (loggedKorisnik == null) {
@@ -123,7 +130,7 @@ public class KnjigaRestController {
         }
 
 
-        knjigaService.promeniKnjigu(existingKnjiga, knjigaDto );
+        knjigaService.promeniKnjigu(existingKnjiga, knjigaDto);
 
         return ResponseEntity.ok("Knjiga je uspešno ažurirana.");
     }
@@ -149,6 +156,79 @@ public class KnjigaRestController {
         return ResponseEntity.ok("Knjiga obrisana.");
     }
 
+    @PostMapping("api/autor-dodaj-knjigu")
+    public ResponseEntity<String> autorDodajKnjigu(@RequestBody KnjigaDto knjigaDto, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
 
+        if (loggedKorisnik == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Niste ulogovani.");
+        }
+
+        Optional<Autor> autor = autorService.AutorById(loggedKorisnik.getId());
+
+        Autor loggedAutor = autor.get();
+
+        if (loggedAutor.getUloga() != Uloga.AUTOR) {
+            return new ResponseEntity<>("Nisi autor.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (knjigaDto == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti podatke.");
+        }
+
+        if (knjigaDto.getISBN() == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti ISBN.");
+        }
+        Knjiga existingKnjiga = knjigaService.findByISBN(knjigaDto.getISBN());
+
+        if (existingKnjiga == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Nije pronadjena knjiga");
+        }
+
+       boolean postojiKnjiga = knjigaService.novaKnjigaAutoru(existingKnjiga, loggedAutor);
+
+        if (postojiKnjiga) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Knjiga se ne sme dva puta dodati na spisak.");
+        }
+
+        return ResponseEntity.ok("Dodata nova knjiga autoru: "+loggedAutor.getKorisnickoIme()+ " .");
+
+    }
+
+    @PutMapping("api/izmeni-knjigu-autora")
+    public ResponseEntity<String> izmeniKnjiguAutora(@RequestBody KnjigaDto knjigaDto, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Niste ulogovani.");
+        }
+
+        if (loggedKorisnik.getUloga() != Uloga.AUTOR) {
+            return new ResponseEntity<>("Nisi autor.", HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Autor> autor = autorService.AutorById(loggedKorisnik.getId());
+
+        Autor loggedAutor = autor.get();
+
+        if (knjigaDto == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti podatke.");
+        }
+
+        if (knjigaDto.getISBN() == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti ISBN.");
+        }
+
+        Knjiga existingKnjiga = knjigaService.findByISBN(knjigaDto.getISBN());
+
+        if (existingKnjiga == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Knjiga sa datim ISBN ne postoji.");
+        }
+
+
+        knjigaService.promeniKnjiguAutora(existingKnjiga, knjigaDto, loggedAutor );
+
+        return ResponseEntity.ok("Knjiga je uspešno ažurirana.");
+    }
 
 }

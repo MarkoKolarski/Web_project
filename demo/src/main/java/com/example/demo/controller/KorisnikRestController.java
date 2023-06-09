@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.AutorDto;
+import com.example.demo.dto.KnjigaDto;
 import com.example.demo.dto.KorisnikDto;
 import com.example.demo.dto.LoginDto;
 import com.example.demo.model.Autor;
@@ -8,6 +10,7 @@ import com.example.demo.model.Uloga;
 import com.example.demo.service.AutorService;
 import com.example.demo.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -114,5 +117,36 @@ public class KorisnikRestController {
         return korisnikService.findOne(id);
     }
 
+    @PutMapping("/api/izmeni-korisnika")
+    public ResponseEntity<String> updateBook(@RequestBody KorisnikDto korisnikDto, HttpSession session)  {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Niste ulogovani.");
+        }
+
+
+        if (korisnikDto == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti podatke.");
+        }
+
+        if (korisnikDto.getKorisnickoIme() == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti korisničko ime.");
+        }
+
+        Korisnik existingKorisnik = korisnikService.korisnikBykorisnickoIme(korisnikDto.getKorisnickoIme());
+
+        if (existingKorisnik == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Korisnik sa datim korisničkim imenom ne postoji.");
+        }
+
+//        if (existingKorisnik.getAktivan() == true) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor sa datim korisničkim imenom je već aktiviran.");
+//        }
+
+        korisnikService.promeniKorisnika(existingKorisnik, korisnikDto);
+
+        return ResponseEntity.ok("Korisnik je uspešno ažuriran.");
+    }
 
 }

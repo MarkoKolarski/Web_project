@@ -9,13 +9,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-//@Table(name = "korisnik")
+@Table(name = "KORISNIK")
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Korisnik implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     protected Long id;
 
     protected String ime;
@@ -40,6 +40,7 @@ public class Korisnik implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
+    @JoinTable(name = "KORISNIK_POLICA")
     private Set<Polica> police = new HashSet<>();
 
     public Korisnik() {

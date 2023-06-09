@@ -18,10 +18,11 @@ public class StavkaPolice implements Serializable {
 
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "STAVKA_POLICE_RECENZIJA")
     private Set<Recenzija> recenzije = new HashSet<>();
     //U jednom odeljku("Stavka police") ima više knjiga sa više recenzija
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "knjiga_id")
     private Knjiga knjiga;
 

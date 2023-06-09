@@ -27,7 +27,8 @@ public class Knjiga implements Serializable {
 
     private String opis;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
     @JoinTable(name = "izbor_zanra",
             joinColumns = { @JoinColumn(name = "knjiga_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "zanr_id", referencedColumnName = "id") })

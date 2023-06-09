@@ -28,7 +28,7 @@ public class Autor extends Korisnik {
     }
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "spisak_knjiga",
             joinColumns = { @JoinColumn(name = "autor_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "knjiga_id", referencedColumnName = "id") })

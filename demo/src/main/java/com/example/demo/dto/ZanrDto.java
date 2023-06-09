@@ -15,7 +15,7 @@ public class ZanrDto {
     public ZanrDto(Zanr zanr)
     {
         this.id = zanr.getId();
-        this.naziv = getNaziv();
+        this.naziv = zanr.getNaziv();
     }
 
     public String getNaziv() {
