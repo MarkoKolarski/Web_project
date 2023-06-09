@@ -174,6 +174,7 @@ public class PolicaRestController {
 
     }
 
+
     @PutMapping("api/obrisi-knjigu-sa-police")
     public ResponseEntity<String> ObrisiKnjiguSaPolice(@RequestParam("isbn") String isbn, @RequestParam("naziv") String naziv_police, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
@@ -211,5 +212,4 @@ public class PolicaRestController {
         return ResponseEntity.ok("Knjiga " + existingKnjiga.getNaslov() + " nije u polici: " + existingPolica.getNaziv());
 
     }
-
 }

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+
 import com.example.demo.dto.AutorDto;
 import com.example.demo.dto.KnjigaDto;
 import com.example.demo.dto.KorisnikDto;
@@ -148,5 +149,6 @@ public class KorisnikRestController {
 
         return ResponseEntity.ok("Korisnik je uspešno ažuriran.");
     }
+
 
 }

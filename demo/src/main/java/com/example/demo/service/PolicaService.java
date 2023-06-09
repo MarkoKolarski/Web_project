@@ -6,6 +6,7 @@ import com.example.demo.repository.KnjigaRepository;
 import com.example.demo.repository.KorisnikRepository;
 import com.example.demo.repository.PolicaRepository;
 import com.example.demo.repository.StavkaPoliceRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class PolicaService {
     private StavkaPoliceRepository stavkaPoliceRepository;
 
     @Autowired
+
     private KorisnikService korisnikService;
 
     @Autowired
@@ -187,6 +189,7 @@ public class PolicaService {
     }
 
 
+
     public boolean izbaciKnjigu(Knjiga existingKnjiga, Polica existingPolica) {
         if (existingKnjiga == null || existingPolica == null) {
             // Handle null objects appropriately
@@ -226,6 +229,7 @@ public class PolicaService {
 
         return bookExists;
     }
+
 
     public boolean isBookOnPrimaryPolica(Knjiga existingKnjiga, Korisnik loggedKorisnik) {
         List<Polica> primarnePolice = policaRepository.findByPrimarnaIsTrue();
