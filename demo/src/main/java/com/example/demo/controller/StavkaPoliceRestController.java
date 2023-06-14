@@ -4,7 +4,6 @@ import com.example.demo.dto.RecenzijaDto;
 import com.example.demo.model.Knjiga;
 import com.example.demo.model.Recenzija;
 import com.example.demo.model.StavkaPolice;
-import com.example.demo.repository.StavkaPoliceRepository;
 import com.example.demo.service.KnjigaService;
 import com.example.demo.service.StavkaPoliceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 import java.util.Set;
 

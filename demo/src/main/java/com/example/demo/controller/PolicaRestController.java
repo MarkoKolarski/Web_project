@@ -1,25 +1,23 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.dto.KnjigaDto;
-import com.example.demo.dto.KorisnikDto;
 import com.example.demo.dto.PolicaDto;
 import com.example.demo.model.Knjiga;
 import com.example.demo.model.Korisnik;
 import com.example.demo.model.Polica;
-import com.example.demo.model.Uloga;
 import com.example.demo.service.KnjigaService;
 import com.example.demo.service.KorisnikService;
 import com.example.demo.service.PolicaService;
+import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -118,28 +116,22 @@ public class PolicaRestController {
     // Optional<Polica> existingPolica = PolicaService.findById(policaDto.getId());
 
     @DeleteMapping("/api/obrisi-policu")
-    public ResponseEntity<String> obrisiPolicu(@RequestParam("id") long id, HttpSession session) throws ChangeSetPersister.NotFoundException {
+    public ResponseEntity<String> obrisiPolicu(@RequestParam("naziv") String naziv, HttpSession session) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
 
         if (loggedKorisnik == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Niste ulogovani.");
         }
 
-//        if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
-//            return new ResponseEntity<>("Nisi administrator.", HttpStatus.BAD_REQUEST);
-//        }
+        Polica polica =  policaService.nadjiPolicu(naziv, loggedKorisnik.getId());
 
-//        if (isbn == null) {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti ISBN.");
-//        }
-
-        Polica polica =  policaService.nadjiPolicu(id, loggedKorisnik.getId());
+        if (polica == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Polica nije pronadjena.");
+        }
 
         loggedKorisnik.getPolice().remove(polica);
         korisnikService.save(loggedKorisnik);
         policaService.deletePolica(polica);
-        korisnikService.save(loggedKorisnik);
-        //policaService.obrisiPolicu(isbn, korisnickoIme);
 
         return ResponseEntity.ok("Polica obrisana.");
     }

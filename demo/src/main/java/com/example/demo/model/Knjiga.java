@@ -1,8 +1,8 @@
 package com.example.demo.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,8 +27,7 @@ public class Knjiga implements Serializable {
 
     private String opis;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "izbor_zanra",
             joinColumns = { @JoinColumn(name = "knjiga_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "zanr_id", referencedColumnName = "id") })
