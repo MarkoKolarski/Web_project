@@ -3,10 +3,7 @@ package com.example.demo.dto;
 import com.example.demo.model.Korisnik;
 import com.example.demo.model.Recenzija;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+
 import java.util.Date;
 
 public class RecenzijaDto {

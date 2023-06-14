@@ -1,9 +1,7 @@
 package com.example.demo.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +12,6 @@ public class Autor extends Korisnik {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // Povezano sa id od korisnika
     private Long id;
 
     private Boolean aktivan;

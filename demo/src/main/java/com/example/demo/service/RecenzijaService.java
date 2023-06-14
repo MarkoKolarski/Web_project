@@ -5,6 +5,7 @@ import com.example.demo.model.Korisnik;
 import com.example.demo.model.Recenzija;
 import com.example.demo.repository.RecenzijaRepository;
 import com.example.demo.repository.StavkaPoliceRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class RecenzijaService {
 
     @Autowired

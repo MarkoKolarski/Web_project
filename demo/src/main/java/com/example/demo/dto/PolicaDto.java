@@ -3,7 +3,7 @@ package com.example.demo.dto;
 import com.example.demo.model.Polica;
 import com.example.demo.model.StavkaPolice;
 
-import javax.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
