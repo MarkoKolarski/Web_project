@@ -12,6 +12,8 @@ public interface KorisnikRepository extends JpaRepository<Korisnik, Long> {
     Korisnik getByMejlAdresa(String mejlAdresa);
     Korisnik findByMejlAdresa(String mejlAdresa);
 
+    Korisnik getByKorisnickoIme(String korisnickoIme);
+
     //Korisnik findById(Long id);
 
    // Korisnik findByMejlAdresaContainingIgnoreCase(String mejlAdresa);

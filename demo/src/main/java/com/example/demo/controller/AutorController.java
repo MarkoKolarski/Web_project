@@ -9,15 +9,14 @@ import com.example.demo.service.ZahtevService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-
-@RestController
-public class AutorRestController {
+@Controller
+public class AutorController {
 
     @Autowired
     private ZahtevService zahtevService;
@@ -25,25 +24,25 @@ public class AutorRestController {
     @Autowired
     private AutorService autorService;
 
-
-    @PostMapping("api/odobri-autora2")
-    public ResponseEntity<String> odobriAutora(@RequestBody Zahtev2Dto zahtev2Dto, HttpSession session) throws ChangeSetPersister.NotFoundException {
+    @PostMapping("api/odobri-autora")
+    public String odobriAutora(@ModelAttribute("zahtev2Dto") Zahtev2Dto zahtev2Dto, HttpSession session, Model model) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
 
         if (loggedKorisnik == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Niste ulogovani.");
+            model.addAttribute("errorMessage", "Niste ulogovani.");
+            return "error";
         }
 
         if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
-            return new ResponseEntity<>("Nisi administrator", HttpStatus.BAD_REQUEST);
+            model.addAttribute("errorMessage", "Nisi administrator.");
+            return "error";
         }
 
         AutorDto autorDto = zahtevService.getZahtev(zahtev2Dto.getId());
 
         if (zahtev2Dto.getStatus() == Status.ODOBREN) {
-            if(autorDto.getAktivan() == false) {
+            if (autorDto.getAktivan() == false) {
                 autorDto.setAktivan(true);
-
 
                 Polica polica1 = new Polica();
                 polica1.setNaziv("Want to Read");
@@ -62,7 +61,6 @@ public class AutorRestController {
                 police.add(polica2);
                 police.add(polica3);
 
-
                 Set<PolicaDto> policaDtos = new HashSet<>();
                 for (Polica polica : police) {
                     PolicaDto policaDto = new PolicaDto();
@@ -76,9 +74,7 @@ public class AutorRestController {
                 autorDto.setPolice(police);
                 autorDto.setAktivan(true);
 
-
                 autorDto.setPolice(police);
-
 
                 Optional<Autor> optionalAutor = autorService.AutorById(autorDto.getId());
                 if (optionalAutor.isPresent()) {
@@ -88,22 +84,25 @@ public class AutorRestController {
                     autorService.save(autor);
                 }
 
-                return ResponseEntity.ok("Autor je uspesno aktiviran!");
+                model.addAttribute("successMessage", "Autor je uspešno aktiviran!");
+            } else {
+                model.addAttribute("infoMessage", "Autor je već aktiviran");
             }
-            return ResponseEntity.ok("Autor je već aktiviran");
 
         } else {
-            return ResponseEntity.ok("Autor je odbijen!");
+            model.addAttribute("infoMessage", "Autor je odbijen!");
         }
+
+        return "success";
     }
 
-
-    @GetMapping("/api/autori")
-    public ResponseEntity<List<AutorDto>> getAllAutors() {
-        List <Autor> autori = autorService.getAllAutors();
+    @GetMapping("/autori")
+    public String getAllAutors(Model model) {
+        List<Autor> autori = autorService.getAllAutors();
 
         if (autori.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+            model.addAttribute("errorMessage", "Nema dostupnih autora.");
+            return "error";
         }
 
         List<AutorDto> autoriDto = new ArrayList<>();
@@ -124,42 +123,50 @@ public class AutorRestController {
             autoriDto.add(autorDto);
         }
 
-        return ResponseEntity.ok(autoriDto);
+        model.addAttribute("autori", autoriDto);
+        return "autori";
     }
 
-    @PutMapping("/api/izmeni-autora")
-    public ResponseEntity<String> izmeniAutora(@RequestBody AutorDto autorDto, HttpSession session) {
+    @PutMapping("/izmeni-autora")
+    public String izmeniAutora(@ModelAttribute("autorDto") AutorDto autorDto, HttpSession session, Model model) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
 
         if (loggedKorisnik == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Niste ulogovani.");
+            model.addAttribute("errorMessage", "Niste ulogovani.");
+            return "error.html";
         }
 
         if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
-            return new ResponseEntity<>("Nisi administrator.", HttpStatus.BAD_REQUEST);
+            model.addAttribute("errorMessage", "Nisi administrator.");
+            return "error.html";
         }
 
         if (autorDto == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti podatke.");
+            model.addAttribute("errorMessage", "Morate uneti podatke.");
+            return "error.html";
         }
 
         if (autorDto.getKorisnickoIme() == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti korisničko ime.");
+            model.addAttribute("errorMessage", "Morate uneti korisničko ime.");
+            return "error.html";
         }
 
         Autor existingAutor = autorService.AutorBykorisnickoIme(autorDto.getKorisnickoIme());
 
         if (existingAutor == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor sa datim korisničkim imenom ne postoji.");
+            model.addAttribute("errorMessage", "Autor sa datim korisničkim imenom ne postoji.");
+            return "error.html";
         }
 
         if (existingAutor.getAktivan() == true) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor sa datim korisničkim imenom je već aktiviran.");
+            model.addAttribute("errorMessage", "Autor sa datim korisničkim imenom je već aktiviran.");
+            return "error.html";
         }
 
         autorService.promeniAutora(existingAutor, autorDto);
 
-        return ResponseEntity.ok("Autor " + existingAutor.getKorisnickoIme() +  " je uspešno ažuriran.");
+        model.addAttribute("successMessage", "Autor " + existingAutor.getKorisnickoIme() + " je uspešno ažuriran.");
+        return "success.html";
     }
 
 }

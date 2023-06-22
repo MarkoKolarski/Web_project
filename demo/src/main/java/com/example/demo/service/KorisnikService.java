@@ -6,7 +6,6 @@ import com.example.demo.model.Korisnik;
 import com.example.demo.model.Polica;
 import com.example.demo.model.Uloga;
 import com.example.demo.repository.KorisnikRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,6 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-@Transactional
 public class KorisnikService {
     @Autowired
     private KorisnikRepository korisnikRepository;
@@ -33,10 +31,6 @@ public class KorisnikService {
         if (existingUser != null) {
             throw new EmailAlreadyRegisteredException("Unesite drugu email adresu.");
     }
-        Korisnik existingUser2 = korisnikRepository.findBykorisnickoIme(korisnikDto.getKorisnickoIme());
-        if (existingUser2 != null) {
-            throw new EmailAlreadyRegisteredException("Unesite drugo korisničko ime.");
-        }
 
         Korisnik korisnik = new Korisnik();
         korisnik.setIme(korisnikDto.getIme());
@@ -49,11 +43,11 @@ public class KorisnikService {
 
 
         Polica polica1 = new Polica();
-        polica1.setNaziv("WantToRead");
+        polica1.setNaziv("Want to Read");
         polica1.setPrimarna(true);
 
         Polica polica2 = new Polica();
-        polica2.setNaziv("CurrentlyReading");
+        polica2.setNaziv("Currently Reading");
         polica2.setPrimarna(true);
 
         Polica polica3 = new Polica();
@@ -85,8 +79,8 @@ public class KorisnikService {
         korisnikRepository.save(korisnik);
 }
 
-    public Korisnik login(String mejlAdresa, String lozinka) {
-        Korisnik korisnik = korisnikRepository.getByMejlAdresa(mejlAdresa);
+    public Korisnik login(String korisnickoIme, String lozinka) {
+        Korisnik korisnik = korisnikRepository.getByKorisnickoIme(korisnickoIme);
         if(korisnik == null || !korisnik.getLozinka().equals(lozinka))
             return null;
         return  korisnik;
@@ -155,12 +149,8 @@ public class KorisnikService {
         return  korisnik;
     }
 
-    public Korisnik findByMejlAdresa(String mejlAdresa) {
-        return korisnikRepository.findByMejlAdresa(mejlAdresa);
-    }
 
-
-    public static class EmailAlreadyRegisteredException extends RuntimeException {
+    public class EmailAlreadyRegisteredException extends RuntimeException {
 
 
     // Kod ispod je vezan za exception koji se pojavljuje kada email adresa vec postoji

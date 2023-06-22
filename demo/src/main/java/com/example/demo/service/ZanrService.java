@@ -3,14 +3,12 @@ package com.example.demo.service;
 import com.example.demo.dto.ZanrDto;
 import com.example.demo.model.Zanr;
 import com.example.demo.repository.ZanrRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@Transactional
 public class ZanrService {
 
     @Autowired
