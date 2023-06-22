@@ -3,10 +3,8 @@ package com.example.demo.dto;
 import com.example.demo.model.Autor;
 import com.example.demo.model.Knjiga;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,10 +24,6 @@ public class AutorDto extends KorisnikDto{
         this.spisakKnjiga = autor.getSpisakKnjiga();
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "spisak_knjiga",
-            joinColumns = { @JoinColumn(name = "autor_id", referencedColumnName = "id") },
-            inverseJoinColumns = { @JoinColumn(name = "knjiga_id", referencedColumnName = "id") })
     private Set<Knjiga> spisakKnjiga = new HashSet<>();
 
     public Boolean getAktivan() {

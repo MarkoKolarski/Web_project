@@ -3,11 +3,9 @@ package com.example.demo.dto;
 import com.example.demo.model.Korisnik;
 import com.example.demo.model.Polica;
 import com.example.demo.model.Uloga;
+import jakarta.persistence.Column;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;

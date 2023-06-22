@@ -1,21 +1,15 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AutorDto;
-import com.example.demo.dto.KnjigaDto;
 import com.example.demo.dto.KorisnikDto;
 import com.example.demo.dto.LoginDto;
-import com.example.demo.model.Autor;
 import com.example.demo.model.Korisnik;
-import com.example.demo.model.Uloga;
-import com.example.demo.service.AutorService;
 import com.example.demo.service.KorisnikService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +31,7 @@ public class KorisnikRestController {
         }
 
         if (!korisnikDto.getLozinka().equals(korisnikDto.getPotvrdiLozinku())) {
-            throw new RuntimeException("Lozinke nisi iste.");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Lozinke nisu iste.");
         }
 
         korisnikService.registerUser(korisnikDto);
@@ -56,7 +50,7 @@ public class KorisnikRestController {
             return new ResponseEntity<>("Korisnik ne postoji!", HttpStatus.NOT_FOUND);
 
         session.setAttribute("korisnik", loggedKorisnik);
-        return ResponseEntity.ok("Uspešna prijava");
+        return ResponseEntity.ok("Uspešna prijava korisnika: "+ loggedKorisnik.getKorisnickoIme()+ ".");
     }
 
     @PostMapping("api/logout")
@@ -64,11 +58,25 @@ public class KorisnikRestController {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
 
         if (loggedKorisnik == null)
-            return new ResponseEntity("Forbidden", HttpStatus.FORBIDDEN);
+            return new ResponseEntity("Niste prijavljeni!", HttpStatus.FORBIDDEN);
 
         session.invalidate();
-        return new ResponseEntity("Successfully logged out", HttpStatus.OK);
+        return new ResponseEntity("Uspešna odjava korisnika: " + loggedKorisnik.getKorisnickoIme()+ ".", HttpStatus.OK);
     }
+
+    @GetMapping("/api/prijavljen_korisnik")
+    public ResponseEntity getprijavljenKorisnik(HttpSession session) {
+//        List<Korisnik> korisnikList = korisnikService.findAll();
+
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+        if (loggedKorisnik == null) {
+            return new ResponseEntity("Niste prijavljeni!", HttpStatus.FORBIDDEN);
+        }
+
+
+        return ResponseEntity.ok(loggedKorisnik);
+    }
+
 
     @GetMapping("/api/korisnici")
     public ResponseEntity<List<KorisnikDto>> getKorisnici(HttpSession session){

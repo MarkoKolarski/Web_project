@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.Zahtev2Dto;
 import com.example.demo.dto.ZanrDto;
 import com.example.demo.model.*;
 import com.example.demo.service.ZanrService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
@@ -13,11 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 public class ZanrRestController {

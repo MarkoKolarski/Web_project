@@ -1,20 +1,15 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.KnjigaDto;
 import com.example.demo.dto.RecenzijaDto;
-import com.example.demo.model.Knjiga;
 import com.example.demo.model.Korisnik;
 import com.example.demo.model.Recenzija;
-import com.example.demo.model.Uloga;
 import com.example.demo.service.RecenzijaService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

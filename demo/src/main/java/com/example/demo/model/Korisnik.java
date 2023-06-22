@@ -1,8 +1,9 @@
 package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -39,7 +40,7 @@ public class Korisnik implements Serializable {
     protected Uloga uloga;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
+
     @JoinTable(name = "KORISNIK_POLICA")
     private Set<Polica> police = new HashSet<>();
 

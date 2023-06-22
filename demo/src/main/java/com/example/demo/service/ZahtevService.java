@@ -5,34 +5,69 @@ import com.example.demo.dto.AutorDto;
 import com.example.demo.dto.ZahtevDto;
 import com.example.demo.model.*;
 import com.example.demo.repository.ZahtevZaAktivacijuNalogaAutoraRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ZahtevService {
 
     @Autowired
     private ZahtevZaAktivacijuNalogaAutoraRepository zahtevZaAktivacijuNalogaAutoraRepository;
 
-    public void registerUser(ZahtevDto zahtevDto) {
+    @Autowired
+    private AutorService autorService;
+
+    public boolean registerUser(ZahtevDto zahtevDto) {
 
         ZahtevZaAktivacijuNalogaAutora zahtev = new ZahtevZaAktivacijuNalogaAutora();
-        zahtev.setEmail(zahtevDto.getEmail());
-        zahtev.setTelefon(zahtevDto.getTelefon());
-        zahtev.setPoruka(zahtevDto.getPoruka());
+
+        //Autor autor = autorService.AutorBykorisnickoIme(zahtevDto.getAutor().getKorisnickoIme()) ;
+        if (zahtevDto.getAutor() != null && zahtevDto.getAutor().getKorisnickoIme() != null) {
+            Autor autor = autorService.AutorBykorisnickoIme(zahtevDto.getAutor().getKorisnickoIme());
+            if (autor != null) {
+                zahtev.setAutor(autor);
+            } else {
+                return false;
+
+            }
+        }
+
+
+            if (zahtevDto.getEmail() != null && !zahtevDto.getEmail().isEmpty()) {
+                zahtev.setEmail(zahtevDto.getEmail());
+            }
+            if (zahtevDto.getTelefon() != null && !zahtevDto.getTelefon().isEmpty()) {
+                zahtev.setTelefon(zahtevDto.getTelefon());
+            }
+            if (zahtevDto.getPoruka() != null && !zahtevDto.getPoruka().isEmpty()) {
+                zahtev.setPoruka(zahtevDto.getPoruka());
+            }
+
+
+
         zahtev.setStatus(Status.NA_CEKANJU);
 
 
-        zahtevZaAktivacijuNalogaAutoraRepository.save(zahtev);
+            zahtevZaAktivacijuNalogaAutoraRepository.save(zahtev);
+            return true;
     }
 
 
-    public AutorDto getZahtev(Long zahtevId) throws ChangeSetPersister.NotFoundException {
+    public AutorDto getZahtev(Long zahtevId) {
         Optional<ZahtevZaAktivacijuNalogaAutora> zahtev = zahtevZaAktivacijuNalogaAutoraRepository.findById(zahtevId);
+        if(zahtev == null || zahtev.isEmpty()){
+            return null;
+        }
         Autor autor = zahtev.get().getAutor();
+
+        if(autor == null || autor.equals(null)){
+            return null;
+        }
 
        // List<AutorDto> autoriDto = new ArrayList<>();
 
@@ -53,5 +88,18 @@ public class ZahtevService {
 
 
         return autorDto;
+    }
+
+    public List<ZahtevZaAktivacijuNalogaAutora> getAll() {
+        return zahtevZaAktivacijuNalogaAutoraRepository.findAll();
+    }
+
+
+    public Optional<ZahtevZaAktivacijuNalogaAutora> findById(Long id) {
+        return zahtevZaAktivacijuNalogaAutoraRepository.findById(id);
+    }
+
+    public void save(ZahtevZaAktivacijuNalogaAutora zahtevZaAktivacijuNalogaAutora) {
+        zahtevZaAktivacijuNalogaAutoraRepository.save(zahtevZaAktivacijuNalogaAutora);
     }
 }

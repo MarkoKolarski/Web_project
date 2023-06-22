@@ -1,8 +1,8 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +22,7 @@ public class StavkaPolice implements Serializable {
     private Set<Recenzija> recenzije = new HashSet<>();
     //U jednom odeljku("Stavka police") ima više knjiga sa više recenzija
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "knjiga_id")
     private Knjiga knjiga;
 
@@ -30,7 +30,7 @@ public class StavkaPolice implements Serializable {
     public StavkaPolice() {
     }
 
-    public StavkaPolice(Long id, Set<Recenzija> recenzije, Knjiga Knjiga) {
+    public StavkaPolice(Long id, Set<Recenzija> recenzije, Knjiga knjiga) {
         this.id = id;
         this.recenzije = recenzije;
         this.knjiga = knjiga;
@@ -49,7 +49,7 @@ public class StavkaPolice implements Serializable {
     }
 
     public void setRecenzije(Set<Recenzija> recenzije) {
-        recenzije = recenzije;
+        this.recenzije = recenzije;
     }
 
     public Knjiga getKnjiga() {

@@ -3,7 +3,7 @@ package com.example.demo.dto;
 import com.example.demo.model.Knjiga;
 import com.example.demo.model.Zanr;
 
-import javax.persistence.*;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
