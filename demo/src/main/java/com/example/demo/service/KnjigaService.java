@@ -3,26 +3,20 @@ package com.example.demo.service;
 import com.example.demo.dto.KnjigaDto;
 import com.example.demo.model.*;
 import com.example.demo.repository.KnjigaRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class KnjigaService {
 
     @Autowired
     private KnjigaRepository knjigaRepository;
     @Autowired
     private AutorService autorService;
-
-    @Autowired
-    private PolicaService policaService;
 
     @Autowired
     private StavkaPoliceService stavkaPoliceService;
@@ -35,7 +29,7 @@ public class KnjigaService {
 
     public List <Knjiga> getAllBooks2() {
         // Implementacija za dobavljanje svih knjiga
-        List <Knjiga> knjige = (List<Knjiga>) knjigaRepository.findAll();// Logika za dobavljanje svih knjiga iz baze podataka ili nekog drugog izvora
+        List <Knjiga> knjige =  knjigaRepository.findAll();// Logika za dobavljanje svih knjiga iz baze podataka ili nekog drugog izvora
         return knjige;
     }
 
@@ -59,38 +53,23 @@ public class KnjigaService {
         return knjigeDto;
     }
 
-    public Knjiga novaKnjiga(KnjigaDto knjigaDto) {
+    public void novaKnjiga(KnjigaDto knjigaDto) {
 
 
 
         Knjiga knjiga = new Knjiga();
-        if (knjigaDto.getNaslov() != null && !knjigaDto.getNaslov().isEmpty()) {
-            knjiga.setNaslov(knjigaDto.getNaslov());
-        }
-        if (knjigaDto.getNaslovnaFotografija() != null && !knjigaDto.getNaslovnaFotografija().isEmpty()) {
-            knjiga.setNaslovnaFotografija(knjigaDto.getNaslovnaFotografija());
-        }
-        if (knjigaDto.getISBN() != null && !knjigaDto.getISBN().isEmpty()) {
-            knjiga.setISBN(knjigaDto.getISBN());
-        }
-        if (knjigaDto.getDatumObjavljivanja() != null) {
-            knjiga.setDatumObjavljivanja(knjigaDto.getDatumObjavljivanja());
-        }
-        if (knjigaDto.getBrojStrana() > 0) {
-            knjiga.setBrojStrana(knjigaDto.getBrojStrana());
-        }
-        if (knjigaDto.getOpis() != null && !knjigaDto.getOpis().isEmpty()) {
-            knjiga.setOpis(knjigaDto.getOpis());
-        }
-        if (knjigaDto.getZanrovi() != null && !knjigaDto.getZanrovi().isEmpty()) {
-            knjiga.setZanrovi(knjigaDto.getZanrovi());
-        }
-        if (knjigaDto.getOcena() != null && knjigaDto.getOcena() >= 0) {
-            knjiga.setOcena(knjigaDto.getOcena());
-        }
+        knjiga.setNaslov(knjigaDto.getNaslov());
+        knjiga.setNaslovnaFotografija(knjigaDto.getNaslovnaFotografija());
+        knjiga.setISBN(knjigaDto.getISBN());
+        knjiga.setDatumObjavljivanja(knjigaDto.getDatumObjavljivanja());
+        knjiga.setBrojStrana(knjigaDto.getBrojStrana());
+        knjiga.setOpis(knjigaDto.getOpis());
+        knjiga.setZanrovi(knjigaDto.getZanrovi());
+        knjiga.setOcena(knjigaDto.getOcena());
+
+
 
         knjigaRepository.save(knjiga);
-        return knjiga;
     }
 
 
@@ -164,56 +143,39 @@ public class KnjigaService {
         knjigaRepository.save(existingKnjiga);
     }
 
-
-    public boolean obrisiKnjiguPoISBN(String isbn, String korisnickoIme) {
+    public void obrisiKnjiguPoISBN(String isbn, String korisnickoIme) {
         Knjiga knjiga = findByISBN(isbn);
-
 
         if (knjiga != null) {
             try {
                 Autor autor = autorService.AutorBykorisnickoIme(korisnickoIme);
-
-                knjiga.getZanrovi().clear();
-
-                // Remove references to knjiga from Autor's SpisakKnjiga and Police
                 autor.getSpisakKnjiga().remove(knjiga);
-
-//                Set<StavkaPolice> stavkaPoliceSet = autor.getPolice().stream()
-//                        .flatMap(polica -> polica.getStavkePolice().stream())
-//                        .collect(Collectors.toSet());
-
-              //  Set<StavkaPolice> stavkaPoliceSet = stavkaPoliceService.findByKnjiga(knjiga);
-                List<Polica> police = policaService.findAll();
-
-
-                for (Polica polica : police) {
-                            policaService.izbaciKnjigu(knjiga, polica);
-                        }
-
-
-
-                knjigaRepository.delete(knjiga);
+                //autor.getPolice().remove(knjiga);
                 autorService.save(autor);
+                // autorService.deleteKnjiga(knjiga, autor);
 
-                System.out.println("Knjiga uspešno obrisana.");
-                return true;
+//               Set<StavkaPolice> stavkaPolice = (Set<StavkaPolice>) StavkaPoliceService.getById(id);
+//               stavkaPolice.remove(knjiga);
+               //stavkaPoliceService.save(stavkaPolice);
+
+
+
+
+
+                // Then delete the knjiga object
+                knjigaRepository.delete(knjiga);
+                System.out.println("Knjiga deleted successfully.");
             } catch (Exception e) {
-                System.out.println("Eror je nastao prilikom brisanja knjige: " + e.getMessage());
-                return false;
+                System.out.println("An error occurred while deleting the knjiga: " + e.getMessage());
             }
         } else {
-            System.out.println("Knjiga sa ISBN " + isbn + " nije pronadjena.");
-            return false;
+            System.out.println("Knjiga with ISBN " + isbn + " not found.");
         }
     }
 
 
-
-
-
-
-    public boolean novaKnjigaAutoru(KnjigaDto knjigaDto, Autor loggedAutor) {
-        if (knjigaDto == null || loggedAutor == null) {
+    public boolean novaKnjigaAutoru(Knjiga existingKnjiga, Autor loggedAutor) {
+        if (existingKnjiga == null || loggedAutor == null) {
 
             return false;
         }
@@ -221,18 +183,15 @@ public class KnjigaService {
 
         boolean bookExists = false;
         for (Knjiga knjiga : loggedAutor.getSpisakKnjiga()) {
-                if (knjiga.getNaslov().equals(knjigaDto.getNaslov()) || knjiga.getISBN().equals(knjigaDto.getISBN()) ) {
-                    // Knjiga sa istim nazivom ili ISBN-om već postoji
+                if (knjiga.getNaslov().equals(existingKnjiga.getNaslov())) {
+                    // Knjiga sa istim nazivom već postoji
                     bookExists = true;
                     break;
             }
         }
 
-
         if (!bookExists) {
-            Knjiga knjiga = new Knjiga();
-            knjiga = novaKnjiga(knjigaDto);
-            loggedAutor.getSpisakKnjiga().add(knjiga);
+            loggedAutor.getSpisakKnjiga().add(existingKnjiga);
             autorService.save(loggedAutor);
         }
         return bookExists;

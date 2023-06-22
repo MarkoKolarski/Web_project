@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-import com.example.demo.model.Autor;
+
 import com.example.demo.model.Status;
 import com.example.demo.model.ZahtevZaAktivacijuNalogaAutora;
 
