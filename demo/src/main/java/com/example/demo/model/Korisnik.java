@@ -40,7 +40,7 @@ public class Korisnik implements Serializable {
     protected Uloga uloga;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-
+    @JsonIgnore
     @JoinTable(name = "KORISNIK_POLICA")
     private Set<Polica> police = new HashSet<>();
 

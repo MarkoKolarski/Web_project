@@ -18,5 +18,4 @@ public interface KnjigaRepository extends JpaRepository<Knjiga, Long> {
     Knjiga findByISBN(String isbn);
 
 
-
 }

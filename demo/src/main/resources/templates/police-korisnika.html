@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Moje police</title>
+    <style>
+        ul {
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Moje police</h1>
+    <ul>
+        <li th:each="polica : ${police}" th:text="${polica.naziv}"></li>
+    </ul>
+	
+	<p><a href="/">Povratak na pocetnu</a></p>
+</body>
+</html>

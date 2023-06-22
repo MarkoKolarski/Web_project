@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korisnici</title>
+</head>
+<body>
+    <h1>Korisnici</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Ovde se generisu redovi tabele na osnovu podataka korisnika -->
+            <tr th:block th:each="korisnik : ${korisnici}">
+                
+                    <td th:text="${korisnik.id}"></td>
+                    <td th:text="${korisnik.ime}"></td>
+                    <td th:text="${korisnik.prezime}"></td>
+                    <td th:text="${korisnik.mejlAdresa}"></td>
+					<td><a href="@{/korisnik/{id}(id=${korisnik.id})}">Profil korisnika</a></td>
+					<td><a href="/police-korisnika">Police korisnika</a></td>
+                </tr>
+        </tbody>
+    </table>
+</body>
+</html>

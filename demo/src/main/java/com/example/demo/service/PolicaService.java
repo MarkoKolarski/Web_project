@@ -6,14 +6,13 @@ import com.example.demo.repository.KnjigaRepository;
 import com.example.demo.repository.KorisnikRepository;
 import com.example.demo.repository.PolicaRepository;
 import com.example.demo.repository.StavkaPoliceRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-@Transactional
 public class PolicaService {
 
 
@@ -43,14 +42,11 @@ public class PolicaService {
         return staticpolicaRepository.findById(id);
     }
 
-    public  List<Polica> findAll() {
-        List<Polica> police = new ArrayList<>();
-        return  police =  policaRepository.findAll();
-    }
-
     public Set<Polica> getUserBookshelf(Long userId){
         Optional<Korisnik> korisnik = korisnikRepository.findById(userId);
         Set<Polica> police = korisnik.get().getPolice();
+
+
 
         return police;
     }
@@ -144,7 +140,7 @@ public class PolicaService {
 //        }
 //    }
 
-    public Polica nadjiPolicu(String naziv, long userId) {
+    public Polica nadjiPolicu(long id, long userId) throws ChangeSetPersister.NotFoundException {
         Optional<Korisnik> korisnikOptional = korisnikRepository.findById(userId);
 
         if (korisnikOptional.isPresent()) {
@@ -152,14 +148,13 @@ public class PolicaService {
             Set<Polica> police = korisnik.getPolice();
 
             for (Polica polica : police) {
-                if (polica.getNaziv().equals(naziv)) {
+                if (polica.getId().equals(id)) {
                     return polica;
                 }
-
             }
         }
 
-        return null;
+        throw new ChangeSetPersister.NotFoundException(); // Handle case when policy with the given ID is not found
     }
 
     public Polica findByNaziv(String nazivPolice) {
@@ -197,21 +192,22 @@ public class PolicaService {
 
     public boolean izbaciKnjigu(Knjiga existingKnjiga, Polica existingPolica) {
         if (existingKnjiga == null || existingPolica == null) {
+            // Handle null objects appropriately
             return false;
         }
 
-        // Proverava da li knjiga sa istim imenom vec postoji u existingPolica
+        // Check if a book with the same name already exists in existingPolica
         boolean bookExists = false;
         for (StavkaPolice stavkaPolice : existingPolica.getStavkePolice()) {
             if (stavkaPolice.getKnjiga().getNaslov().equals(existingKnjiga.getNaslov())) {
-                // Knjiga sa tim imenom vec postoji
+                // Book with the same name already exists
                 bookExists = true;
                 break;
             }
         }
 
         if (bookExists) {
-            // Nadji StavkaPolice objekat koji sadrži existingKnjiga
+            // Find the StavkaPolice object that contains existingKnjiga
             StavkaPolice stavkaPoliceToRemove = null;
             for (StavkaPolice stavkaPolice : existingPolica.getStavkePolice()) {
                 if (stavkaPolice.getKnjiga().equals(existingKnjiga)) {

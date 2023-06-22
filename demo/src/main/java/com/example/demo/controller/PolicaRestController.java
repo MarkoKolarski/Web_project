@@ -9,7 +9,6 @@ import com.example.demo.service.KnjigaService;
 import com.example.demo.service.KorisnikService;
 import com.example.demo.service.PolicaService;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
@@ -116,22 +115,28 @@ public class PolicaRestController {
     // Optional<Polica> existingPolica = PolicaService.findById(policaDto.getId());
 
     @DeleteMapping("/api/obrisi-policu")
-    public ResponseEntity<String> obrisiPolicu(@RequestParam("naziv") String naziv, HttpSession session) {
+    public ResponseEntity<String> obrisiPolicu(@RequestParam("id") long id, HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
 
         if (loggedKorisnik == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Niste ulogovani.");
         }
 
-        Polica polica =  policaService.nadjiPolicu(naziv, loggedKorisnik.getId());
+//        if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
+//            return new ResponseEntity<>("Nisi administrator.", HttpStatus.BAD_REQUEST);
+//        }
 
-        if (polica == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Polica nije pronadjena.");
-        }
+//        if (isbn == null) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Morate uneti ISBN.");
+//        }
+
+        Polica polica =  policaService.nadjiPolicu(id, loggedKorisnik.getId());
 
         loggedKorisnik.getPolice().remove(polica);
         korisnikService.save(loggedKorisnik);
         policaService.deletePolica(polica);
+        korisnikService.save(loggedKorisnik);
+        //policaService.obrisiPolicu(isbn, korisnickoIme);
 
         return ResponseEntity.ok("Polica obrisana.");
     }

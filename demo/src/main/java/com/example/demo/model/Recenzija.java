@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -23,7 +22,6 @@ public class Recenzija implements Serializable {
     private Date datumRecenzije;
 
     @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
     @JoinColumn(name = "korisnik_id")
     private Korisnik korisnik;
 
