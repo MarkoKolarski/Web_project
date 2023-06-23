@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
   <title>Home Page</title>
   <meta charset="utf-8"/>
@@ -7,7 +7,16 @@
 <body>
 <h1>Welcome</h1>
 <h2>This is home page</h2>
-<a th:href="${'/employees'}">See all employees</a>
-<button onclick="location.href = '/logout'">Log out</button>
+<a th:href="${'/korisnici'}">Pogledaj sve korisnike</a>
+<br><br>
+<a th:href="${'/knjige'}">Pogledaj sve knjige</a>
+<br><br>
+<a th:href="${'/pretraga-knjige'}">Pretrazi knjigu po naslovu</a>
+<br><br>
+
+
+<button onclick="location.href = '/registracija'">Registruj se</button>
+<button onclick="location.href = '/login'">Prijavi se</button>
+
 </body>
 </html>

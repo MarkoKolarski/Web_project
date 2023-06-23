@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pretraga knjiga</title>
+</head>
+<body>
+    <h1>Pretraga knjiga</h1>
+    <form action="/pretraga-knjige" method="GET">
+        <label for="naslov">Unesite naslov knjige:</label>
+        <input type="text" id="naslov" name="naslov">
+        <button type="submit">Pretrazi</button>
+    </form>
+	
+	<h1>Rezultati pretrage</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Naslov</th>
+                <th>ISBN</th>
+                <!-- Dodajte ostale kolone prema potrebama -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iterirajte kroz knjigeDto i prika?ite podatke -->
+            <tr th:block th:each="knjiga : ${knjige}">
+                <td th:text="${knjiga.id}"></td>
+                <td th:text="${knjiga.naslov}"></td>
+                <td th:text="${knjiga.isbn}"></td>
+                <!-- Dodajte ostale kolone prema potrebama -->
+            </tr>
+        </tbody>
+    </table>
+	
+	<br><br><br>
+    <a href="/">Povratak na po?etnu stranicu</a>
+</body>
+</html>
