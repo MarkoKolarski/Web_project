@@ -85,8 +85,8 @@ public class KorisnikService {
         korisnikRepository.save(korisnik);
 }
 
-    public Korisnik login(String mejlAdresa, String lozinka) {
-        Korisnik korisnik = korisnikRepository.getByMejlAdresa(mejlAdresa);
+    public Korisnik login(String korisnickoIme, String lozinka) {
+        Korisnik korisnik = korisnikRepository.findBykorisnickoIme(korisnickoIme);
         if(korisnik == null || !korisnik.getLozinka().equals(lozinka))
             return null;
         return  korisnik;

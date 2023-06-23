@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knjiga</title>
+</head>
+<body>
+    <h1>Knjiga</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Naslov</th>
+				<th>ISBN</th>
+                <!-- Dodajte druge kolone prema potrebama -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iterirajte kroz knjigeDto i prikažite podatke -->
+            <tr th:block th:each="knjiga : ${knjige}">
+                <td th:text="${knjiga.id}"></td>
+                <td th:text="${knjiga.naslov}"></td>
+				<td th:text="${knjiga.ISBN}"></td>
+                <!-- Dodajte druge kolone prema potrebama -->
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
