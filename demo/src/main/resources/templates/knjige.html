@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista knjiga</title>
+</head>
+<body>
+    <h1>Lista knjiga</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Naslov</th>
+                <th>ISBN</th>
+                <!-- Dodajte druge kolone prema potrebama -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iterirajte kroz korisnike i prikažite podatke -->
+            <tr th:block th:each="knjiga : ${knjige}">
+                <td th:text="${knjiga.id}"></td>
+                <td th:text="${knjiga.naslov}"></td>
+                <td th:text="${knjiga.ISBN}"></td>
+                <!-- Dodajte druge kolone prema potrebama -->
+            </tr>
+        </tbody>
+    </table>
+	<p><a href="/">Povratak na pocetnu</a></p>
+</body>
+</html>
