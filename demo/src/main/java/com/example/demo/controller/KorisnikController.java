@@ -91,6 +91,7 @@ public class KorisnikController {
             bindingResult.rejectValue("username", "error.loginDto", "Pogrešni login podaci");
             return "login";
         }
+        //TODO kakav autor????
         Korisnik loggedKorisnik = korisnikService.login(loginDto.getUsername(), loginDto.getPassword());
         if (loggedKorisnik == null) {
             bindingResult.rejectValue("username", "error.loginDto", "Korisnik ne postoji!");

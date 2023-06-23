@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Knjiga obrisana</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      .container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f5f5f5;
+      }
+
+      .success-message {
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .btn-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .btn-container button {
+        margin-right: 10px;
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn-container button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+<body>
+<h1>Knjiga obrisana</h1>
+<div class="container">
+  <p class="success-message">Knjiga je uspešno obrisana.</p>
+  <p>Obrisana knjiga:</p>
+  <p><strong>{{ deletedBook }}</strong></p>
+  <div class="btn-container">
+    <a href="/obrisi-knjigu" class="button">Obriši još</a>
+    <a href="/" class="button">Početna stranica</a>
+  </div>
+</div>
+</body>
+</html>

@@ -7,6 +7,7 @@ import com.example.demo.model.Korisnik;
 import com.example.demo.model.Uloga;
 import com.example.demo.service.AutorService;
 import com.example.demo.service.KnjigaService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -49,6 +50,56 @@ public class KnjigaController {
         model.addAttribute("knjigeDto", knjigeDto);
         return "rezultati-pretrage";
     }*/
+
+//    @GetMapping("/dodaj-knjigu")
+//    public String showDodajKnjiguForm(Model model) {
+//        model.addAttribute("knjigaDto", new KnjigaDto());
+//        return "dodaj-knjigu";
+//    }
+//
+//
+//    @RequestMapping(value = "/dodaj-knjigu", method = RequestMethod.POST)
+//    public String dodajKnjigu(@ModelAttribute("knjigaDto") KnjigaDto knjigaDto, HttpSession session, Model model) {
+//        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+//
+//        if (loggedKorisnik == null) {
+//            model.addAttribute("errorMessage", "Niste ulogovani.");
+//            return "error";
+//        }
+//
+//        if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
+//            model.addAttribute("errorMessage", "Nisi administrator.");
+//            return "error";
+//        }
+//
+//        if (knjigaDto == null) {
+//            model.addAttribute("errorMessage", "Morate uneti podatke.");
+//            return "error";
+//        }
+//
+//        if (knjigaDto.getISBN() == null) {
+//            model.addAttribute("errorMessage", "Morate uneti ISBN.");
+//            return "error";
+//        }
+//
+//        List<Knjiga> knjige = knjigaService.getAllBooks2();
+//
+//        // Check if a book with the given title already exists
+//        boolean exists = knjige.stream()
+//                .map(Knjiga::getNaslov)
+//                .anyMatch(naslov -> naslov.equals(knjigaDto.getNaslov()));
+//
+//        if (exists) {
+//            model.addAttribute("errorMessage", "Knjiga već postoji.");
+//            return "error";
+//        }
+//
+//        Knjiga knjiga = new Knjiga();
+//        knjiga = knjigaService.novaKnjiga(knjigaDto);
+//
+//        model.addAttribute("successMessage", "Dodata nova knjiga: " + knjiga.getNaslov() + ".");
+//        return "uspesno-knjiga-dodata";
+//    }
 
     @GetMapping("/pretraga-knjige")
     public String searchBooksByTitle(@RequestParam(name = "naslov") String naslov, HttpSession session) {
@@ -168,8 +219,19 @@ public class KnjigaController {
         return "uspesno-dodata-knjiga"; // Return the success page or appropriate view name
     }
 
+
+
+
+
+//    @GetMapping(value = {"/izmeni-knjigu-autora", "/izmeni-knjigu-autora/**"})
     @GetMapping("/izmeni-knjigu-autora")
-    public String prikaziFormuZaIzmenuKnjigeAutora(Model model, HttpSession session) {
+    public String prikaziFormuZaIzmenuKnjigeAutora(Model model, HttpSession session, HttpServletRequest request) {
+        String requestUrl = request.getRequestURI();
+
+        // Skip processing for favicon request
+        if (requestUrl.contains("favicon.ico")) {
+            return "redirect:/";
+        }
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
 
         if (loggedKorisnik == null) {
@@ -191,7 +253,7 @@ public class KnjigaController {
 
 
     @RequestMapping(value = "/izmeni-knjigu-autora", method = RequestMethod.PUT)
-    public String izmeniKnjiguAutora(@ModelAttribute("knjigaDto") @Valid KnjigaDto knjigaDto, HttpSession session, Model model) {
+    public String izmeniKnjiguAutora(@ModelAttribute("knjigaDto")  KnjigaDto knjigaDto, HttpSession session, Model model) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
 
         if (loggedKorisnik == null) {
@@ -229,6 +291,113 @@ public class KnjigaController {
         model.addAttribute("successMessage", "Knjiga je uspešno ažurirana.");
         return "uspesno-izmeni-knjigu-autora"; // Return the success page or appropriate view name
     }
+
+    @GetMapping("/izmeni-knjigu")
+    public String showUpdateBookForm( HttpSession session, Model model) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            model.addAttribute("errorMessage", "Niste ulogovani.");
+            return "error";
+        }
+
+        if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
+            model.addAttribute("errorMessage", "Nisi administrator.");
+            return "error";
+        }
+
+        KnjigaDto knjigaDto = new KnjigaDto();
+
+        model.addAttribute("knjigaDto", knjigaDto);
+        return "izmeni-knjigu";
+    }
+
+
+
+    @PostMapping("/izmeni-knjigu")
+    public String updateBook(@ModelAttribute("knjigaDto") KnjigaDto knjigaDto, HttpSession session, Model model) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            model.addAttribute("errorMessage", "Niste ulogovani.");
+            return "error";
+        }
+
+        if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
+            model.addAttribute("errorMessage", "Nisi administrator.");
+            return "error";
+        }
+
+        if (knjigaDto == null) {
+            model.addAttribute("errorMessage", "Morate uneti podatke.");
+            return "error";
+        }
+
+        if (knjigaDto.getISBN() == null) {
+            model.addAttribute("errorMessage", "Morate uneti ISBN.");
+            return "error";
+        }
+
+        Knjiga existingKnjiga = knjigaService.findByISBN(knjigaDto.getISBN());
+
+        if (existingKnjiga == null) {
+            model.addAttribute("errorMessage", "Knjiga sa datim ISBN ne postoji.");
+            return "error";
+        }
+
+        knjigaService.promeniKnjigu(existingKnjiga, knjigaDto);
+
+        model.addAttribute("successMessage", "Knjiga je uspešno ažurirana.");
+        return "uspesno-azurirana-knjiga";
+    }
+
+    @GetMapping("/obrisi-knjigu")
+    public String prikaziFormuObrisiKnjigu(Model model) {
+        model.addAttribute("isbn", "");
+        model.addAttribute("korisnickoIme", "");
+        return "obrisi-knjigu";
+    }
+
+
+    @DeleteMapping("/obrisi-knjigu")
+    public String obrisiKnjigu(@RequestParam("isbn") String isbn,
+                               @RequestParam("korisnickoIme") String korisnickoIme,
+                               HttpSession session,
+                               Model model) throws ChangeSetPersister.NotFoundException {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            model.addAttribute("errorMessage", "Niste ulogovani.");
+            return "error";
+        }
+
+        if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
+            model.addAttribute("errorMessage", "Nisi administrator.");
+            return "error";
+        }
+
+        if (isbn == null) {
+            model.addAttribute("errorMessage", "Morate uneti ISBN.");
+            return "error";
+        }
+
+        boolean knjigaObrisana = knjigaService.obrisiKnjiguPoISBN(isbn, korisnickoIme);
+
+        if (!knjigaObrisana) {
+            model.addAttribute("errorMessage", "Knjiga nije obrisana.");
+            return "error";
+        }
+
+        model.addAttribute("successMessage", "Knjiga obrisana.");
+        return "knjiga-obrisana";
+    }
+
+
+
+
+
+
+
 
 
 

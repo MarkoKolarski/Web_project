@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odobravanje Autora</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .container {
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Odobravanje Autora</h2>
+  <form action="/odobri-autora" method="post">
+    <div class="form-group">
+      <label for="id">ID zahteva:</label>
+      <input type="text" class="form-control" id="id" name="id" required>
+    </div>
+    <div class="form-group">
+      <label for="status">Status:</label>
+      <select class="form-control" id="status" name="status">
+        <option value="ODOBREN">Odobren</option>
+        <option value="ODBIJEN">Odbijen</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Potvrdi</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

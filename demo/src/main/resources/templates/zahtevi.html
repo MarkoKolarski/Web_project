@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <title>Zahtevi List</title>
+  <style>
+    /* Add your custom styles here */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+<h1>Zahtevi</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Email</th>
+    <th>Datum</th>
+    <th>Poruka</th>
+    <th>Telefon</th>
+    <th>Autor</th>
+    <th>Status</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Iterate over the zahtevi list and populate the table rows -->
+  <tr th:each="zahtev : ${zahtevi}">
+    <td th:text="${zahtev.id}"></td>
+    <td th:text="${zahtev.email}"></td>
+    <td th:text="${zahtev.datum}"></td>
+    <td th:text="${zahtev.poruka}"></td>
+    <td th:text="${zahtev.telefon}"></td>
+    <td th:text="${zahtev.autor.getKorisnickoIme()}"></td>
+    <td th:text="${zahtev.status}"></td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- Add any other content or styling as needed -->
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Izmeni Knjigu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: bold;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    .btn-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #337ab7;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 3px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #286090;
+    }
+
+    .error-message {
+      color: #c00;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Izmeni Knjigu</h1>
+
+  <form action="/izmeni-knjigu" method="post">
+    <div class="form-group">
+      <label for="naslov" class="form-label">Naslov:</label>
+      <input type="text" id="naslov" name="naslov" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="naslovnaFotografija" class="form-label">Naslovna fotografija:</label>
+      <input type="text" id="naslovnaFotografija" name="naslovnaFotografija" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="ISBN" class="form-label">ISBN:</label>
+      <input type="text" id="ISBN" name="ISBN" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label for="datumObjavljivanja" class="form-label">Datum objavljivanja:</label>
+      <input type="datetime-local" id="datumObjavljivanja" name="datumObjavljivanja" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="brojStrana" class="form-label">Broj strana:</label>
+      <input type="number" id="brojStrana" name="brojStrana" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="opis" class="form-label">Opis:</label>
+      <textarea id="opis" name="opis" class="form-control" rows="5"></textarea>
+    </div>
+
+    <!-- Add other fields and form controls based on the properties of KnjigaDto -->
+
+    <div class="btn-container">
+      <button type="submit" class="btn">Ažuriraj Knjigu</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>
