@@ -38,31 +38,26 @@ public class KnjigaController {
         return "knjige";
     }
 
-    /*@GetMapping("/pretraga-knjige")
-    public String showPretragaKnjigePage() {
-        return "pretraga-knjige";
+    @GetMapping("/pretraga-knjige")
+    public String searchBooksByNaslov(String naslov, Model model) {
+        Set<KnjigaDto> knjigeDto = knjigaService.searchBooks(naslov);
+
+        if (knjigeDto.isEmpty()) {
+            model.addAttribute("poruka", "Nema rezultata za dati naslov.");
+        } else {
+            model.addAttribute("knjige", knjigeDto);
+        }
+
+        return "pretraga-knjige"; // Vraća naziv predloška (template) ili prikaza stranice
     }
 
-
+/*
     @GetMapping("/rezultati-pretrage")
     public String searchBooksByTitle(@RequestParam(name = "naslov") String naslov, Model model) {
         Set<KnjigaDto> knjigeDto = knjigaService.searchBooks(naslov);
         model.addAttribute("knjigeDto", knjigeDto);
         return "rezultati-pretrage";
     }*/
-
-    @GetMapping("/pretraga-knjige")
-    public String searchBooksByTitle(@RequestParam(name = "naslov") String naslov, HttpSession session) {
-        Set<KnjigaDto> rezultati = knjigaService.searchBooks(naslov);
-
-        if (rezultati.isEmpty()) {
-            session.setAttribute("errorMessage", "Knjige nisu pronađene");
-            return "knjige-not-found"; // Kreirajte odgovarajuću stranicu za prikaz "Knjige nisu pronađene"
-        }
-
-        session.setAttribute("knjigeDto", rezultati);
-        return "pretraga-knjige";
-    }
 
 
     @PostMapping("/dodaj-knjigu")

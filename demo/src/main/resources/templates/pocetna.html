@@ -1,12 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Početna</title>
+    <meta charset="UTF-8">
+    <title>Početna stranica</title>
 </head>
 <body>
-    <h1>Dobrodosli na pocetnu stranicu!</h1>
-    <p>Ovo je sadrzaj pocetne stranice.</p>
-	<a href="/dodaj-knjigu">Dodaj novu knjigu</a>
-    <a href="/logout">Odjava</a>
+    <h1>Dobrodošli na početnoj stranici</h1>
+
+
+    <h2>Police:</h2>
+    <table>
+        <tr>
+            <th>Naziv</th>
+        </tr>
+        <tr th:each="polica : ${police}">
+            <td th:text="${polica.naziv}"></td>
+        </tr>
+    </table>
+	<br><br><br>
+	<p><a href="/izmeni-korisnika">Izmeni profil</a></p>
+	<br><br><br>
+	<p><a href="/logout">Odjavi se</a></p>
 </body>
 </html>

@@ -1,20 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Profil korisnika</title>
 </head>
 <body>
     <h1>Profil korisnika</h1>
-    
-    <h2>Informacije o korisniku</h2>
-    <p>Ime: {{korisnik.ime}}</p>
-    <p>Prezime: {{korisnik.prezime}}</p>
-    <p>Email: {{korisnik.email}}</p>
-    <!-- Dodajte ostale informacije koje želite prikazati -->
-    
-    <h2>Slika profila</h2>
-    <img src="{{korisnik.slika}}" alt="Slika profila">
-    
-    <!-- Dodajte druge elemente stranice koje želite prikazati -->
+    <p><strong>Ime:</strong> <span th:text="${korisnik.ime}"></span></p>
+    <p><strong>Prezime:</strong> <span th:text="${korisnik.prezime}"></span></p>
+    <p><strong>E-mail:</strong> <span th:text="${korisnik.email}"></span></p>
+	<p><a href="/">Povratak na pocetnu</a></p>
 </body>
 </html>

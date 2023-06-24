@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Prikaz žanrova</title>
+</head>
+<body>
+    <h1>Prikaz žanrova</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Naziv</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="zanr : ${zanrovi}">
+                <td th:text="${zanr.id}"></td>
+                <td th:text="${zanr.naziv}"></td>
+            </tr>
+        </tbody>
+    </table>
+	<p><a href="/">Povratak na pocetnu</a></p>
+</body>
+</html>

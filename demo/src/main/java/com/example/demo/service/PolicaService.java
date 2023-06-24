@@ -8,6 +8,7 @@ import com.example.demo.repository.PolicaRepository;
 import com.example.demo.repository.StavkaPoliceRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -55,6 +56,10 @@ public class PolicaService {
         return police;
     }
 
+
+    public List<Polica> getAllPolice() {
+        return policaRepository.findAll();
+    }
 
     public void novePolice(PolicaDto policaDto) {
 
@@ -160,6 +165,11 @@ public class PolicaService {
         }
 
         return null;
+    }
+
+    public Polica getPolicaById(Long policaId) {
+        return policaRepository.findById(policaId)
+                .orElseThrow(() -> new IllegalArgumentException("Polica sa datim ID-jem ne postoji."));
     }
 
     public Polica findByNaziv(String nazivPolice) {

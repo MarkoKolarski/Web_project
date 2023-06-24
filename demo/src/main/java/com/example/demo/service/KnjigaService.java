@@ -210,8 +210,6 @@ public class KnjigaService {
 
 
 
-
-
     public boolean novaKnjigaAutoru(KnjigaDto knjigaDto, Autor loggedAutor) {
         if (knjigaDto == null || loggedAutor == null) {
 

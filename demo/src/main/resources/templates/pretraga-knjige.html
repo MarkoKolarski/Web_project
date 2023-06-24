@@ -20,21 +20,18 @@
                 <th>ID</th>
                 <th>Naslov</th>
                 <th>ISBN</th>
-                <!-- Dodajte ostale kolone prema potrebama -->
             </tr>
         </thead>
         <tbody>
-            <!-- Iterirajte kroz knjigeDto i prika?ite podatke -->
             <tr th:block th:each="knjiga : ${knjige}">
                 <td th:text="${knjiga.id}"></td>
                 <td th:text="${knjiga.naslov}"></td>
-                <td th:text="${knjiga.isbn}"></td>
-                <!-- Dodajte ostale kolone prema potrebama -->
+                <td th:text="${knjiga.ISBN}"></td>
             </tr>
         </tbody>
     </table>
 	
 	<br><br><br>
-    <a href="/">Povratak na po?etnu stranicu</a>
+    <a href="/">Povratak na pocetnu stranicu</a>
 </body>
 </html>
