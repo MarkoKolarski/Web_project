@@ -65,7 +65,7 @@
 <body>
 <h1>Obrisi knjigu</h1>
 <div class="container">
-  <form action="/obrisi-knjigu" method="delete">
+  <form action="/obrisi-knjigu" method="Post">
     <div class="form-group">
       <label for="isbn">ISBN:</label>
       <input type="text" id="isbn" name="isbn" required>
@@ -76,6 +76,16 @@
     </div>
     <div class="btn-container">
       <button type="submit">Obrisi knjigu</button>
+        <!-- Add the "Nazad" (Back) button -->
+        <button onclick="goBack()">Nazad</button>
+
+        <!-- Add any other content or styling as needed -->
+
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
     </div>
   </form>
 </div>

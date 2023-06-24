@@ -57,52 +57,44 @@
 <body>
 <h1>Izmeni knjigu autora</h1>
 
-<form id="knjigaForm">
-    <label for="isbn">ISBN:</label>
-    <input type="text" id="isbn" name="isbn" required><br><br>
+<form id="knjigaForm" method="post">
+    <label for="ISBN">ISBN:</label>
+    <input type="text" id="ISBN" name="ISBN" required><br><br>
 
     <label for="naslov">Naslov:</label>
-    <input type="text" id="naslov" name="naslov" required><br><br>
+    <input type="text" id="naslov" name="naslov" ><br><br>
 
     <label for="naslovnaFotografija">Naslovna fotografija:</label>
-    <input type="text" id="naslovnaFotografija" name="naslovnaFotografija" required><br><br>
+    <input type="text" id="naslovnaFotografija" name="naslovnaFotografija" ><br><br>
 
-<!--    <label for="datumObjavljivanja">Datum objavljivanja:</label>-->
-<!--    <input type="text" id="datumObjavljivanja" name="datumObjavljivanja" required><br><br>-->
+    <label for="datumObjavljivanja">Datum objavljivanja:</label>
+    <input type="datetime-local" id="datumObjavljivanja" name="datumObjavljivanja" ><br><br>
 
     <label for="brojStrana">Broj strana:</label>
     <input type="number" id="brojStrana" name="brojStrana" required><br><br>
 
     <label for="opis">Opis:</label>
-    <textarea id="opis" name="opis" rows="4" required></textarea><br><br>
+    <textarea id="opis" name="opis" rows="4" ></textarea><br><br>
 
     <label for="zanrovi">Žanrovi:</label>
-    <input type="text" id="zanrovi" name="zanrovi" required><br><br>
+    <input type="text" id="zanrovi" name="zanrovi" ><br><br>
 
     <label for="ocena">Ocena:</label>
-    <input type="number" id="ocena" name="ocena" required><br><br>
+    <input type="number" id="ocena" name="ocena" ><br><br>
 
-    <button type="button" onclick="updateKnjiga()">Izmeni knjigu</button>
+    <div class="btn-container">
+        <button type="submit" class="btn">Ažuriraj Knjigu</button>
+        <!-- Add the "Nazad" (Back) button -->
+        <button onclick="goBack()">Nazad</button>
+
+        <!-- Add any other content or styling as needed -->
+
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+    </div>
 </form>
-
-<script>
-    function updateKnjiga() {
-        var form = document.getElementById("knjigaForm");
-        var formData = new FormData(form);
-
-        fetch("/izmeni-knjigu-autora", {
-            method: "PUT",
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log("Knjiga updated successfully:", data);
-                // Perform any necessary actions after updating the book
-            })
-            .catch(error => {
-                console.error("Error updating the knjiga:", error);
-            });
-    }
-</script>
 </body>
 </html>

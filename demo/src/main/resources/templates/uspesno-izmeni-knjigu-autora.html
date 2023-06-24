@@ -1,12 +1,45 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Uspešno dodata knjiga</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 50px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-        <h1>Uspesno izmenjena knjiga (Autor)</h1>
-        <p>Vaša knjiga je uspešno izmenjena</p>
-        <p><a href="/pocetna">Povratak na pocetnu</a></p>
+<h1>Uspesno izmenjena knjiga (Autor)</h1>
+<p>Vaša knjiga je uspešno izmenjena</p>
+
+
+
+<div class="buttons-container">
+    <button onclick="redirect('pocetna-autor')">Povratak na početnu</button>
+</div>
+<script>
+function redirect(endpoint) {
+window.location.href = "/" + endpoint;
+}
+</script>
 </body>
 </html>

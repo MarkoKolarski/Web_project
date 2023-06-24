@@ -23,7 +23,19 @@ public class ZanrBasicController {
     private ZanrService zanrService;
 
     @GetMapping("/dodaj-zanr")
-    public String showDodajZanrForm(Model model) {
+    public String showDodajZanrForm(Model model,HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            // Redirekcija na odgovarajuću stranicu za prijavu
+            return "redirect:/login";
+        }
+
+        if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
+            // Redirekcija na odgovarajuću stranicu za zabranu pristupa
+            return "error";
+        }
+
         model.addAttribute("zanrDto", new ZanrDto());
         return "dodaj-zanr";
     }

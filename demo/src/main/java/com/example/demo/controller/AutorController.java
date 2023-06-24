@@ -77,7 +77,18 @@ public class AutorController {
     }
 
     @GetMapping("/izmeni-autora")
-    public String showIzmeniAutoraForm(Model model) {
+    public String showIzmeniAutoraForm(Model model,HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            // Redirekcija na odgovarajuću stranicu za prijavu
+            return "redirect:/login";
+        }
+
+        if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
+            // Redirekcija na odgovarajuću stranicu za zabranu pristupa
+            return "error";
+        }
         model.addAttribute("autorDto", new AutorDto());
         return "izmeni-autora";
     }
@@ -202,7 +213,19 @@ public class AutorController {
     }
 
     @GetMapping("/odobri-autora")
-    public String showOdobriAutoraForm(Model model) {
+    public String showOdobriAutoraForm(Model model,HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            // Redirekcija na odgovarajuću stranicu za prijavu
+            return "redirect:/login";
+        }
+
+        if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
+            // Redirekcija na odgovarajuću stranicu za zabranu pristupa
+            return "error";
+        }
+
         model.addAttribute("zahtevDto", new ZahtevDto());
         return "odobri-autora";
     }

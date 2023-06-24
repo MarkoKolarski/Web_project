@@ -54,13 +54,13 @@ public class ZahtevController {
     }
 
 
-    @GetMapping("zahtev-autor")
+    @GetMapping("/zahtev-autor")
     public String showZahtevZaAutoraForm(Model model) {
         model.addAttribute("zahtevDto", new ZahtevDto());
         return "zahtev-autor"; // Return the form view name
     }
 
-    @PostMapping("zahtev-autor")
+    @PostMapping("/zahtev-autor")
     public String submitZahtevZaAutora( @ModelAttribute("zahtevDto")  ZahtevDto zahtevDto, Model model) {
 
         if (zahtevDto == null) {

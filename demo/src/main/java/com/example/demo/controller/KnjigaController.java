@@ -166,7 +166,7 @@ public class KnjigaController {
 
         if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
             // Redirekcija na odgovarajuću stranicu za zabranu pristupa
-            return "redirect:/";
+            return "error";
         }
 
         model.addAttribute("knjigaDto", new KnjigaDto());
@@ -175,7 +175,18 @@ public class KnjigaController {
     }
 
     @GetMapping("/autor-dodaj-knjigu")
-    public String showAutorDodajKnjiguForm(Model model) {
+    public String showAutorDodajKnjiguForm(Model model, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            model.addAttribute("errorMessage", "Niste ulogovani.");
+            return "error"; // Return the error page or appropriate view name
+        }
+
+        if (loggedKorisnik.getUloga() != Uloga.AUTOR) {
+            model.addAttribute("errorMessage", "Nisi autor.");
+            return "error"; // Return the error page or appropriate view name
+        }
         model.addAttribute("knjigaDto", new KnjigaDto());
         return "autor-dodaj-knjigu"; // Return the form page or appropriate view name
     }
@@ -252,7 +263,7 @@ public class KnjigaController {
 
 
 
-    @RequestMapping(value = "/izmeni-knjigu-autora", method = RequestMethod.PUT)
+    @RequestMapping(value = "/izmeni-knjigu-autora", method = RequestMethod.POST)
     public String izmeniKnjiguAutora(@ModelAttribute("knjigaDto")  KnjigaDto knjigaDto, HttpSession session, Model model) {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
 
@@ -352,14 +363,27 @@ public class KnjigaController {
     }
 
     @GetMapping("/obrisi-knjigu")
-    public String prikaziFormuObrisiKnjigu(Model model) {
+    public String prikaziFormuObrisiKnjigu(Model model, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            // Redirekcija na odgovarajuću stranicu za prijavu
+            return "redirect:/login";
+        }
+
+        if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
+            // Redirekcija na odgovarajuću stranicu za zabranu pristupa
+            return "error";
+        }
+
         model.addAttribute("isbn", "");
         model.addAttribute("korisnickoIme", "");
+
         return "obrisi-knjigu";
     }
 
 
-    @DeleteMapping("/obrisi-knjigu")
+    @PostMapping("/obrisi-knjigu")
     public String obrisiKnjigu(@RequestParam("isbn") String isbn,
                                @RequestParam("korisnickoIme") String korisnickoIme,
                                HttpSession session,

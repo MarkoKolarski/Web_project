@@ -4,6 +4,7 @@ import com.example.demo.dto.KorisnikDto;
 import com.example.demo.dto.LoginDto;
 import com.example.demo.model.Korisnik;
 import com.example.demo.model.Polica;
+import com.example.demo.model.Uloga;
 import com.example.demo.service.KorisnikService;
 import com.example.demo.service.PolicaService;
 import jakarta.servlet.http.HttpSession;
@@ -95,12 +96,54 @@ public class KorisnikController {
         Korisnik loggedKorisnik = korisnikService.login(loginDto.getUsername(), loginDto.getPassword());
         if (loggedKorisnik == null) {
             bindingResult.rejectValue("username", "error.loginDto", "Korisnik ne postoji!");
-            return "autori";
+            return "error";
         }
 
         session.setAttribute("korisnik", loggedKorisnik);
 
+        if(loggedKorisnik.getUloga() == Uloga.ADMINISTRATOR){
+           // return "redirect:/pocetna-administrator";
+            return "redirect:pocetna-administrator";
+        }
+
+        if(loggedKorisnik.getUloga() == Uloga.AUTOR){
+            // return "redirect:/pocetna-administrator";
+            return "redirect:pocetna-autor";
+        }
+
         return "redirect:/pocetna";
+    }
+
+    @GetMapping("/pocetna-autor")
+    public String prikaziPocetnaAutor(HttpSession session, Model model) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            model.addAttribute("errorMessage", "Niste ulogovani.");
+            return "error";
+        }
+
+        if (loggedKorisnik.getUloga() != Uloga.AUTOR) {
+            model.addAttribute("errorMessage", "Nisi autor.");
+            return "error";
+        }
+        return "pocetna-autor";
+    }
+
+    @GetMapping("/pocetna-administrator")
+    public String prikaziPocetnaAdministrator(HttpSession session, Model model) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            model.addAttribute("errorMessage", "Niste ulogovani.");
+            return "error";
+        }
+
+        if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
+            model.addAttribute("errorMessage", "Nisi administrator.");
+            return "error";
+        }
+        return "pocetna-administrator";
     }
 
 

@@ -7,21 +7,18 @@ import com.example.demo.service.KorisnikService;
 import com.example.demo.service.PolicaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Controller
 public class PolicaController {
+
     @Autowired
     private PolicaService policaService;
-
-    @Autowired
-    private KorisnikService korisnikService;
-
-    @Autowired
-    private KnjigaService knjigaService;
 
 
     @GetMapping("/korisnici/{korisnikId}/police")

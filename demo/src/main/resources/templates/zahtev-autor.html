@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <title>Zahtev za Autora</title>
   <style>
     body {
@@ -55,8 +55,7 @@
 <body>
 <div class="container">
   <h1>Zahtev za Autora</h1>
-<!--  <form action="zahtev-autor" method="post", enctype="multipart/form-data">-->
-    <form action="zahtev-autor" method="post">
+  <form action="/zahtev-autor" method="post">
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required><br><br>
 
@@ -64,9 +63,22 @@
     <input type="text" id="telefon" name="telefon" required><br><br>
 
     <label for="poruka">Poruka:</label>
-    <textarea id="poruka" name="poruka" rows="4" cols="50" required></textarea><br><br>
+    <textarea id="poruka" name="poruka" rows="4" cols="50"></textarea><br><br>
+
+    <label for="autor">Autor:</label>
+    <input type="text" id="autor" name="autor" required><br><br>
 
     <input type="submit" value="Pošalji">
+    <!-- Add the "Nazad" (Back) button -->
+    <button onclick="goBack()">Nazad</button>
+
+    <!-- Add any other content or styling as needed -->
+
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+    </script>
   </form>
 </div>
 </body>
