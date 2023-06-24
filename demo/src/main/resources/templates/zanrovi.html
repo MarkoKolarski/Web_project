@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Početna stranica</title>
+    <title>Prikaz žanrova</title>
 	<style>
         body {
             font-family: Arial, sans-serif;
@@ -11,13 +11,15 @@
             padding: 20px;
         }
         
-        h1, h2 {
+        h1 {
             color: #333;
         }
         
         table {
-            width: 100%;
+            width: 30%;
             border-collapse: collapse;
+			margin-left: auto;  
+			margin-right: auto;
             margin-top: 20px;
         }
         
@@ -51,21 +53,21 @@
     </style>
 </head>
 <body>
-    <h1>Dobrodošli na početnoj stranici</h1>
-
-
-    <h2>Police:</h2>
+    <h1>Prikaz žanrova</h1>
     <table>
-        <tr>
-            <th>Naziv</th>
-        </tr>
-        <tr th:each="polica : ${police}">
-            <td th:text="${polica.naziv}"></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Naziv</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="zanr : ${zanrovi}">
+                <td th:text="${zanr.id}"></td>
+                <td th:text="${zanr.naziv}"></td>
+            </tr>
+        </tbody>
     </table>
-	<br><br>
-	<p><a href="/izmeni-korisnika">Izmeni profil</a></p>
-	<br><br>
-	<p><a href="/logout">Odjavi se</a></p>
+	<p><a href="/">Povratak na pocetnu</a></p>
 </body>
 </html>

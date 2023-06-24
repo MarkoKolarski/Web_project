@@ -2,6 +2,43 @@
 <html>
 <head>
     <title>Registracija</title>
+	<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+    h1 {
+        color: #333;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+        padding: 5px;
+        width: 300px;
+        margin-bottom: 10px;
+    }
+
+    input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
 </head>
 <body>
     <h1>Registracija</h1>
@@ -13,7 +50,7 @@
         <input type="text" id="prezime" name="prezime" required>
         <br><br>
 		<label for="korisnickoIme">Korisnicko ime:</label>
-        <input type="password" id="korisnickoIme" name="korisnickoIme" required>
+        <input type="text" id="korisnickoIme" name="korisnickoIme" required>
 		<br><br>
         <label for="email">Email:</label>
         <input type="email" id="email" name="mejlAdresa" required>

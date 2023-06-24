@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prikaz recenzija</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        
+        table {
+            width: 60%;
+            border-collapse: collapse;
+			margin-left: auto;  
+			margin-right: auto;  
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        tr:hover {
+            background-color: #f0f0f0;
+        }
+		
+		p {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prikaz recenzija</h1>
+    
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Ocena</th>
+            <th>Tekst</th>
+            <th>Datum recenzije</th>
+            <th>Korisnik</th>
+        </tr>
+        
+        <!-- Iteriranje kroz recenzije i prikazivanje podataka -->
+        <tr th:each="recenzija : ${recenzije}">
+            <td th:text="${recenzija.id}"></td>
+            <td th:text="${recenzija.ocena}"></td>
+            <td th:text="${recenzija.tekst}"></td>
+            <td th:text="${recenzija.datumRecenzije}"></td>
+            <td th:text="${recenzija.korisnik.ime}"></td>
+        </tr>
+    </table>
+	<br><br>
+	<p><a href="/">Povratak na pocetnu</a></p>
+</body>
+</html>
