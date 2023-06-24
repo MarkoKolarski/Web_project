@@ -61,6 +61,7 @@
                 <th>ID</th>
                 <th>Ime</th>
                 <th>Prezime</th>
+				<th>Korisnicko ime</th>
                 <th>Email</th>
             </tr>
         </thead>
@@ -71,8 +72,8 @@
                     <td th:text="${korisnik.id}"></td>
                     <td th:text="${korisnik.ime}"></td>
                     <td th:text="${korisnik.prezime}"></td>
+					<td th:text="${korisnik.korisnickoIme}"></td>
                     <td th:text="${korisnik.mejlAdresa}"></td>
-					<td><a href="/korisnik/ + korisnik.id">Profil korisnika</a></td>
                 </tr>
         </tbody>
     </table>

@@ -9,15 +9,19 @@ import com.example.demo.service.KorisnikService;
 import com.example.demo.service.PolicaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Controller
 public class PolicaController {
     @Autowired
     private PolicaService policaService;
@@ -29,16 +33,25 @@ public class PolicaController {
     private KnjigaService knjigaService;
 
 
-    @GetMapping("/polica/{id}")
-    public String prikaziPolica(@PathVariable("id") Long id, Model model) {
-        // Dohvaćanje police
-        Polica polica = policaService.getPolicaById(id);
+    @GetMapping("/police-korisnika/{id}")
+    public ModelAndView getUserBookshelf(@PathVariable Long id) {
+        Set<Polica> police = policaService.getUserBookshelf(id);
 
-        // Dohvaćanje liste knjiga na polici
+        if (police.isEmpty()) {
+            ModelAndView modelAndView = new ModelAndView("greska");
+            modelAndView.addObject("errorMessage", "Nije pronađena polica za datog korisnika");
+            return modelAndView;
+        }
 
-        model.addAttribute("polica", polica);
+        Set<PolicaDto> policeDto = new HashSet<>();
+        for (Polica polica : police) {
+            PolicaDto policaDto = new PolicaDto(polica);
+            policeDto.add(policaDto);
+        }
 
-        return "polica";
+        ModelAndView modelAndView = new ModelAndView("police-korisnika");
+        modelAndView.addObject("police-korisnika", policeDto);
+        return modelAndView;
     }
 
 }
