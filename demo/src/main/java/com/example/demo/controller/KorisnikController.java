@@ -174,7 +174,7 @@ public class KorisnikController {
         return "korisnici"; // Promijenite ovo prema vašem template imeniku
     }
 
-    @GetMapping("/{id}")
+@GetMapping("/korisnik/{id}")
     public String prikaziProfil(@PathVariable("id") Long id, HttpSession session, Model model) {
         // Proverite da li je korisnik prijavljen
         if (session.getAttribute("korisnik") == null) {
@@ -185,10 +185,11 @@ public class KorisnikController {
         Korisnik korisnik = (Korisnik) session.getAttribute("korisnik");
 
         // Dodaj korisnika na model kako biste ga prikazali u predlošku (View)
+        model.addAttribute("id", id);
         model.addAttribute("korisnik", korisnik);
 
         // Vratite ime predloška (View) koji prikazuje profil korisnika
-        return "korisnik/{id}";
+        return "korisnik";
     }
 
     @GetMapping("/police-korisnika")
@@ -206,41 +207,47 @@ public class KorisnikController {
 
 
 
-   /* @GetMapping("/izmeni-korisnika")
-    public String prikaziFormuIzmene(Model model, HttpSession session) {
-        Korisnik korisnik = (Korisnik) session.getAttribute("korisnik");
+    @GetMapping("/izmeni-korisnika")
+    public String prikaziIzmenuKorisnika() {
 
-        // Provera da li je korisnik prijavljen
-        if (korisnik == null) {
-            return "redirect:/login"; // Preusmeravanje na stranicu za prijavu ako korisnik nije prijavljen
+        return "izmeni-korisnika";
+    }
+    @PostMapping("/izmeni-korisnika")
+    public String updateKorisnik(@ModelAttribute("korisnikDto") KorisnikDto korisnikDto, Model model, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (loggedKorisnik == null) {
+            model.addAttribute("errorMessage", "Niste ulogovani.");
+            return "error";
         }
 
-        // Dodavanje korisnika na model kako bi bio dostupan u predlošku
-        model.addAttribute("korisnik", korisnik);
-        model.addAttribute("korisnikDto", new KorisnikDto());
+        if (korisnikDto == null) {
+            model.addAttribute("errorMessage", "Morate uneti podatke.");
+            return "error";
+        }
+
+        if (korisnikDto.getKorisnickoIme() == null) {
+            model.addAttribute("errorMessage", "Morate uneti korisničko ime.");
+            return "error";
+        }
+
+        Korisnik existingKorisnik = korisnikService.korisnikBykorisnickoIme(korisnikDto.getKorisnickoIme());
+
+        if (existingKorisnik == null) {
+            model.addAttribute("errorMessage", "Korisnik sa datim korisničkim imenom ne postoji.");
+            return "error";
+        }
+
+        korisnikService.promeniKorisnika(existingKorisnik, korisnikDto);
+        model.addAttribute("successMessage", "Korisnik je uspešno ažuriran.");
 
         return "uspesna-izmena-korisnika";
     }
 
-    @PostMapping("/izmeni-korisnika")
-    public String izmeniKorisnika(@ModelAttribute("korisnikDto") KorisnikDto korisnikDto, HttpSession session) {
-        Korisnik korisnik = (Korisnik) session.getAttribute("korisnik");
-
-        // Provera da li je korisnik prijavljen
-        if (korisnik == null) {
-            return "redirect:/login"; // Preusmeravanje na stranicu za prijavu ako korisnik nije prijavljen
-        }
-
-        // Izmena podataka korisnika
-        korisnik.setIme(korisnikDto.getIme());
-        korisnik.setPrezime(korisnikDto.getPrezime());
-        korisnik.setKorisnickoIme(korisnikDto.getKorisnickoIme());
-        korisnik.setMejlAdresa(korisnikDto.getMejlAdresa());
-
-        // Poziv servisa za izmenu korisnika
-        korisnikService.promeniKorisnika(korisnik, korisnikDto);
-
-        return "redirect:/uspesna-izmena-korisnika";
-    }*/
+    @GetMapping("/uspesna-izmena-korisnika")
+    public String prikaziUspesnuIzmenuKorisnika() {
+        return "uspesna-izmena-korisnika";
+    }
 }
+
 

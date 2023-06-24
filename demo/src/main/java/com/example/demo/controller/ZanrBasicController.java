@@ -72,5 +72,12 @@ public class ZanrBasicController {
         model.addAttribute("successMessage", "Dodat novi žanr.");
         return "uspesno-zanr-dodat";
     }
+	
+	   @GetMapping("/zanrovi")
+    public String getAllGenres(Model model) {
+        List<Zanr> zanrovi = zanrService.getAllGenres();
+        model.addAttribute("zanrovi", zanrovi);
+        return "zanrovi";
+    }
 
 }
