@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpSession;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -38,80 +39,18 @@ public class KnjigaController {
         return "knjige";
     }
 
-    /*@GetMapping("/pretraga-knjige")
-    public String showPretragaKnjigePage() {
-        return "pretraga-knjige";
-    }
-
-
-    @GetMapping("/rezultati-pretrage")
-    public String searchBooksByTitle(@RequestParam(name = "naslov") String naslov, Model model) {
-        Set<KnjigaDto> knjigeDto = knjigaService.searchBooks(naslov);
-        model.addAttribute("knjigeDto", knjigeDto);
-        return "rezultati-pretrage";
-    }*/
-
-//    @GetMapping("/dodaj-knjigu")
-//    public String showDodajKnjiguForm(Model model) {
-//        model.addAttribute("knjigaDto", new KnjigaDto());
-//        return "dodaj-knjigu";
-//    }
-//
-//
-//    @RequestMapping(value = "/dodaj-knjigu", method = RequestMethod.POST)
-//    public String dodajKnjigu(@ModelAttribute("knjigaDto") KnjigaDto knjigaDto, HttpSession session, Model model) {
-//        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
-//
-//        if (loggedKorisnik == null) {
-//            model.addAttribute("errorMessage", "Niste ulogovani.");
-//            return "error";
-//        }
-//
-//        if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
-//            model.addAttribute("errorMessage", "Nisi administrator.");
-//            return "error";
-//        }
-//
-//        if (knjigaDto == null) {
-//            model.addAttribute("errorMessage", "Morate uneti podatke.");
-//            return "error";
-//        }
-//
-//        if (knjigaDto.getISBN() == null) {
-//            model.addAttribute("errorMessage", "Morate uneti ISBN.");
-//            return "error";
-//        }
-//
-//        List<Knjiga> knjige = knjigaService.getAllBooks2();
-//
-//        // Check if a book with the given title already exists
-//        boolean exists = knjige.stream()
-//                .map(Knjiga::getNaslov)
-//                .anyMatch(naslov -> naslov.equals(knjigaDto.getNaslov()));
-//
-//        if (exists) {
-//            model.addAttribute("errorMessage", "Knjiga već postoji.");
-//            return "error";
-//        }
-//
-//        Knjiga knjiga = new Knjiga();
-//        knjiga = knjigaService.novaKnjiga(knjigaDto);
-//
-//        model.addAttribute("successMessage", "Dodata nova knjiga: " + knjiga.getNaslov() + ".");
-//        return "uspesno-knjiga-dodata";
-//    }
 
     @GetMapping("/pretraga-knjige")
-    public String searchBooksByTitle(@RequestParam(name = "naslov") String naslov, HttpSession session) {
-        Set<KnjigaDto> rezultati = knjigaService.searchBooks(naslov);
+    public String searchBooksByNaslov(String naslov, Model model) {
+        Set<KnjigaDto> knjigeDto = knjigaService.searchBooks(naslov);
 
-        if (rezultati.isEmpty()) {
-            session.setAttribute("errorMessage", "Knjige nisu pronađene");
-            return "knjige-not-found"; // Kreirajte odgovarajuću stranicu za prikaz "Knjige nisu pronađene"
+        if (knjigeDto.isEmpty()) {
+            model.addAttribute("poruka", "Nema rezultata za dati naslov.");
+        } else {
+            model.addAttribute("knjige", knjigeDto);
         }
 
-        session.setAttribute("knjigeDto", rezultati);
-        return "pretraga-knjige";
+        return "pretraga-knjige"; // Vraća naziv predloška (template) ili prikaza stranice
     }
 
 
@@ -166,7 +105,7 @@ public class KnjigaController {
 
         if (loggedKorisnik.getUloga() != Uloga.ADMINISTRATOR) {
             // Redirekcija na odgovarajuću stranicu za zabranu pristupa
-            return "error";
+            return "redirect:/";
         }
 
         model.addAttribute("knjigaDto", new KnjigaDto());
@@ -416,14 +355,32 @@ public class KnjigaController {
         return "knjiga-obrisana";
     }
 
-
-
-
-
-
-
-
-
+//    @GetMapping("/knjige")
+//    public String sveKnjige(Model model) {
+//        List<Knjiga> knjige = knjigaService.getAllBooks2();
+//
+//        if (knjige.isEmpty()) {
+//            return "error"; // Assuming you have an error view
+//        }
+//
+//        List<KnjigaDto> knjigeDto = new ArrayList<>();
+//        for (Knjiga knjiga : knjige) {
+//            KnjigaDto knjigaDto = new KnjigaDto();
+//            knjigaDto.setId(knjiga.getId());
+//            knjigaDto.setNaslov(knjiga.getNaslov());
+//            knjigaDto.setNaslovnaFotografija(knjiga.getNaslovnaFotografija());
+//            knjigaDto.setISBN(knjiga.getISBN());
+//            knjigaDto.setDatumObjavljivanja(knjiga.getDatumObjavljivanja());
+//            knjigaDto.setBrojStrana(knjiga.getBrojStrana());
+//            knjigaDto.setOpis(knjiga.getOpis());
+//            knjigaDto.setZanrovi(knjiga.getZanrovi());
+//            knjigaDto.setOcena(knjiga.getOcena());
+//            knjigeDto.add(knjigaDto);
+//        }
+//
+//        model.addAttribute("knjigeDto", knjigeDto);
+//        return "knjige"; // Assuming you have a book list view
+//    }
 
 
 
