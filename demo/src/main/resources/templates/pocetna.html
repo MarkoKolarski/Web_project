@@ -3,69 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Početna stranica</title>
-	<style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-            padding: 20px;
-        }
-        
-        h1, h2 {
-            color: #333;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        
-        tr:hover {
-            background-color: #f9f9f9;
-        }
-        
-        a {
-            color: #0066cc;
+    <style>
+        /* Your existing CSS styles here */
+
+        /* Button styles */
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #0066cc;
+            color: #fff;
             text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
         }
-        
-        a:hover {
-            text-decoration: underline;
-        }
-        
-        p {
-            margin-top: 20px;
+
+        .button:hover {
+            background-color: #004c99;
         }
     </style>
 </head>
 <body>
-    <h1>Dobrodošli na početnoj stranici</h1>
+<div class="header">
+    <h1>Početna stranica - Čitalac</h1>
+    <div class="welcome-message">
+        Dobrodošli
+    </div>
+</div>
 
 
-    <h2>Police:</h2>
-    <table>
-        <tr>
-            <th>Naziv</th>
-        </tr>
-        <tr th:each="polica : ${police}">
-            <td th:text="${polica.naziv}"></td>
-        </tr>
-    </table>
-	<br><br>
-	<p><a href="/izmeni-korisnika">Izmeni profil</a></p>
-	<br><br>
-	<p><a href="/logout">Odjavi se</a></p>
+<br><br>
+
+<!-- Button for police-dodaj -->
+<a class="button" href="/dodaj-policu">Dodaj policu</a>
+
+<!-- Button for dodaj-recenziju -->
+<a class="button" href="/dodaj-recenziju">Dodaj recenziju</a>
+
+<!-- Button for polica-dodaj-knjigu -->
+<a class="button" href="/polica-dodaj-knjigu">Dodaj knjigu na policu</a>
+
+<br><br>
+
+<p><a href="/izmeni-korisnika">Izmeni profil</a></p>
+<br><br>
+<p><a href="/logout">Odjavi se</a></p>
 </body>
 </html>

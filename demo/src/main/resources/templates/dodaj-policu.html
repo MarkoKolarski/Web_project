@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj Policu</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+<body>
+<div class="container">
+  <h1>Dodaj Policu</h1>
+
+  <form action="/dodaj-policu" method="post">
+    <div class="form-group">
+      <label for="naziv">Naziv:</label>
+      <input type="text" id="naziv" name="naziv" class="form-control" required>
+    </div>
+
+    <!-- Add any other form fields for StavkaPolice here -->
+
+    <button type="submit" class="btn btn-primary">Dodaj Policu</button>
+    <button onclick="goBack()">Nazad</button>
+
+    <!-- Add any other content or styling as needed -->
+
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+  </form>
+</div>
+</body>
+</html>

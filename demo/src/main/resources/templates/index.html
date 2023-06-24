@@ -47,6 +47,7 @@
 <body>
 <h1>Goodreads</h1>
 <h2>Dobrodosli na sajt</h2>
+
 <a th:href="${'/korisnici'}">Pogledaj sve korisnike</a>
 <br><br>
 <a th:href="${'/knjige'}">Pogledaj sve knjige</a>
@@ -57,10 +58,25 @@
 <br><br>
 <a th:href="${'/recenzije'}">Pogledaj sve recenzije</a>
 <br><br>
+<a th:href="${'/zahtev-autor'}">Zahtev za autora</a>
+<br><br>
+<script>
+  function redirectToUserBookshelf() {
+    var korisnicko_ime = document.getElementById('korisnicko_ime').value;
+    var url = "http://localhost:8080/korisnici/" + korisnicko_ime + "/police-po-imenu";
+    window.location.href = url;
+  }
+</script>
+
+<input type="text" id="korisnicko_ime" placeholder="Unesite korisničko ime">
+<button onclick="redirectToUserBookshelf()">Police korisnika</button> <br><br>
 
 
 <button onclick="location.href = '/registracija'">Registruj se</button>
 <button onclick="location.href = '/login'">Prijavi se</button>
+
+
+
 
 </body>
 </html>
