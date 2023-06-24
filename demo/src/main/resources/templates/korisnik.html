@@ -3,12 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Profil korisnika</title>
+	<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        p {
+            margin-bottom: 10px;
+        }
+        
+        strong {
+            font-weight: bold;
+        }
+        
+        span {
+            color: #666;
+        }
+        
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <h1>Profil korisnika</h1>
     <p><strong>Ime:</strong> <span th:text="${korisnik.ime}"></span></p>
     <p><strong>Prezime:</strong> <span th:text="${korisnik.prezime}"></span></p>
-    <p><strong>E-mail:</strong> <span th:text="${korisnik.email}"></span></p>
-	<p><a href="/">Povratak na pocetnu</a></p>
+    <p><strong>E-mail:</strong> <span th:text="${korisnik.mejlAdresa}"></span></p>
+	<p><strong>Korisnicko ime:</strong> <span th:text="${korisnik.korisnickoIme}"></span></p>
+	<p><strong>Datum rodjenja:</strong> <span th:text="${korisnik.datumRodjenja}"></span></p>
+	<p><strong>Opis:</strong> <span th:text="${korisnik.opis}"></span></p>
+	<p><strong>Uloga:</strong> <span th:text="${korisnik.uloga}"></span></p>
+	<p><a href="/pocetna">Povratak na pocetnu</a></p>
 </body>
 </html>

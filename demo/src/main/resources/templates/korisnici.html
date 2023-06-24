@@ -4,6 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Korisnici</title>
+	<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        table {
+            width: 60%;
+            border-collapse: collapse;
+			margin-left: auto;  
+			margin-right: auto;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        p {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <h1>Korisnici</h1>
@@ -24,8 +72,7 @@
                     <td th:text="${korisnik.ime}"></td>
                     <td th:text="${korisnik.prezime}"></td>
                     <td th:text="${korisnik.mejlAdresa}"></td>
-					<td><a href="@{'/korisnik/' + korisnik.id}">Profil korisnika</a></td>
-					<td><a href="/police-korisnika">Police korisnika</a></td>
+					<td><a href="/korisnik/ + korisnik.id">Profil korisnika</a></td>
                 </tr>
         </tbody>
     </table>
