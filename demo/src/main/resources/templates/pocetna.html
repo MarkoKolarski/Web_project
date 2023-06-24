@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Početna stranica</title>
+    <style>
+        /* Your existing CSS styles here */
+
+        /* Button styles */
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #0066cc;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #004c99;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Početna stranica - Čitalac</h1>
+    <div class="welcome-message">
+        Dobrodošli
+    </div>
+</div>
+
+
+<br><br>
+
+<!-- Button for police-dodaj -->
+<a class="button" href="/dodaj-policu">Dodaj policu</a>
+
+<!-- Button for dodaj-recenziju -->
+<a class="button" href="/dodaj-recenziju">Dodaj recenziju</a>
+
+<!-- Button for polica-dodaj-knjigu -->
+<a class="button" href="/polica-dodaj-knjigu">Dodaj knjigu na policu</a>
+
+<br><br>
+
+<p><a href="/izmeni-korisnika">Izmeni profil</a></p>
+<br><br>
+<p><a href="/logout">Odjavi se</a></p>
+</body>
+</html>

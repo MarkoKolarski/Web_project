@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Početna stranica - Administrator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .welcome-message {
+      font-size: 24px;
+    }
+
+    .username {
+      font-weight: bold;
+    }
+
+    .buttons {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .buttons button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .buttons button:hover {
+      background-color: #45a049;
+    }
+
+    .footer-buttons {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .footer-buttons button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .footer-buttons button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <h1>Početna stranica - Administrator</h1>
+  <div class="welcome-message">
+    Dobrodošli
+  </div>
+</div>
+
+<div class="buttons">
+  <div class="row">
+    <button onclick="redirectTo('/dodaj-autora')">Dodaj autora</button>
+    <button onclick="redirectTo('/zahtev-autor')">Zahtev autora</button>
+    <button onclick="redirectTo('/zahtevi')">Zahtevi</button>
+  </div>
+  <div class="row">
+    <button onclick="redirectTo('/odobri-autora')">Odobri autora</button>
+    <button onclick="redirectTo('/autori')">Autori</button>
+    <button onclick="redirectTo('/izmeni-autora')">Izmeni autora (neaktiviran)</button>
+  </div>
+  <div class="row">
+    <button onclick="redirectTo('/dodaj-zanr')">Dodaj žanr</button>
+    <button onclick="redirectTo('/dodaj-knjigu')">Dodaj knjigu</button>
+    <button onclick="redirectTo('/izmeni-knjigu')">Izmeni knjigu</button>
+    <button onclick="redirectTo('/obrisi-knjigu')">Obriši knjigu</button>
+  </div>
+</div>
+
+<div class="footer-buttons">
+<!--  <button onclick="goBack()">Nazad</button>-->
+<!--  <button onclick="goToHome()">Početna stranica</button>-->
+  <button onclick="logout()">Odjava</button>
+</div>
+
+<script>
+  function goBack() {
+    window.history.back();
+  }
+
+  function goToHome() {
+    window.location.href = "/";
+  }
+
+  function redirectTo(url) {
+    window.location.href = url;
+  }
+
+  function logout() {
+    window.location.href = "/logout";
+  }
+</script>
+</body>
+</html>

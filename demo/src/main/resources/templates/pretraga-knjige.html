@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pretraga knjiga</title>
+	<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        a {
+            color: #337ab7;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pretraga knjiga</h1>
+    <form action="/pretraga-knjige" method="GET">
+        <label for="naslov">Unesite naslov knjige:</label>
+        <input type="text" id="naslov" name="naslov">
+        <button type="submit">Pretrazi</button>
+    </form>
+	
+	<h1>Rezultati pretrage</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Naslov</th>
+                <th>ISBN</th>
+				<th>Datum objavljivanja</th>
+                <th>Zanrovi</th>
+                <th>Broj strana</th>
+				<th>Opis</th>
+                <th>Ocena</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:block th:each="knjiga : ${knjige}">
+                <td th:text="${knjiga.id}"></td>
+                <td th:text="${knjiga.naslov}"></td>
+                <td th:text="${knjiga.ISBN}"></td>
+				<td th:text="${knjiga.datumObjavljivanja}"></td>
+				<td th:text="${knjiga.zanrovi}"></td>
+				<td th:text="${knjiga.brojStrana}"></td>
+				<td th:text="${knjiga.opis}"></td>
+				<td th:text="${knjiga.ocena}"></td>
+            </tr>
+        </tbody>
+    </table>
+	
+	<br><br><br>
+    <a href="/">Povratak na pocetnu stranicu</a>
+</body>
+</html>

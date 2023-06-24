@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <title>Dodaj autora</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    input[type="checkbox"] {
+      margin-top: 5px;
+    }
+
+    button[type="submit"] {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+<h1>Dodaj autora</h1>
+
+<form action="/dodaj-autora" method="post" th:object="${autorDto}">
+  <div>
+    <label for="ime">Ime:</label>
+    <input type="text" id="ime" th:field="*{ime}" required>
+  </div>
+
+  <div>
+    <label for="prezime">Prezime:</label>
+    <input type="text" id="prezime" th:field="*{prezime}" required>
+  </div>
+
+  <div>
+    <label for="korisnickoIme">Korisničko ime:</label>
+    <input type="text" id="korisnickoIme" th:field="*{korisnickoIme}" required>
+  </div>
+
+  <div>
+    <label for="email">Email:</label>
+    <input type="email" id="email" th:field="*{mejlAdresa}" required>
+  </div>
+
+  <div>
+    <label for="spisakKnjiga">Spisak knjiga:</label>
+    <textarea id="spisakKnjiga" th:field="*{spisakKnjiga}"></textarea>
+  </div>
+
+  <button type="submit">Dodaj autora</button>
+  <button onclick="goBack()">Nazad</button>
+
+  <!-- Add any other content or styling as needed -->
+
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+</form>
+
+</form>
+</body>
+</html>

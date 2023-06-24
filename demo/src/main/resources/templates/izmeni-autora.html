@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Izmeni Autora</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 5px; /* Add margin-bottom to create space between buttons */
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Izmeni Autora</h2>
+  <form method="post" action="/izmeni-autora">
+    <label for="korisnickoIme">Korisničko ime:</label>
+    <input type="text" id="korisnickoIme" name="korisnickoIme" required>
+
+    <label for="ime">Ime:</label>
+    <input type="text" id="ime" name="ime" required>
+
+    <label for="prezime">Prezime:</label>
+    <input type="text" id="prezime" name="prezime" required>
+
+    <label for="mejlAdresa">Mejl adresa:</label>
+    <input type="text" id="mejlAdresa" name="mejlAdresa" required>
+
+    <label for="lozinka">Lozinka:</label>
+    <input type="password" id="lozinka" name="lozinka" required>
+
+    <label for="datumObjavljivanja">Datum objavljivanja:</label>
+    <input type="datetime-local" id="datumObjavljivanja" name="datumObjavljivanja" required>
+
+    <label for="profilnaSlika">Profilna slika:</label>
+    <input type="text" id="profilnaSlika" name="profilnaSlika">
+
+    <label for="opis">Opis:</label>
+    <input type="text" id="opis" name="opis">
+
+    <button type="submit">Sačuvaj</button>
+    <br> <!-- Add line break for space between buttons -->
+    <button onclick="goBack()">Nazad</button>
+
+    <!-- Add any other content or styling as needed -->
+
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+  </form>
+</div>
+</body>
+</html>

@@ -11,6 +11,7 @@ import com.example.demo.service.AutorService;
 import com.example.demo.service.KnjigaService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
@@ -148,7 +149,7 @@ public class KnjigaRestController {
 
         return ResponseEntity.ok("Knjiga je uspešno ažurirana.");
     }
-
+    @Transactional
     @DeleteMapping("/api/obrisi-knjigu")
     public ResponseEntity<String> obrisiKnjigu(@RequestParam("isbn") String isbn, @RequestParam("korisnickoIme") String korisnickoIme, HttpSession session) throws ChangeSetPersister.NotFoundException {
         Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");

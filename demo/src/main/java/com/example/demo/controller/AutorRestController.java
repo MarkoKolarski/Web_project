@@ -241,10 +241,6 @@ public class AutorRestController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor sa datim korisničkim imenom ne postoji.");
         }
 
-        if (noviAutor.getAktivan() == true) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor sa datim korisničkim imenom je već aktiviran.");
-        }
-
         autorService.promeniAutora(noviAutor, autorDto);
 
         return ResponseEntity.ok("Autor: " + noviAutor.getKorisnickoIme() +  " je uspešno dodat.");

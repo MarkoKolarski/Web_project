@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Police korisnika</title>
+</head>
+<body>
+    <h1>Police korisnika</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Naziv</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="polica : ${police}">
+                <td th:text="${polica.id}"></td>
+                <td th:text="${polica.naziv}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <p><a href="/">Povratak na početnu</a></p>
+</body>
+</html>

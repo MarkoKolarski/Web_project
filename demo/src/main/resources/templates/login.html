@@ -1,16 +1,61 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Prijava</title>
+	<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+    h1 {
+        color: #333;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        padding: 5px;
+        width: 300px;
+        margin-bottom: 10px;
+    }
+
+    input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+</style>
 </head>
 <body>
-<form th:action="@{/login}" th:object="${login}" method="post">
-    <label for="firstName">Username:</label>
-    <input id="firstName" type="text" th:field="*{username}"/>
-    <label for="lastName">Password:</label>
-    <input id="lastName" type="text" th:field="*{password}"/>
-    <input type="submit">
-</form>
+    <h1>Prijava</h1>
+    <form action="/login" method="POST">
+        <label>Korisnicko ime:</label>
+        <input type="text" name="username" required>
+        <br><br>
+        <label>Lozinka:</label>
+        <input type="password" name="password" required>
+        <br><br>
+        <input type="submit" value="Prijavi se">
+		<br><br>
+    </form>
+	<a href="/registracija">Registrujte se ukoliko nemate nalog</a>
 </body>
 </html>
