@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rezultati pretrage</title>
+</head>
+<body>
+    <h1>Rezultati pretrage</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Naslov</th>
+                <th>ISBN</th>
+                <!-- Dodajte ostale kolone prema potrebama -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iterirajte kroz knjigeDto i prikažite podatke -->
+            <tr th:block th:each="knjiga : ${knjige}">
+                <td th:text="${knjiga.id}"></td>
+                <td th:text="${knjiga.naslov}"></td>
+                <td th:text="${knjiga.isbn}"></td>
+                <!-- Dodajte ostale kolone prema potrebama -->
+            </tr>
+        </tbody>
+    </table>
+	
+	<br><br><br>
+    <a href="/">Povratak na početnu stranicu</a>
+</body>
+</html>

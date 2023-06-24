@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dodaj knjigu (Autor)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 150px; /* Added fixed width */
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+<h1>Dodaj knjigu (Autor)</h1>
+<form method="post" th:action="@{/autor-dodaj-knjigu}" th:object="${knjigaDto}">
+  <!-- Form fields for KnjigaDto properties -->
+  <label>Naslov:</label>
+  <input type="text" th:field="*{naslov}" />
+
+  <label>Naslovna Fotografija:</label>
+  <input type="text" th:field="*{naslovnaFotografija}" />
+
+  <label>ISBN:</label>
+  <input type="text" th:field="*{ISBN}" />
+
+  <label>Datum Objavljivanja:</label>
+  <input type="text" th:field="*{datumObjavljivanja}" />
+
+  <label>Broj Strana:</label>
+  <input type="text" th:field="*{brojStrana}" />
+
+  <label>Opis:</label>
+  <textarea th:field="*{opis}"></textarea>
+
+  <!-- Add more fields as needed -->
+
+  <button type="submit">Dodaj Knjigu</button>
+
+</form>
+<button onclick="goBack()">Nazad</button>
+
+<!-- Add any other content or styling as needed -->
+
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>
+</body>
+</html>

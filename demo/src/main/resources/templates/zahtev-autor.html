@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Zahtev za Autora</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border: 1px solid #dddddd;
+      border-radius: 5px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #dddddd;
+      border-radius: 3px;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: #ffffff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Zahtev za Autora</h1>
+  <form action="/zahtev-autor" method="post">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="telefon">Telefon:</label>
+    <input type="text" id="telefon" name="telefon" required><br><br>
+
+    <label for="poruka">Poruka:</label>
+    <textarea id="poruka" name="poruka" rows="4" cols="50"></textarea><br><br>
+
+    <label for="autor">Autor:</label>
+    <input type="text" id="autor" name="autor" required><br><br>
+
+    <input type="submit" value="Pošalji">
+    <!-- Add the "Nazad" (Back) button -->
+    <button onclick="goBack()">Nazad</button>
+
+    <!-- Add any other content or styling as needed -->
+
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+  </form>
+</div>
+</body>
+</html>

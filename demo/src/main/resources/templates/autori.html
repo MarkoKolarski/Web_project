@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Authors</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+<body>
+<h1>List of Authors</h1>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Username</th>
+    <th>Email</th>
+  </tr>
+  <!-- Iterate over the authors and display the details -->
+  <th:block th:each="autor : ${autori}">
+    <tr>
+      <td th:text="${autor.id}"></td>
+      <td th:text="${autor.ime}"></td>
+      <td th:text="${autor.prezime}"></td>
+      <td th:text="${autor.korisnickoIme}"></td>
+      <td th:text="${autor.mejlAdresa}"></td>
+    </tr>
+  </th:block>
+</table>
+<button onclick="goBack()">Nazad</button>
+
+<!-- Add any other content or styling as needed -->
+
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>
+</body>
+</html>

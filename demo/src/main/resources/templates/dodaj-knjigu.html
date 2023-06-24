@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dodaj novu knjigu</title>
+</head>
+<body>
+    <h1>Dodaj novu knjigu</h1>
+    <form action="/dodaj-knjigu" method="post">
+        <label for="naslov">Naslov:</label>
+        <input type="text" id="naslov" name="naslov" required><br><br>
+        
+        <label for="isbn">ISBN:</label>
+        <input type="text" id="isbn" name="ISBN" required><br><br>
+        
+        <label for="autor">Autor:</label>
+        <input type="text" id="autor" name="autor"><br><br>
+        
+        <label for="zanr">Žanr:</label>
+        <input type="text" id="zanr" name="zanr"><br><br>
+        
+        <label for="opis">Opis:</label>
+        <textarea id="opis" name="opis"></textarea><br><br>
+        
+        <input type="submit" value="Dodaj knjigu">
+        <button onclick="goBack()">Nazad</button>
+
+        <!-- Add any other content or styling as needed -->
+
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+
+    </form>
+</body>
+</html>

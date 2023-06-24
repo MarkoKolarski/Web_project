@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,7 +22,9 @@ public class Knjiga implements Serializable {
     private String naslovnaFotografija;
     @Column(unique = true)
     private String ISBN;
+
     @Column(name = "datum_objavljivanja")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date datumObjavljivanja;
     @Column(name = "broj_strana")
     private int brojStrana;

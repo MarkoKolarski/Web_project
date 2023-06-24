@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj Zanr</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+
+      .container {
+        max-width: 400px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      .form-group input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #337ab7;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 3px;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: #286090;
+      }
+    </style>
+  </head>
+<body>
+<div class="container">
+  <h1>Dodaj Zanr</h1>
+
+  <form action="dodaj-zanr" method="post">
+    <div class="form-group">
+      <label for="naziv">Naziv žanra:</label>
+      <input type="text" id="naziv" name="naziv" required>
+    </div>
+
+    <button class="btn" type="submit">Dodaj</button>
+      <button onclick="goBack()">Nazad</button>
+
+      <!-- Add any other content or styling as needed -->
+
+      <script>
+          function goBack() {
+              window.history.back();
+          }
+      </script>
+
+  </form>
+</div>
+</body>
+</html>
+
