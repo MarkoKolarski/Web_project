@@ -1,3 +1,2 @@
 # Web_project
-IN 60/2021 Marko Kolarski
-IN 36/2021 Marko Rosić
+A course full stack Web project similar to the Goodreads platform
