@@ -1,2 +1,2 @@
-# Web_project
+# ShelfShare
 A full-stack web project similar to the Goodreads platform.
